@@ -1,0 +1,50 @@
+import { Metadata } from "next";
+import { allTools } from "@/lib/data/tools";
+import { categories } from "@/lib/data/categories";
+import { generatePageMetadata } from "@/lib/seo/metadata";
+import ToolCard from "@/components/shared/ToolCard";
+import Link from "next/link";
+
+export const metadata: Metadata = generatePageMetadata(
+  "All Free Online Tools | ToolOrbit",
+  "Browse all free online tools on ToolOrbit. Text tools, developer tools, calculators, converters, and more. Fast, private, and no signup required.",
+  "/tools/"
+);
+
+export default function AllToolsPage() {
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-8">
+      <h1 className="mb-2 text-3xl font-bold text-gray-900">
+        All Free Online Tools
+      </h1>
+      <p className="mb-8 text-lg text-gray-600">
+        Browse our complete collection of {allTools.length} free online tools.
+        Every tool runs in your browser — no signup required.
+      </p>
+
+      {categories.map((cat) => {
+        const tools = allTools.filter((t) => t.categorySlug === cat.slug);
+        return (
+          <section key={cat.slug} className="mb-10">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900">
+                {cat.icon} {cat.name}
+              </h2>
+              <Link
+                href={`/categories/${cat.slug}/`}
+                className="text-sm font-medium text-primary-600 hover:text-primary-800"
+              >
+                View category →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {tools.map((tool) => (
+                <ToolCard key={tool.slug} tool={tool} />
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
