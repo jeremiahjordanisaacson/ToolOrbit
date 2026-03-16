@@ -2,14 +2,24 @@ import { Metadata } from "next";
 import { siteConfig } from "@/lib/data/site";
 import { Tool } from "@/lib/data/tools-all";
 import { Category } from "@/lib/data/categories";
+import { locales, defaultLocale } from "@/lib/i18n/config";
 
-export function generateToolMetadata(tool: Tool): Metadata {
-  const url = `${siteConfig.url}/tools/${tool.slug}/`;
+function hreflangAlternates(path: string): Record<string, string> {
+  return Object.fromEntries(
+    locales.map((l) => [l, `${siteConfig.url}/${l}${path}`])
+  );
+}
+
+export function generateToolMetadata(tool: Tool, locale: string = defaultLocale): Metadata {
+  const url = `${siteConfig.url}/${locale}/tools/${tool.slug}/`;
   return {
     title: tool.title,
     description: tool.description,
     keywords: tool.keywords,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: hreflangAlternates(`/tools/${tool.slug}/`),
+    },
     openGraph: {
       title: tool.title,
       description: tool.description,
@@ -28,12 +38,15 @@ export function generateToolMetadata(tool: Tool): Metadata {
   };
 }
 
-export function generateCategoryMetadata(category: Category): Metadata {
-  const url = `${siteConfig.url}/categories/${category.slug}/`;
+export function generateCategoryMetadata(category: Category, locale: string = defaultLocale): Metadata {
+  const url = `${siteConfig.url}/${locale}/categories/${category.slug}/`;
   return {
     title: category.title,
     description: category.description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: hreflangAlternates(`/categories/${category.slug}/`),
+    },
     openGraph: {
       title: category.title,
       description: category.description,
@@ -52,12 +65,15 @@ export function generateCategoryMetadata(category: Category): Metadata {
   };
 }
 
-export function generateGuideMetadata(category: Category): Metadata {
-  const url = `${siteConfig.url}/guides/${category.slug}/`;
+export function generateGuideMetadata(category: Category, locale: string = defaultLocale): Metadata {
+  const url = `${siteConfig.url}/${locale}/guides/${category.slug}/`;
   return {
     title: category.guideTitle,
     description: category.guideDescription,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: hreflangAlternates(`/guides/${category.slug}/`),
+    },
     openGraph: {
       title: category.guideTitle,
       description: category.guideDescription,
