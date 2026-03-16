@@ -21,7 +21,7 @@ export default function RelatedTools({ tools }: RelatedToolsProps) {
             <span className="text-sm font-medium text-surface-800 group-hover:text-primary-600">
               {tool.name}
             </span>
-            <svg className="ml-auto h-4 w-4 text-surface-300 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+            <svg className="ml-auto h-4 w-4 text-surface-300 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
           </Link>

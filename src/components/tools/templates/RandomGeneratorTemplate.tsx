@@ -326,7 +326,7 @@ export default function RandomGeneratorTemplate({
 
           {/* Result */}
           {result && (
-            <div className="rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40">
+            <div className="rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40" aria-live="polite" aria-atomic="true">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
                   {result.color && (

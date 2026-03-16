@@ -90,7 +90,7 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
             </h2>
             <div className="rounded-xl border border-surface-200 bg-surface-50 p-5">
               <div className="mb-2 flex items-start gap-3">
-                <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-400">
+                <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-500">
                   Input
                 </span>
                 <code className="font-mono text-sm text-surface-700">
@@ -99,7 +99,7 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
               </div>
               {tool.exampleOutput && (
                 <div className="flex items-start gap-3">
-                  <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-400">
+                  <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-500">
                     Output
                   </span>
                   <code className="font-mono text-sm text-surface-700">

@@ -16,11 +16,12 @@ export default function FAQSection({ faqs }: FAQSectionProps) {
             <summary className="flex cursor-pointer select-none items-center justify-between px-5 py-4 text-[15px] font-medium text-surface-800 hover:text-primary-600">
               {faq.question}
               <svg
-                className="ml-4 h-4 w-4 shrink-0 text-surface-400 transition-transform group-open:rotate-45"
+                className="ml-4 h-4 w-4 shrink-0 text-surface-500 transition-transform group-open:rotate-45"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>

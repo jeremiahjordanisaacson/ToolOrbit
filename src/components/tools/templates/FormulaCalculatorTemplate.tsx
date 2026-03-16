@@ -197,6 +197,126 @@ interface FieldConfig {
   suffix?: string;
 }
 
+// Detect if a suffix indicates currency
+function isCurrencySuffix(suffix?: string): boolean {
+  if (!suffix) return false;
+  return /^\$|USD|€|£|¥/.test(suffix.trim());
+}
+
+// Detect if a field likely holds a monetary value
+function isMoneyField(field: FieldConfig, resultSuffix?: string): boolean {
+  const label = field.label.toLowerCase();
+  const moneyKeywords = ["salary", "price", "cost", "amount", "income", "revenue", "investment", "principal", "value", "budget", "payment", "bill", "loan", "rate", "wage", "gain", "goal"];
+  if (moneyKeywords.some(k => label.includes(k))) return true;
+  if (field.suffix && isCurrencySuffix(field.suffix)) return true;
+  if (field.step === 0.01) return true;
+  return false;
+}
+
+// Format number with commas
+function formatWithCommas(value: string): string {
+  const num = value.replace(/[^0-9.\-]/g, "");
+  const parts = num.split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+// Strip commas for calculation
+function stripCommas(value: string): string {
+  return value.replace(/,/g, "");
+}
+
+// Format result based on suffix
+function formatResult(raw: number, resultSuffix?: string): string {
+  if (isCurrencySuffix(resultSuffix)) {
+    return raw.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  if (Number.isInteger(raw)) {
+    return raw.toLocaleString("en-US");
+  }
+  // For non-currency, use reasonable precision
+  const abs = Math.abs(raw);
+  if (abs >= 1000) return raw.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (abs >= 1) return raw.toLocaleString("en-US", { maximumFractionDigits: 4 });
+  return raw.toPrecision(6);
+}
+
+// Input component that shows commas for large numbers and $ for money fields
+function MoneyAwareInput({
+  field,
+  value,
+  onChange,
+  resultSuffix,
+}: {
+  field: FieldConfig;
+  value: string;
+  onChange: (val: string) => void;
+  resultSuffix?: string;
+}) {
+  const isMoney = isMoneyField(field, resultSuffix);
+  const isText = field.type === "text";
+
+  // For text fields, just render a plain text input
+  if (isText) {
+    return (
+      <input
+        id={`field-${field.id}`}
+        type="text"
+        inputMode="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={`Enter ${field.label.toLowerCase()}`}
+        aria-label={field.label}
+        className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+      />
+    );
+  }
+
+  // For number fields that hold money or large values, show formatted display
+  if (isMoney) {
+    const displayValue = value ? formatWithCommas(value) : "";
+    return (
+      <div className="relative">
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">$</span>
+        <input
+          id={`field-${field.id}`}
+          type="text"
+          inputMode="decimal"
+          value={displayValue}
+          onChange={(e) => {
+            const raw = e.target.value.replace(/[^0-9.\-]/g, "");
+            onChange(raw);
+          }}
+          placeholder={`Enter ${field.label.toLowerCase()}`}
+          aria-label={field.label}
+          className="w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-7 pr-3 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+        />
+      </div>
+    );
+  }
+
+  // Standard number input — still format with commas for large numbers
+  const numVal = parseFloat(value);
+  const showFormatted = !isNaN(numVal) && Math.abs(numVal) >= 1000 && !value.endsWith(".");
+  const displayValue = showFormatted ? formatWithCommas(value) : value;
+
+  return (
+    <input
+      id={`field-${field.id}`}
+      type="text"
+      inputMode="decimal"
+      value={displayValue}
+      onChange={(e) => {
+        const raw = e.target.value.replace(/[^0-9.\-]/g, "");
+        onChange(raw);
+      }}
+      placeholder={`Enter ${field.label.toLowerCase()}`}
+      aria-label={field.label}
+      className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+    />
+  );
+}
+
 export default function FormulaCalculatorTemplate({
   config,
 }: {
@@ -232,13 +352,13 @@ export default function FormulaCalculatorTemplate({
     try {
       const numVals: Record<string, number | string> = {};
       for (const f of fields) {
-        numVals[f.id] = f.type === "text" ? values[f.id] : parseFloat(values[f.id]);
+        numVals[f.id] = f.type === "text" ? values[f.id] : parseFloat(stripCommas(values[f.id]));
       }
       const raw = formulaFn(numVals);
       if (typeof raw === "string") {
         result = raw;
       } else if (Number.isFinite(raw)) {
-        result = Number.isInteger(raw) ? raw.toLocaleString() : raw.toFixed(4);
+        result = formatResult(raw, resultSuffix);
       } else {
         result = "Invalid result";
       }
@@ -277,7 +397,7 @@ export default function FormulaCalculatorTemplate({
                 >
                   {field.label}
                   {field.suffix && (
-                    <span className="ml-1 text-xs text-gray-400">
+                    <span className="ml-1 text-xs text-gray-500">
                       ({field.suffix})
                     </span>
                   )}
@@ -298,18 +418,11 @@ export default function FormulaCalculatorTemplate({
                     ))}
                   </select>
                 ) : (
-                  <input
-                    id={`field-${field.id}`}
-                    type={field.type === "text" ? "text" : "number"}
-                    inputMode={field.type === "text" ? "text" : "decimal"}
+                  <MoneyAwareInput
+                    field={field}
                     value={values[field.id] ?? ""}
-                    onChange={(e) => updateValue(field.id, e.target.value)}
-                    step={field.type === "text" ? undefined : field.step}
-                    min={field.type === "text" ? undefined : field.min}
-                    max={field.type === "text" ? undefined : field.max}
-                    placeholder={`Enter ${field.label.toLowerCase()}`}
-                    aria-label={field.label}
-                    className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                    onChange={(val) => updateValue(field.id, val)}
+                    resultSuffix={resultSuffix}
                   />
                 )}
               </div>
@@ -317,7 +430,7 @@ export default function FormulaCalculatorTemplate({
           </div>
 
           {/* Result */}
-          <div className="rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40">
+          <div className="rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40" aria-live="polite" aria-atomic="true">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">

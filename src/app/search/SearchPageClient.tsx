@@ -53,10 +53,10 @@ export default function SearchPageClient() {
 
       {query.length > 0 && results.length === 0 && (
         <div className="py-16 text-center">
-          <p className="text-lg font-medium text-surface-400">
+          <p className="text-lg font-medium text-surface-500">
             No tools found for &quot;{query}&quot;
           </p>
-          <p className="mt-2 text-sm text-surface-400">
+          <p className="mt-2 text-sm text-surface-500">
             Try different keywords or{" "}
             <Link
               href="/tools/"

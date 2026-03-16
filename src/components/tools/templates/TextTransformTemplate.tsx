@@ -430,6 +430,7 @@ export default function TextTransformTemplate({
               readOnly
               value={output ?? ""}
               aria-label={outputLabel}
+              aria-live="polite"
               className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 p-4 font-mono text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             />
           </div>

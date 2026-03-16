@@ -24,7 +24,7 @@ export default function Footer() {
 
           {/* Tool Categories */}
           <div>
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-surface-400">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-surface-500">
               Categories
             </h3>
             <ul className="space-y-2.5">
@@ -51,7 +51,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-surface-400">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-surface-500">
               Company
             </h3>
             <ul className="space-y-2.5">
@@ -71,7 +71,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li className="pt-2">
-                <span className="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2.5">Legal</span>
+                <span className="block text-xs font-semibold uppercase tracking-wider text-surface-500 mb-2.5">Legal</span>
               </li>
               <li>
                 <Link href="/privacy/" className="text-sm text-surface-500 hover:text-primary-600">
@@ -94,10 +94,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-surface-200 pt-8 sm:flex-row">
-          <p className="text-xs text-surface-400">
+          <p className="text-xs text-surface-500">
             © 2025 {siteConfig.name}. All rights reserved.
           </p>
-          <p className="text-xs text-surface-400">
+          <p className="text-xs text-surface-500">
             🔒 Privacy first — your data never leaves your browser.
           </p>
         </div>

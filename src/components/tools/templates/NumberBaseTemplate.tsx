@@ -127,7 +127,7 @@ export default function NumberBaseTemplate({
                   {basePrefixMap[toBase]}
                 </span>
               )}
-              <div className="flex-1 rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 px-3 py-2.5 font-mono text-sm font-medium text-gray-900 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40 dark:text-gray-100">
+              <div className="flex-1 rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 px-3 py-2.5 font-mono text-sm font-medium text-gray-900 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40 dark:text-gray-100" aria-live="polite" aria-atomic="true">
                 {result ?? (input && error ? "Invalid" : "—")}
               </div>
               <button

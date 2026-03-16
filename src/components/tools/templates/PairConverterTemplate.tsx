@@ -44,12 +44,22 @@ export default function PairConverterTemplate({
   const result = !isNaN(numValue) ? convert(numValue) : null;
 
   const formatNumber = (n: number) => {
-    if (Number.isInteger(n) && Math.abs(n) < 1e15) return n.toLocaleString();
+    if (Number.isInteger(n) && Math.abs(n) < 1e15) return n.toLocaleString("en-US");
+    const abs = Math.abs(n);
+    if (abs >= 1000) return n.toLocaleString("en-US", { maximumFractionDigits: 4 });
     const fixed = n.toPrecision(10);
-    return parseFloat(fixed).toLocaleString(undefined, {
+    return parseFloat(fixed).toLocaleString("en-US", {
       maximumFractionDigits: 10,
     });
   };
+
+  // Format input with commas for display
+  const displayValue = (() => {
+    if (!value) return "";
+    const parts = value.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  })();
 
   const handleCopy = useCallback(async () => {
     if (result === null) return;
@@ -88,10 +98,10 @@ export default function PairConverterTemplate({
               </label>
               <input
                 id="converter-input"
-                type="number"
+                type="text"
                 inputMode="decimal"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
+                value={displayValue}
+                onChange={(e) => setValue(e.target.value.replace(/[^0-9.\-]/g, ""))}
                 placeholder={`Enter ${currentFrom.toLowerCase()}`}
                 aria-label={`Value in ${currentFrom}`}
                 className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
@@ -112,7 +122,7 @@ export default function PairConverterTemplate({
                 {currentTo} ({currentToAbbr})
               </label>
               <div className="flex items-center gap-2">
-                <div className="flex-1 rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 px-3 py-2.5 text-sm font-medium text-gray-900 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40 dark:text-gray-100">
+                <div className="flex-1 rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 px-3 py-2.5 text-sm font-medium text-gray-900 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40 dark:text-gray-100" aria-live="polite" aria-atomic="true">
                   {result !== null ? formatNumber(result) : "—"}
                 </div>
                 <button
