@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Tool } from "@/lib/data/tools";
+import { Tool } from "@/lib/data/tools-all";
 import { getCategoryBySlug } from "@/lib/data/categories";
 
 interface RelatedToolsProps {

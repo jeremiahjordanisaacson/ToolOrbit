@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/data/site";
-import { Tool } from "@/lib/data/tools";
+import { Tool } from "@/lib/data/tools-all";
 import { Category } from "@/lib/data/categories";
 
 export function generateToolMetadata(tool: Tool): Metadata {

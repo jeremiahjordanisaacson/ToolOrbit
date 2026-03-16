@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { categories } from "@/lib/data/categories";
-import { allTools, getToolsByCategory } from "@/lib/data/tools";
+import { allTools, getToolsByCategory } from "@/lib/data/tools-all";
 import CategoryCard from "@/components/shared/CategoryCard";
 import ToolCard from "@/components/shared/ToolCard";
 import SearchBar from "@/components/shared/SearchBar";

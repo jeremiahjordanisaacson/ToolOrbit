@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Category } from "@/lib/data/categories";
-import { getToolsByCategory } from "@/lib/data/tools";
+import { getToolsByCategory } from "@/lib/data/tools-all";
 
 interface CategoryCardProps {
   category: Category;

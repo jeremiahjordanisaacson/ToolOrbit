@@ -1,5 +1,5 @@
 import { siteConfig } from "@/lib/data/site";
-import { Tool, FAQ } from "@/lib/data/tools";
+import { Tool, FAQ } from "@/lib/data/tools-all";
 import { Category } from "@/lib/data/categories";
 
 interface BreadcrumbItem {

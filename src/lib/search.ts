@@ -1,4 +1,4 @@
-import { allTools } from "@/lib/data/tools";
+import { allTools } from "@/lib/data/tools-all";
 import { categories } from "@/lib/data/categories";
 
 export interface SearchResult {

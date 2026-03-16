@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { allTools } from "@/lib/data/tools";
+import { allTools } from "@/lib/data/tools-all";
 import { categories } from "@/lib/data/categories";
 import { siteConfig } from "@/lib/data/site";
 

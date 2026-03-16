@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { categories, getCategoryBySlug } from "@/lib/data/categories";
-import { getToolsByCategory } from "@/lib/data/tools";
+import { getToolsByCategory } from "@/lib/data/tools-all";
 import { generateCategoryMetadata } from "@/lib/seo/metadata";
 import {
   generateBreadcrumbSchema,

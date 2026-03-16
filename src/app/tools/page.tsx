@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { allTools } from "@/lib/data/tools";
+import { allTools } from "@/lib/data/tools-all";
 import { categories } from "@/lib/data/categories";
 import { generatePageMetadata } from "@/lib/seo/metadata";
 import ToolCard from "@/components/shared/ToolCard";

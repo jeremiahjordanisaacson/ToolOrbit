@@ -1,4 +1,4 @@
-import { Tool, getRelatedTools } from "@/lib/data/tools";
+import { Tool, getRelatedTools } from "@/lib/data/tools-all";
 import { getCategoryBySlug } from "@/lib/data/categories";
 import {
   generateBreadcrumbSchema,

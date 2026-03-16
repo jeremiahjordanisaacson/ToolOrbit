@@ -227,14 +227,21 @@ The architecture supports this natively:
 4. **Build performance**: Next.js handles thousands of static pages efficiently with parallel workers
 5. **Incremental approach**: Add tools in batches, each adding to the sitemap automatically
 
-## Current Tool Count: 36
+## Current Tool Count: 989
 
-| Category | Tools |
+| Category | Count |
 |----------|-------|
-| Text Tools | Word Counter, Character Counter, Case Converter, Remove Line Breaks, Duplicate Line Remover, Slug Generator, Text Sorter, Text Reverser, Whitespace Cleaner, Password Generator |
-| Developer Tools | JSON Formatter, Base64 Encode/Decode, URL Encoder/Decoder, JWT Decoder, UUID Generator, Unix Timestamp Converter, Regex Tester, HTML Entity Encode/Decode, Markdown Preview, Hash Generator, Color Converter |
-| Math & Conversion | Percentage Calculator, Age Calculator, BMI Calculator, Loan Payment Calculator, Compound Interest Calculator, Tip Calculator, Unit Converter, Length Converter, Weight Converter, Temperature Converter |
-| Random & Utility | Random Number Generator, Dice Roller, Coin Flip, Random Name Picker, QR Code Generator |
+| Text Tools | ~60 tools (word counter, case converter, unicode generators, text analysis...) |
+| Developer Tools | ~60 tools (JSON, Base64, JWT, regex, color, code formatters...) |
+| Math & Conversion | ~40 tools (calculators, geometry, statistics...) |
+| Finance Calculators | ~20 tools (interest, ROI, salary, savings...) |
+| Unit Converters | ~750 tools (length, weight, volume, area, speed, power, energy, temperature, cooking, electrical, and more) |
+| Number Converters | ~15 tools (binary, hex, octal, decimal, Roman) |
+| Encoding Tools | ~15 tools (binary, hex, Morse, ROT13, NATO phonetic...) |
+| Date & Time Tools | ~15 tools (date difference, add days, week number, leap year...) |
+| Health & Fitness | ~15 tools (BMR, TDEE, calories, macros, pace...) |
+| Education Tools | ~5 tools (GPA, grades, test scores...) |
+| Random & Utility | ~30 tools (dice, coins, names, colors, teams, QR codes...) |
 
 ## Known Limitations
 

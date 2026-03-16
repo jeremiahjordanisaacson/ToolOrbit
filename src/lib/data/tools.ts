@@ -17,6 +17,8 @@ export interface Tool {
   relatedSlugs: string[];
   exampleInput?: string;
   exampleOutput?: string;
+  template?: string;
+  templateConfig?: Record<string, unknown>;
 }
 
 // ---------------------------------------------------------------------------

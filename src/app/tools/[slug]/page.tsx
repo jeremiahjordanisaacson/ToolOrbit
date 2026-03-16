@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { allTools, getToolBySlug } from "@/lib/data/tools";
+import { allTools, getToolBySlug } from "@/lib/data/tools-all";
 import { generateToolMetadata } from "@/lib/seo/metadata";
 import ToolPageLayout from "@/components/shared/ToolPageLayout";
 import ToolRenderer from "@/components/shared/ToolRenderer";
