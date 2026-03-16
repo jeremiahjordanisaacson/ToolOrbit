@@ -11,18 +11,28 @@ import AdSlot from "@/components/layout/AdSlot";
 import FAQSection from "./FAQSection";
 import HowToUse from "./HowToUse";
 import RelatedTools from "./RelatedTools";
+import type { UIDictionary } from "@/lib/i18n";
+import type { ToolTranslation } from "@/lib/i18n";
 
 interface ToolPageLayoutProps {
   tool: Tool;
   children: React.ReactNode;
+  locale?: string;
+  dict?: UIDictionary;
+  translation?: ToolTranslation;
 }
 
-export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
+export default function ToolPageLayout({ tool, children, locale, dict, translation }: ToolPageLayoutProps) {
   const category = getCategoryBySlug(tool.categorySlug);
   const relatedTools = getRelatedTools(tool);
   const breadcrumbItems = category
     ? generateToolBreadcrumbs(tool, category)
     : [];
+  const prefix = locale ? `/${locale}` : "";
+  const headline = translation?.headline || tool.headline;
+  const intro = translation?.intro || tool.intro;
+  const faqs = translation?.faqs || tool.faqs;
+  const howToUse = translation?.howToUse || tool.howToUse;
 
   return (
     <>
@@ -55,8 +65,8 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
         {category && (
           <Breadcrumb
             items={[
-              { label: "Home", href: "/" },
-              { label: category.name, href: `/categories/${category.slug}/` },
+              { label: dict?.home || "Home", href: `${prefix}/` },
+              { label: category.name, href: `${prefix}/categories/${category.slug}/` },
               { label: tool.name },
             ]}
           />
@@ -64,10 +74,10 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
 
         {/* SEO headline & intro */}
         <h1 className="mb-3 text-2xl font-bold tracking-tight text-surface-900 sm:text-3xl">
-          {tool.headline}
+          {headline}
         </h1>
         <p className="mb-8 max-w-2xl text-base leading-relaxed text-surface-500">
-          {tool.intro}
+          {intro}
         </p>
 
         <AdSlot slot="top" className="mb-6 h-20" />
@@ -86,12 +96,12 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
         {tool.exampleInput && (
           <section className="mb-10">
             <h2 className="mb-3 text-lg font-semibold text-surface-900">
-              Example
+              {dict?.example || "Example"}
             </h2>
             <div className="rounded-xl border border-surface-200 bg-surface-50 p-5">
               <div className="mb-2 flex items-start gap-3">
                 <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-500">
-                  Input
+                  {dict?.exampleInput || "Input"}
                 </span>
                 <code className="font-mono text-sm text-surface-700">
                   {tool.exampleInput}
@@ -100,7 +110,7 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
               {tool.exampleOutput && (
                 <div className="flex items-start gap-3">
                   <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-500">
-                    Output
+                    {dict?.exampleOutput || "Output"}
                   </span>
                   <code className="font-mono text-sm text-surface-700">
                     {tool.exampleOutput}
@@ -112,17 +122,17 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
         )}
 
         {/* How to Use */}
-        {tool.howToUse.length > 0 && (
-          <HowToUse steps={tool.howToUse} toolName={tool.name} />
+        {howToUse.length > 0 && (
+          <HowToUse steps={howToUse} toolName={tool.name} title={dict?.howToUse} />
         )}
 
         <AdSlot slot="in-content" className="my-8 h-20" />
 
         {/* FAQs */}
-        {tool.faqs.length > 0 && <FAQSection faqs={tool.faqs} />}
+        {faqs.length > 0 && <FAQSection faqs={faqs} title={dict?.faq} />}
 
         {/* Related Tools */}
-        {relatedTools.length > 0 && <RelatedTools tools={relatedTools} />}
+        {relatedTools.length > 0 && <RelatedTools tools={relatedTools} locale={locale} title={dict?.relatedTools} />}
 
         <AdSlot slot="bottom" className="mt-8 h-24" />
       </div>

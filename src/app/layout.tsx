@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import CookieConsent from "@/components/layout/CookieConsent";
 import { siteConfig } from "@/lib/data/site";
 import { generateWebSiteSchema, generateOrganizationSchema } from "@/lib/seo/schema";
@@ -77,9 +75,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <Header />
-        <main id="main-content" className="flex-1">{children}</main>
-        <Footer />
+        {children}
         <CookieConsent />
       </body>
     </html>

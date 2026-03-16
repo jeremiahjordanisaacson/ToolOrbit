@@ -3,19 +3,23 @@ import { Tool } from "@/lib/data/tools-all";
 
 interface RelatedToolsProps {
   tools: Tool[];
+  locale?: string;
+  title?: string;
 }
 
-export default function RelatedTools({ tools }: RelatedToolsProps) {
+export default function RelatedTools({ tools, locale = "en", title = "Related Tools" }: RelatedToolsProps) {
+  const prefix = locale === "en" ? "" : `/${locale}`;
+
   return (
     <section className="mb-10">
       <h2 className="mb-4 text-lg font-semibold text-surface-900">
-        Related Tools
+        {title}
       </h2>
       <div className="grid gap-2 sm:grid-cols-2">
         {tools.map((tool) => (
           <Link
             key={tool.slug}
-            href={`/tools/${tool.slug}/`}
+            href={`${prefix}/tools/${tool.slug}/`}
             className="group flex items-center gap-3 rounded-lg border border-surface-200 bg-white px-4 py-3 transition-all hover:border-primary-200 hover:bg-primary-50/30"
           >
             <span className="text-sm font-medium text-surface-800 group-hover:text-primary-600">

@@ -2,13 +2,14 @@ import { FAQ } from "@/lib/data/tools-all";
 
 interface FAQSectionProps {
   faqs: FAQ[];
+  title?: string;
 }
 
-export default function FAQSection({ faqs }: FAQSectionProps) {
+export default function FAQSection({ faqs, title = "Frequently Asked Questions" }: FAQSectionProps) {
   return (
     <section className="mb-10">
       <h2 className="mb-5 text-lg font-semibold text-surface-900">
-        Frequently Asked Questions
+        {title}
       </h2>
       <div className="divide-y divide-surface-200 rounded-xl border border-surface-200 bg-white">
         {faqs.map((faq, index) => (

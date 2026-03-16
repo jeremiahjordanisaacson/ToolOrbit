@@ -4,11 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { searchTools, SearchResult } from "@/lib/search";
 
-export default function SearchBar() {
+export default function SearchBar({ locale, placeholder }: { locale?: string; placeholder?: string }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const prefix = locale ? `/${locale}` : "";
 
   useEffect(() => {
     if (query.length > 0) {
@@ -52,7 +53,7 @@ export default function SearchBar() {
         <input
           id="search-input"
           type="search"
-          placeholder="Search tools (e.g. JSON formatter, word counter)..."
+          placeholder={placeholder || "Search tools (e.g. JSON formatter, word counter)..."}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.length > 0 && setIsOpen(true)}
@@ -68,7 +69,7 @@ export default function SearchBar() {
           {results.map((result) => (
             <li key={result.slug} role="option" aria-selected={false}>
               <Link
-                href={result.url}
+                href={`${prefix}${result.url}`}
                 className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-primary-50"
                 onClick={() => {
                   setIsOpen(false);

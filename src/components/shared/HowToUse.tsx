@@ -1,13 +1,15 @@
 interface HowToUseProps {
   steps: string[];
   toolName: string;
+  title?: string;
 }
 
-export default function HowToUse({ steps, toolName }: HowToUseProps) {
+export default function HowToUse({ steps, toolName, title }: HowToUseProps) {
+  const heading = title ? `${title} ${toolName}` : `How to Use the ${toolName}`;
   return (
     <section className="mb-10">
       <h2 className="mb-5 text-lg font-semibold text-surface-900">
-        How to Use the {toolName}
+        {heading}
       </h2>
       <div className="space-y-3">
         {steps.map((step, index) => (
