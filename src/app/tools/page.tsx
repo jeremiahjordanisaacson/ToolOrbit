@@ -13,22 +13,25 @@ export const metadata: Metadata = generatePageMetadata(
 
 export default function AllToolsPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-2 text-3xl font-bold text-gray-900">
-        All Free Online Tools
-      </h1>
-      <p className="mb-8 text-lg text-gray-600">
-        Browse our complete collection of {allTools.length} free online tools.
-        Every tool runs in your browser — no signup required.
-      </p>
+    <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mb-10">
+        <h1 className="mb-2 text-2xl font-extrabold tracking-tight text-surface-900 sm:text-3xl">
+          All Free Online Tools
+        </h1>
+        <p className="max-w-2xl text-base leading-relaxed text-surface-500">
+          Browse our complete collection of {allTools.length} free online tools.
+          Every tool runs in your browser — no signup required.
+        </p>
+      </div>
 
       {categories.map((cat) => {
         const tools = allTools.filter((t) => t.categorySlug === cat.slug);
         return (
-          <section key={cat.slug} className="mb-10">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900">
-                {cat.icon} {cat.name}
+          <section key={cat.slug} className="mb-14">
+            <div className="mb-4 flex items-baseline justify-between border-b border-surface-200 pb-3">
+              <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-surface-900">
+                <span>{cat.icon}</span>
+                {cat.name}
               </h2>
               <Link
                 href={`/categories/${cat.slug}/`}

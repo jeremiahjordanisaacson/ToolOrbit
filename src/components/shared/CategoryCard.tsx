@@ -12,17 +12,19 @@ export default function CategoryCard({ category }: CategoryCardProps) {
   return (
     <Link
       href={`/categories/${category.slug}/`}
-      className="group flex flex-col rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-primary-300 hover:shadow-md"
+      className="group flex flex-col rounded-xl border border-surface-200 bg-white p-6 transition-all hover:border-primary-200 hover:shadow-md hover:shadow-primary-100/50"
     >
-      <span className="mb-3 text-3xl" aria-hidden="true">
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-2xl transition-transform group-hover:scale-110">
         {category.icon}
-      </span>
-      <h3 className="mb-1 text-lg font-semibold text-gray-900 group-hover:text-primary-700">
+      </div>
+      <h3 className="mb-1 text-base font-semibold text-surface-900 group-hover:text-primary-600">
         {category.name}
       </h3>
-      <p className="mb-3 text-sm text-gray-500">{category.intro}</p>
-      <span className="mt-auto text-xs font-medium text-primary-600">
-        {toolCount} tools →
+      <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-surface-500">
+        {category.intro}
+      </p>
+      <span className="mt-auto text-xs font-semibold tracking-wide text-primary-600">
+        {toolCount} TOOLS →
       </span>
     </Link>
   );

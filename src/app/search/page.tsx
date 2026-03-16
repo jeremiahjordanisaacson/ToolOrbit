@@ -11,9 +11,11 @@ export const metadata: Metadata = generatePageMetadata(
 
 export default function SearchPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="mb-2 text-3xl font-bold text-gray-900">Search Tools</h1>
-      <p className="mb-8 text-gray-600">
+    <div className="mx-auto max-w-3xl px-6 py-12">
+      <h1 className="mb-2 text-2xl font-extrabold tracking-tight text-surface-900 sm:text-3xl">
+        Search Tools
+      </h1>
+      <p className="mb-8 text-base leading-relaxed text-surface-500">
         Find the perfect tool for your task. Search across all tools and
         categories.
       </p>

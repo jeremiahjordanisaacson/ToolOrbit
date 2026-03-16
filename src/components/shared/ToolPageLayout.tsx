@@ -50,59 +50,59 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
         />
       )}
 
-      <div className="mx-auto max-w-4xl px-4 py-8">
+      <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
         {/* Breadcrumb */}
         {category && (
           <Breadcrumb
             items={[
               { label: "Home", href: "/" },
-              {
-                label: category.name,
-                href: `/categories/${category.slug}/`,
-              },
+              { label: category.name, href: `/categories/${category.slug}/` },
               { label: tool.name },
             ]}
           />
         )}
 
         {/* SEO headline & intro */}
-        <h1 className="mb-3 text-3xl font-bold text-gray-900 md:text-4xl">
+        <h1 className="mb-3 text-2xl font-bold tracking-tight text-surface-900 sm:text-3xl">
           {tool.headline}
         </h1>
-        <p className="mb-8 text-lg text-gray-600">{tool.intro}</p>
+        <p className="mb-8 max-w-2xl text-base leading-relaxed text-surface-500">
+          {tool.intro}
+        </p>
 
-        {/* Ad slot: top */}
         <AdSlot slot="top" className="mb-6 h-20" />
 
         {/* The interactive tool */}
         <section
           aria-label={`${tool.name} tool`}
-          className="mb-10 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
+          className="mb-12 overflow-hidden rounded-2xl border border-surface-200 bg-white shadow-sm"
         >
-          {children}
+          <div className="border-l-[3px] border-primary-500 p-6 sm:p-8">
+            {children}
+          </div>
         </section>
 
         {/* Example */}
         {tool.exampleInput && (
           <section className="mb-10">
-            <h2 className="mb-3 text-xl font-semibold text-gray-900">
+            <h2 className="mb-3 text-lg font-semibold text-surface-900">
               Example
             </h2>
-            <div className="rounded-lg bg-gray-50 p-4">
-              <div className="mb-2">
-                <span className="text-sm font-medium text-gray-500">
-                  Input:
+            <div className="rounded-xl border border-surface-200 bg-surface-50 p-5">
+              <div className="mb-2 flex items-start gap-3">
+                <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-400">
+                  Input
                 </span>
-                <code className="ml-2 rounded bg-white px-2 py-1 text-sm text-gray-800">
+                <code className="font-mono text-sm text-surface-700">
                   {tool.exampleInput}
                 </code>
               </div>
               {tool.exampleOutput && (
-                <div>
-                  <span className="text-sm font-medium text-gray-500">
-                    Output:
+                <div className="flex items-start gap-3">
+                  <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-surface-400">
+                    Output
                   </span>
-                  <code className="ml-2 rounded bg-white px-2 py-1 text-sm text-gray-800">
+                  <code className="font-mono text-sm text-surface-700">
                     {tool.exampleOutput}
                   </code>
                 </div>
@@ -116,7 +116,6 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
           <HowToUse steps={tool.howToUse} toolName={tool.name} />
         )}
 
-        {/* Ad slot: in-content */}
         <AdSlot slot="in-content" className="my-8 h-20" />
 
         {/* FAQs */}
@@ -125,7 +124,6 @@ export default function ToolPageLayout({ tool, children }: ToolPageLayoutProps) 
         {/* Related Tools */}
         {relatedTools.length > 0 && <RelatedTools tools={relatedTools} />}
 
-        {/* Ad slot: bottom */}
         <AdSlot slot="bottom" className="mt-8 h-24" />
       </div>
     </>

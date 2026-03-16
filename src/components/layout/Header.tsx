@@ -8,109 +8,85 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <nav
-        className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3"
-        aria-label="Main navigation"
-      >
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-xl font-bold text-primary-700"
-          aria-label="ToolOrbit Home"
-        >
-          <span aria-hidden="true">🛠️</span>
-          <span>ToolOrbit</span>
+    <header className="sticky top-[3px] z-50 border-b border-surface-200/80 bg-white/95 backdrop-blur-sm">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 h-16" aria-label="Main navigation">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 group" aria-label="ToolOrbit Home">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-sm font-bold text-white transition-transform group-hover:scale-105">
+            TO
+          </span>
+          <span className="text-lg font-bold tracking-tight text-surface-900">
+            Tool<span className="text-primary-600">Orbit</span>
+          </span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-6 md:flex">
-          {categories.map((cat) => (
+        <div className="hidden items-center gap-1 md:flex">
+          {categories.slice(0, 4).map((cat) => (
             <Link
               key={cat.slug}
               href={`/categories/${cat.slug}/`}
-              className="text-sm font-medium text-gray-600 transition-colors hover:text-primary-700"
+              className="relative px-3 py-2 text-[13px] font-medium text-surface-600 hover:text-primary-600 after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:origin-left after:scale-x-0 after:bg-primary-500 after:transition-transform hover:after:scale-x-100"
             >
               {cat.name}
             </Link>
           ))}
           <Link
             href="/tools/"
-            className="text-sm font-medium text-gray-600 transition-colors hover:text-primary-700"
+            className="relative px-3 py-2 text-[13px] font-medium text-surface-600 hover:text-primary-600 after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:origin-left after:scale-x-0 after:bg-primary-500 after:transition-transform hover:after:scale-x-100"
           >
             All Tools
           </Link>
+          <div className="ml-2 h-5 w-px bg-surface-200" />
           <Link
             href="/search/"
-            className="rounded-lg bg-primary-50 px-3 py-1.5 text-sm font-medium text-primary-700 transition-colors hover:bg-primary-100"
+            className="ml-2 flex h-9 w-9 items-center justify-center rounded-lg text-surface-500 hover:bg-surface-100 hover:text-primary-600"
             aria-label="Search tools"
           >
-            🔍 Search
+            <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
           </Link>
         </div>
 
         {/* Mobile menu button */}
         <button
-          className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-lg text-surface-600 hover:bg-surface-100 md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            aria-hidden="true"
-          >
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
             {menuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             )}
           </svg>
         </button>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu overlay */}
       {menuOpen && (
-        <div
-          id="mobile-menu"
-          className="border-t border-gray-200 bg-white px-4 py-3 md:hidden"
-        >
-          <div className="flex flex-col gap-2">
+        <div id="mobile-menu" className="border-t border-surface-200 bg-white px-6 py-4 md:hidden">
+          <div className="flex flex-col gap-1">
             {categories.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/categories/${cat.slug}/`}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-primary-700"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-surface-700 hover:bg-surface-100 hover:text-primary-600"
                 onClick={() => setMenuOpen(false)}
               >
-                <span className="mr-2">{cat.icon}</span>
+                <span className="text-base">{cat.icon}</span>
                 {cat.name}
               </Link>
             ))}
-            <Link
-              href="/tools/"
-              className="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-primary-700"
-              onClick={() => setMenuOpen(false)}
-            >
+            <div className="my-2 h-px bg-surface-200" />
+            <Link href="/tools/" className="rounded-lg px-3 py-2.5 text-sm font-medium text-surface-700 hover:bg-surface-100 hover:text-primary-600" onClick={() => setMenuOpen(false)}>
               All Tools
             </Link>
-            <Link
-              href="/search/"
-              className="rounded-lg px-3 py-2 text-sm font-medium text-primary-700 transition-colors hover:bg-primary-50"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link href="/search/" className="rounded-lg px-3 py-2.5 text-sm font-medium text-primary-600 hover:bg-primary-50" onClick={() => setMenuOpen(false)}>
               🔍 Search Tools
             </Link>
           </div>

@@ -24,33 +24,37 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-b from-primary-50 to-gray-50 pb-16 pt-12 md:pb-20 md:pt-16">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
-            Free Online Tools for{" "}
-            <span className="text-primary-600">Everyday Tasks</span>
+      <section className="relative overflow-hidden border-b border-surface-200 bg-white">
+        <div className="mx-auto max-w-4xl px-6 pb-16 pt-16 text-center sm:pt-20">
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-surface-900 sm:text-5xl lg:text-6xl">
+            {allTools.length}+ Free Tools.
+            <br />
+            <span className="text-primary-600">Zero Signups.</span>
           </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-600">
-            ToolOrbit offers {allTools.length}+ free online tools for text
-            editing, development, calculations, and more. Everything runs in
-            your browser — fast, private, and no signup required.
+          <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-surface-500">
+            Text editors, developer utilities, calculators, converters, and more.
+            Everything runs in your browser — fast, private, free.
           </p>
-          <SearchBar />
+          <div className="mx-auto max-w-xl">
+            <SearchBar />
+          </div>
         </div>
+        {/* Subtle grid pattern decoration */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.015]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none' stroke='%23000' stroke-width='0.5'/%3E%3C/svg%3E\")" }} />
       </section>
 
-      <div className="mx-auto max-w-6xl px-4 py-12">
+      <div className="mx-auto max-w-6xl px-6 py-16">
         {/* Popular Tools */}
-        <section className="mb-16">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">
+        <section className="mb-20">
+          <div className="mb-6 flex items-baseline justify-between">
+            <h2 className="text-xl font-bold tracking-tight text-surface-900">
               Popular Tools
             </h2>
             <Link
               href="/tools/"
-              className="text-sm font-medium text-primary-600 transition-colors hover:text-primary-800"
+              className="text-sm font-medium text-primary-600 hover:text-primary-800"
             >
-              View all tools →
+              View all →
             </Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -61,29 +65,37 @@ export default function HomePage() {
         </section>
 
         {/* Categories */}
-        <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900">
+        <section className="mb-20">
+          <h2 className="mb-6 text-xl font-bold tracking-tight text-surface-900">
             Browse by Category
           </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((cat) => (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {categories.slice(0, 8).map((cat) => (
               <CategoryCard key={cat.slug} category={cat} />
             ))}
           </div>
+          {categories.length > 8 && (
+            <div className="mt-6 text-center">
+              <Link href="/tools/" className="text-sm font-medium text-primary-600 hover:text-primary-800">
+                View all {categories.length} categories →
+              </Link>
+            </div>
+          )}
         </section>
 
-        {/* All categories with tools */}
-        {categories.map((cat) => {
+        {/* Category previews */}
+        {categories.slice(0, 4).map((cat) => {
           const tools = getToolsByCategory(cat.slug);
           return (
-            <section key={cat.slug} className="mb-12">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900">
-                  {cat.icon} {cat.name}
+            <section key={cat.slug} className="mb-14">
+              <div className="mb-4 flex items-baseline justify-between">
+                <h2 className="flex items-center gap-2 text-lg font-bold text-surface-900">
+                  <span>{cat.icon}</span>
+                  {cat.name}
                 </h2>
                 <Link
                   href={`/categories/${cat.slug}/`}
-                  className="text-sm font-medium text-primary-600 transition-colors hover:text-primary-800"
+                  className="text-sm font-medium text-primary-600 hover:text-primary-800"
                 >
                   View all →
                 </Link>
@@ -97,54 +109,32 @@ export default function HomePage() {
           );
         })}
 
-        {/* SEO content */}
-        <section className="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-sm">
-          <h2 className="mb-4 text-2xl font-bold text-gray-900">
+        {/* SEO content block */}
+        <section className="mx-auto max-w-3xl rounded-2xl border border-surface-200 bg-white p-8 sm:p-10">
+          <h2 className="mb-4 text-xl font-bold text-surface-900">
             What is ToolOrbit?
           </h2>
-          <div className="space-y-4 text-gray-600">
+          <div className="space-y-4 text-sm leading-relaxed text-surface-500">
             <p>
-              ToolOrbit is a free collection of online tools designed to help
-              you work faster and smarter. Whether you need to count words for
-              an essay, format JSON for an API response, calculate a loan
-              payment, or generate a strong password, we have a tool for that.
+              ToolOrbit is a free collection of {allTools.length}+ online tools designed to help
+              you work faster. Whether you need to count words, format JSON,
+              calculate a loan payment, or generate a password, we have a tool for that.
             </p>
             <p>
-              Every tool on ToolOrbit runs entirely in your browser. Your data
-              never leaves your device, so you can use our tools with complete
-              confidence that your information stays private. No accounts, no
-              uploads, no tracking.
+              Every tool runs entirely in your browser. Your data never leaves your device,
+              so you can use our tools with complete confidence that your information stays private.
             </p>
             <p>
-              Our tools are organized into four main categories:{" "}
-              <Link
-                href="/categories/text-tools/"
-                className="text-primary-600 hover:underline"
-              >
-                Text Tools
-              </Link>{" "}
-              for writing and editing,{" "}
-              <Link
-                href="/categories/developer-tools/"
-                className="text-primary-600 hover:underline"
-              >
-                Developer Tools
-              </Link>{" "}
-              for coding and debugging,{" "}
-              <Link
-                href="/categories/math-and-conversion-tools/"
-                className="text-primary-600 hover:underline"
-              >
-                Math &amp; Conversion Tools
-              </Link>{" "}
-              for calculations and unit conversions, and{" "}
-              <Link
-                href="/categories/random-and-utility-tools/"
-                className="text-primary-600 hover:underline"
-              >
-                Random &amp; Utility Tools
-              </Link>{" "}
-              for generators and everyday helpers.
+              Our tools are organized into categories:{" "}
+              {categories.slice(0, 4).map((cat, i) => (
+                <span key={cat.slug}>
+                  {i > 0 && ", "}
+                  <Link href={`/categories/${cat.slug}/`} className="text-primary-600 hover:underline">
+                    {cat.name}
+                  </Link>
+                </span>
+              ))}
+              , and more.
             </p>
           </div>
         </section>

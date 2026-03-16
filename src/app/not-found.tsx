@@ -9,22 +9,26 @@ export const metadata = generatePageMetadata(
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-24 text-center">
-      <h1 className="mb-4 text-6xl font-bold text-gray-300">404</h1>
-      <h2 className="mb-3 text-2xl font-bold text-gray-900">Page Not Found</h2>
-      <p className="mb-8 text-gray-600">
+    <div className="mx-auto flex max-w-2xl flex-col items-center px-6 py-28 text-center">
+      <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary-600">
+        Error 404
+      </p>
+      <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-surface-900 sm:text-4xl">
+        Page Not Found
+      </h1>
+      <p className="mb-10 max-w-md text-base leading-relaxed text-surface-500">
         The page you&apos;re looking for doesn&apos;t exist or has been moved.
       </p>
       <div className="flex gap-4">
         <Link
           href="/"
-          className="rounded-lg bg-primary-600 px-5 py-2.5 font-medium text-white transition-colors hover:bg-primary-700"
+          className="rounded-xl bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-700"
         >
           Go Home
         </Link>
         <Link
           href="/tools/"
-          className="rounded-lg border border-gray-300 bg-white px-5 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          className="rounded-xl border border-surface-200 bg-white px-6 py-2.5 text-sm font-semibold text-surface-700 shadow-sm transition-colors hover:bg-surface-50"
         >
           Browse Tools
         </Link>
