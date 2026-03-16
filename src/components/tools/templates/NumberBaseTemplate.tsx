@@ -4,25 +4,64 @@ import { useState, useCallback } from "react";
 
 const BASE_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz";
 
-function isValidForBase(input: string, base: number): boolean {
+// Roman numeral conversion helpers
+function decimalToRoman(num: number): string {
+  if (num <= 0 || num > 3999) return "Out of range (1-3999)";
+  const vals = [1000,900,500,400,100,90,50,40,10,9,5,4,1];
+  const syms = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"];
+  let result = "";
+  for (let i = 0; i < vals.length; i++) {
+    while (num >= vals[i]) { result += syms[i]; num -= vals[i]; }
+  }
+  return result;
+}
+
+function romanToDecimal(str: string): number {
+  const map: Record<string, number> = { I:1,V:5,X:10,L:50,C:100,D:500,M:1000 };
+  let result = 0;
+  const s = str.toUpperCase();
+  for (let i = 0; i < s.length; i++) {
+    const cur = map[s[i]] || 0;
+    const next = map[s[i+1]] || 0;
+    if (cur < next) { result -= cur; } else { result += cur; }
+  }
+  return result;
+}
+
+function isValidRoman(str: string): boolean {
+  return /^[IVXLCDM]+$/i.test(str);
+}
+
+function isValidForBase(input: string, base: number | string): boolean {
   if (!input) return true;
-  const allowed = BASE_CHARS.slice(0, base);
-  return input
-    .toLowerCase()
-    .split("")
-    .every((ch) => allowed.includes(ch));
+  if (base === "roman") return isValidRoman(input);
+  const allowed = BASE_CHARS.slice(0, base as number);
+  return input.toLowerCase().split("").every((ch) => allowed.includes(ch));
 }
 
 function convertBase(
   input: string,
-  fromBase: number,
-  toBase: number
+  fromBase: number | string,
+  toBase: number | string
 ): string | null {
   if (!input) return null;
   try {
-    const decimal = parseInt(input, fromBase);
+    // Handle Roman numeral conversions
+    if (fromBase === "roman") {
+      if (!isValidRoman(input)) return null;
+      const decimal = romanToDecimal(input);
+      if (toBase === 10 || toBase === "10") return String(decimal);
+      return decimal.toString(toBase as number).toUpperCase();
+    }
+    if (toBase === "roman") {
+      const decimal = parseInt(input, fromBase as number);
+      if (isNaN(decimal)) return null;
+      return decimalToRoman(decimal);
+    }
+    // Standard base conversion
+    const decimal = parseInt(input, fromBase as number);
     if (isNaN(decimal)) return null;
-    return decimal.toString(toBase).toUpperCase();
+    return decimal.toString(toBase as number).toUpperCase();
   } catch {
     return null;
   }
@@ -34,8 +73,8 @@ export default function NumberBaseTemplate({
   config: Record<string, unknown>;
 }) {
   const { fromBase, toBase, fromName, toName } = config as {
-    fromBase: number;
-    toBase: number;
+    fromBase: number | string;
+    toBase: number | string;
     fromName: string;
     toName: string;
   };
@@ -48,7 +87,9 @@ export default function NumberBaseTemplate({
     const cleaned = val.replace(/\s/g, "");
     if (cleaned && !isValidForBase(cleaned, fromBase)) {
       setError(
-        `Invalid character for base ${fromBase}. Allowed: ${BASE_CHARS.slice(0, fromBase).toUpperCase()}`
+        fromBase === "roman"
+          ? "Invalid character. Allowed: I, V, X, L, C, D, M"
+          : `Invalid character for base ${fromBase}. Allowed: ${BASE_CHARS.slice(0, fromBase as number).toUpperCase()}`
       );
     } else {
       setError("");
@@ -66,7 +107,7 @@ export default function NumberBaseTemplate({
     setTimeout(() => setCopied(false), 1500);
   }, [result]);
 
-  const basePrefixMap: Record<number, string> = {
+  const basePrefixMap: Record<string, string> = {
     2: "0b",
     8: "0o",
     16: "0x",
@@ -94,9 +135,9 @@ export default function NumberBaseTemplate({
               {fromName} (Base {fromBase})
             </label>
             <div className="flex items-center gap-2">
-              {basePrefixMap[fromBase] && (
+              {basePrefixMap[String(fromBase)] && (
                 <span className="text-sm font-mono text-gray-400 dark:text-gray-500">
-                  {basePrefixMap[fromBase]}
+                  {basePrefixMap[String(fromBase)]}
                 </span>
               )}
               <input
@@ -122,9 +163,9 @@ export default function NumberBaseTemplate({
               {toName} (Base {toBase})
             </label>
             <div className="flex items-center gap-2">
-              {basePrefixMap[toBase] && (
+              {basePrefixMap[String(toBase)] && (
                 <span className="text-sm font-mono text-gray-400 dark:text-gray-500">
-                  {basePrefixMap[toBase]}
+                  {basePrefixMap[String(toBase)]}
                 </span>
               )}
               <div className="flex-1 rounded-lg border border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 px-3 py-2.5 font-mono text-sm font-medium text-gray-900 dark:border-gray-700 dark:from-blue-950/40 dark:to-indigo-950/40 dark:text-gray-100" aria-live="polite" aria-atomic="true">

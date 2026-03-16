@@ -340,6 +340,86 @@ const transforms: Record<string, (input: string) => string> = {
       .replace(/^\> (.+)$/gm, "<blockquote>$1</blockquote>")
       .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
       .replace(/\n{2,}/g, "\n<br/>\n"),
+
+  // --- Extra transforms for generated tools ---
+  "to-uppercase": (input) => input.toUpperCase(),
+  "to-lowercase": (input) => input.toLowerCase(),
+  "to-title-case": (input) =>
+    input.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()),
+  "to-sentence-case": (input) =>
+    input.toLowerCase().replace(/(^\s*|[.!?]\s+)([a-z])/g, (_, p, c) => p + c.toUpperCase()),
+  "alternate-case": (input) =>
+    [...input].map((c, i) => (i % 2 === 0 ? c.toLowerCase() : c.toUpperCase())).join(""),
+  "camelcase-to-text": (input) =>
+    input.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase(),
+  "snakecase-to-text": (input) =>
+    input.replace(/_/g, " "),
+  "sort-by-length": (input) =>
+    input.split("\n").sort((a, b) => a.length - b.length).join("\n"),
+  "add-prefix": (input) =>
+    input.split("\n").map((line) => "> " + line).join("\n"),
+  "add-suffix": (input) =>
+    input.split("\n").map((line) => line + ";").join("\n"),
+  "nato-phonetic": (input) => {
+    const NATO: Record<string, string> = {
+      A:"Alpha",B:"Bravo",C:"Charlie",D:"Delta",E:"Echo",F:"Foxtrot",G:"Golf",
+      H:"Hotel",I:"India",J:"Juliet",K:"Kilo",L:"Lima",M:"Mike",N:"November",
+      O:"Oscar",P:"Papa",Q:"Quebec",R:"Romeo",S:"Sierra",T:"Tango",U:"Uniform",
+      V:"Victor",W:"Whiskey",X:"Xray",Y:"Yankee",Z:"Zulu",
+      "0":"Zero","1":"One","2":"Two","3":"Three","4":"Four",
+      "5":"Five","6":"Six","7":"Seven","8":"Eight","9":"Nine",
+    };
+    return [...input.toUpperCase()].map((c) => NATO[c] || c).join(" ");
+  },
+  "text-to-base64": (input) => {
+    try { return btoa(unescape(encodeURIComponent(input))); } catch { return "Encoding error"; }
+  },
+  "base64-to-text": (input) => {
+    try { return decodeURIComponent(escape(atob(input.trim()))); } catch { return "Invalid Base64"; }
+  },
+  "json-escape": (input) => JSON.stringify(input).slice(1, -1),
+  "json-unescape": (input) => {
+    try { return JSON.parse(`"${input}"`); } catch { return "Invalid escaped string"; }
+  },
+  "xml-escape": (input) =>
+    input.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;"),
+  "regex-escape": (input) =>
+    input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+  "invisible-chars": (input) => {
+    const map: Record<number, string> = { 0x200B:"ZWSP", 0x200C:"ZWNJ", 0x200D:"ZWJ", 0xFEFF:"BOM", 0x00A0:"NBSP", 0x00AD:"SHY", 0x2060:"WJ" };
+    let found = 0;
+    const result = [...input].map((c) => {
+      const code = c.codePointAt(0) || 0;
+      const name = map[code];
+      if (name) { found++; return `[${name} U+${code.toString(16).padStart(4,"0").toUpperCase()}]`; }
+      return c;
+    }).join("");
+    return found > 0 ? `Found ${found} invisible character(s):\n${result}` : "No invisible characters found.";
+  },
+  "tsv-to-csv": (input) =>
+    input.split("\n").map((line) => line.split("\t").map((cell) => cell.includes(",") ? `"${cell}"` : cell).join(",")).join("\n"),
+  "csv-column-count": (input) => {
+    const lines = input.trim().split("\n");
+    if (lines.length === 0) return "No data";
+    const cols = lines[0].split(",").length;
+    return `Columns: ${cols}\nRows: ${lines.length}\nHeader: ${lines[0]}`;
+  },
+  "yaml-to-json": (input) => {
+    try {
+      const obj: Record<string, string> = {};
+      input.split("\n").forEach((line) => {
+        const m = line.match(/^(\s*)([^:#]+):\s*(.*)$/);
+        if (m) obj[m[2].trim()] = m[3].trim();
+      });
+      return JSON.stringify(obj, null, 2);
+    } catch { return "Parse error"; }
+  },
+  "json-to-yaml": (input) => {
+    try {
+      const obj = JSON.parse(input);
+      return Object.entries(obj).map(([k, v]) => `${k}: ${typeof v === "object" ? JSON.stringify(v) : v}`).join("\n");
+    } catch { return "Invalid JSON"; }
+  },
 };
 
 export default function TextTransformTemplate({

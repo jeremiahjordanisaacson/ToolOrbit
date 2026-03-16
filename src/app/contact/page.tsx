@@ -25,23 +25,25 @@ export default function ContactPage() {
           </h2>
           <div className="space-y-4">
             <div>
-              <h3 className="font-medium text-gray-800">Email</h3>
-              <p className="text-gray-600">
-                contact@toolorbit.com
-              </p>
-            </div>
-            <div>
               <h3 className="font-medium text-gray-800">Feature Requests</h3>
               <p className="text-gray-600">
-                Want to see a new tool on {siteConfig.name}? Send us an email
-                with your idea and we&apos;ll consider adding it.
+                Want to see a new tool on {siteConfig.name}? We&apos;re always
+                looking to add useful tools. A contact form is coming soon.
               </p>
             </div>
             <div>
               <h3 className="font-medium text-gray-800">Bug Reports</h3>
               <p className="text-gray-600">
-                Found something broken? Please include the tool name, your
-                browser, and what happened. Screenshots help.
+                Found something broken? Please note the tool name, your
+                browser, and what happened. We&apos;re working on adding a
+                proper feedback form.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-medium text-gray-800">General Inquiries</h3>
+              <p className="text-gray-600">
+                For business inquiries, partnerships, or other questions,
+                a contact form will be available here shortly.
               </p>
             </div>
           </div>

@@ -2,6 +2,16 @@
 
 import { useState } from "react";
 
+function fmtNumber(val: string): string {
+  const parts = val.replace(/[^0-9.\-]/g, "").split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+function stripFmt(val: string): string {
+  return val.replace(/,/g, "");
+}
+
 type UnitSystem = "metric" | "imperial";
 
 interface BmiCategory {
@@ -152,11 +162,10 @@ export default function BmiCalculator() {
             </label>
             <input
               id="bmi-weight"
-              type="number"
-              min="0"
-              step={unit === "metric" ? "0.1" : "1"}
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
+              type="text"
+              inputMode="decimal"
+              value={fmtNumber(weight)}
+              onChange={(e) => setWeight(stripFmt(e.target.value))}
               placeholder={unit === "metric" ? "e.g. 70" : "e.g. 154"}
               aria-label={`Weight in ${unit === "metric" ? "kilograms" : "pounds"}`}
               className="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none"

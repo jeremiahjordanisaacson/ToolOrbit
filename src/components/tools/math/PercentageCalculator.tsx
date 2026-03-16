@@ -2,6 +2,22 @@
 
 import { useState } from "react";
 
+function fmtNumber(val: string): string {
+  const parts = val.replace(/[^0-9.\-]/g, "").split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+function stripFmt(val: string): string {
+  return val.replace(/,/g, "");
+}
+
+function fmtResult(n: number): string {
+  if (!isFinite(n)) return "—";
+  if (Number.isInteger(n)) return n.toLocaleString("en-US");
+  return n.toLocaleString("en-US", { maximumFractionDigits: 4 });
+}
+
 type Tab = "percentOf" | "whatPercent" | "percentChange";
 
 const tabs: { key: Tab; label: string }[] = [
@@ -9,11 +25,6 @@ const tabs: { key: Tab; label: string }[] = [
   { key: "whatPercent", label: "X is what % of Y?" },
   { key: "percentChange", label: "% Change from X to Y" },
 ];
-
-function fmt(value: number): string {
-  if (!isFinite(value)) return "—";
-  return value.toFixed(2);
-}
 
 export default function PercentageCalculator() {
   const [activeTab, setActiveTab] = useState<Tab>("percentOf");
@@ -96,12 +107,12 @@ export default function PercentageCalculator() {
                   </label>
                   <input
                     id="percent-input"
-                    type="number"
-                    step="any"
+                    type="text"
+                    inputMode="decimal"
                     aria-label="Percentage value"
                     placeholder="e.g. 25"
-                    value={percent}
-                    onChange={(e) => setPercent(e.target.value)}
+                    value={fmtNumber(percent)}
+                    onChange={(e) => setPercent(stripFmt(e.target.value))}
                     className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder-gray-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
                   />
                 </div>
@@ -114,12 +125,12 @@ export default function PercentageCalculator() {
                   </label>
                   <input
                     id="base-number-input"
-                    type="number"
-                    step="any"
+                    type="text"
+                    inputMode="decimal"
                     aria-label="Base number"
                     placeholder="e.g. 200"
-                    value={baseNumber}
-                    onChange={(e) => setBaseNumber(e.target.value)}
+                    value={fmtNumber(baseNumber)}
+                    onChange={(e) => setBaseNumber(stripFmt(e.target.value))}
                     className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder-gray-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
                   />
                 </div>
@@ -131,7 +142,7 @@ export default function PercentageCalculator() {
               >
                 <span className="text-sm text-gray-500 dark:text-gray-400">Result: </span>
                 <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  {percentOfResult !== null ? fmt(percentOfResult) : "—"}
+                  {percentOfResult !== null ? fmtResult(percentOfResult) : "—"}
                 </span>
               </div>
             </div>
@@ -154,12 +165,12 @@ export default function PercentageCalculator() {
                   </label>
                   <input
                     id="part-input"
-                    type="number"
-                    step="any"
+                    type="text"
+                    inputMode="decimal"
                     aria-label="Part value"
                     placeholder="e.g. 50"
-                    value={part}
-                    onChange={(e) => setPart(e.target.value)}
+                    value={fmtNumber(part)}
+                    onChange={(e) => setPart(stripFmt(e.target.value))}
                     className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder-gray-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
                   />
                 </div>
@@ -172,12 +183,12 @@ export default function PercentageCalculator() {
                   </label>
                   <input
                     id="whole-input"
-                    type="number"
-                    step="any"
+                    type="text"
+                    inputMode="decimal"
                     aria-label="Whole value"
                     placeholder="e.g. 200"
-                    value={whole}
-                    onChange={(e) => setWhole(e.target.value)}
+                    value={fmtNumber(whole)}
+                    onChange={(e) => setWhole(stripFmt(e.target.value))}
                     className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder-gray-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
                   />
                 </div>
@@ -189,7 +200,7 @@ export default function PercentageCalculator() {
               >
                 <span className="text-sm text-gray-500 dark:text-gray-400">Result: </span>
                 <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  {whatPercentResult !== null ? `${fmt(whatPercentResult)}%` : "—"}
+                  {whatPercentResult !== null ? `${fmtResult(whatPercentResult)}%` : "—"}
                 </span>
               </div>
             </div>
@@ -212,12 +223,12 @@ export default function PercentageCalculator() {
                   </label>
                   <input
                     id="old-value-input"
-                    type="number"
-                    step="any"
+                    type="text"
+                    inputMode="decimal"
                     aria-label="Old value"
                     placeholder="e.g. 100"
-                    value={oldValue}
-                    onChange={(e) => setOldValue(e.target.value)}
+                    value={fmtNumber(oldValue)}
+                    onChange={(e) => setOldValue(stripFmt(e.target.value))}
                     className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder-gray-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
                   />
                 </div>
@@ -230,12 +241,12 @@ export default function PercentageCalculator() {
                   </label>
                   <input
                     id="new-value-input"
-                    type="number"
-                    step="any"
+                    type="text"
+                    inputMode="decimal"
                     aria-label="New value"
                     placeholder="e.g. 150"
-                    value={newValue}
-                    onChange={(e) => setNewValue(e.target.value)}
+                    value={fmtNumber(newValue)}
+                    onChange={(e) => setNewValue(stripFmt(e.target.value))}
                     className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder-gray-400 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
                   />
                 </div>
@@ -253,7 +264,7 @@ export default function PercentageCalculator() {
                     }`}
                   >
                     {isIncrease ? "+" : ""}
-                    {fmt(percentChangeResult)}%{" "}
+                    {fmtResult(percentChangeResult)}%{" "}
                     <span className="text-sm font-normal">
                       ({isIncrease ? "Increase" : "Decrease"})
                     </span>

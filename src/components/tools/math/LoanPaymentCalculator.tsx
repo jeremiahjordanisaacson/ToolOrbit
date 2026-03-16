@@ -2,6 +2,16 @@
 
 import { useState, useMemo } from "react";
 
+function fmtNumber(val: string): string {
+  const parts = val.replace(/[^0-9.\-]/g, "").split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+function stripFmt(val: string): string {
+  return val.replace(/,/g, "");
+}
+
 interface LoanResult {
   monthlyPayment: number;
   totalPayment: number;
@@ -110,12 +120,11 @@ export default function LoanPaymentCalculator() {
               </span>
               <input
                 id="loan-principal"
-                type="number"
-                min="0"
-                step="1000"
-                value={principal}
-                onChange={(e) => setPrincipal(e.target.value)}
-                placeholder="250000"
+                type="text"
+                inputMode="decimal"
+                value={fmtNumber(principal)}
+                onChange={(e) => setPrincipal(stripFmt(e.target.value))}
+                placeholder="250,000"
                 aria-label="Loan amount in dollars"
                 className="w-full rounded-lg border border-gray-300 bg-white py-3 pr-4 pl-9 text-lg text-gray-900 placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
               />

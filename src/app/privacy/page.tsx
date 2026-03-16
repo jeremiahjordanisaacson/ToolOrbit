@@ -58,6 +58,55 @@ export default function PrivacyPage() {
           not use cookies and does not track individuals.
         </p>
 
+        <h2 className="text-xl font-semibold text-gray-900">Cookies</h2>
+        <p>
+          {siteConfig.name} uses only essential cookies required for basic
+          site functionality. We do not use tracking cookies, advertising
+          cookies, or third-party analytics cookies. The only cookie we
+          store is your cookie consent preference.
+        </p>
+        <p>
+          <strong>Essential cookies used:</strong>
+        </p>
+        <ul className="list-inside list-disc space-y-1">
+          <li>
+            <strong>toolorbit_cookie_consent</strong> — Stores your cookie
+            consent preference (accepted/rejected). Stored in localStorage,
+            not as a cookie. No expiry unless cleared manually.
+          </li>
+        </ul>
+        <p>
+          Under GDPR, you have the right to withdraw consent at any time
+          by clearing your browser&apos;s local storage for this site, or by
+          using your browser&apos;s privacy/cookie settings.
+        </p>
+
+        <h2 className="text-xl font-semibold text-gray-900">
+          Your Rights Under GDPR
+        </h2>
+        <p>
+          If you are located in the European Economic Area (EEA), you have
+          the following rights regarding your personal data:
+        </p>
+        <ul className="list-inside list-disc space-y-1">
+          <li><strong>Right of access</strong> — You can request copies of your personal data.</li>
+          <li><strong>Right to rectification</strong> — You can request correction of inaccurate data.</li>
+          <li><strong>Right to erasure</strong> — You can request deletion of your personal data.</li>
+          <li><strong>Right to restrict processing</strong> — You can request we limit how we use your data.</li>
+          <li><strong>Right to data portability</strong> — You can request we transfer your data to another organization.</li>
+          <li><strong>Right to object</strong> — You can object to our processing of your data.</li>
+        </ul>
+        <p>
+          Since {siteConfig.name} processes all data locally in your browser
+          and does not collect or store personal data on our servers, these
+          rights are automatically satisfied. No personal data is held by us
+          that would need to be accessed, corrected, or deleted.
+        </p>
+        <p>
+          If you have questions about your data rights, contact us at
+          contact@toolorbit.com.
+        </p>
+
         <h2 className="text-xl font-semibold text-gray-900">
           Third-Party Services
         </h2>
@@ -108,7 +157,8 @@ export default function PrivacyPage() {
 
         <h2 className="text-xl font-semibold text-gray-900">Contact</h2>
         <p>
-          Questions about this policy? Email us at contact@toolorbit.com.
+          Questions about this policy? Visit our{" "}
+          <a href="/contact/" className="text-primary-600 hover:underline">contact page</a>.
         </p>
       </div>
     </div>

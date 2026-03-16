@@ -89,7 +89,8 @@ export default function TermsPage() {
 
         <h2 className="text-xl font-semibold text-gray-900">Contact</h2>
         <p>
-          Questions about these terms? Email us at contact@toolorbit.com.
+          Questions about these terms? Visit our{" "}
+          <a href="/contact/" className="text-primary-600 hover:underline">contact page</a>.
         </p>
       </div>
     </div>

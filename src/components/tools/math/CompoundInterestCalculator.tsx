@@ -2,6 +2,16 @@
 
 import { useState, useMemo } from "react";
 
+function fmtNumber(val: string): string {
+  const parts = val.replace(/[^0-9.\-]/g, "").split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+function stripFmt(val: string): string {
+  return val.replace(/,/g, "");
+}
+
 interface YearlyBreakdown {
   year: number;
   balance: number;
@@ -102,17 +112,19 @@ export default function CompoundInterestCalculator() {
               >
                 Principal Amount ($)
               </label>
-              <input
-                id="principal"
-                type="number"
-                min="0"
-                step="100"
-                value={principal}
-                onChange={(e) => setPrincipal(e.target.value)}
-                aria-label="Principal amount in dollars"
-                className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-400"
-                placeholder="10000"
-              />
+              <div className="relative">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">$</span>
+                <input
+                  id="principal"
+                  type="text"
+                  inputMode="decimal"
+                  value={fmtNumber(principal)}
+                  onChange={(e) => setPrincipal(stripFmt(e.target.value))}
+                  aria-label="Principal amount in dollars"
+                  className="w-full rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-7 pr-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-400"
+                  placeholder="10,000"
+                />
+              </div>
             </div>
 
             {/* Annual Rate */}
@@ -190,17 +202,19 @@ export default function CompoundInterestCalculator() {
               >
                 Monthly Contribution ($)
               </label>
-              <input
-                id="monthly"
-                type="number"
-                min="0"
-                step="50"
-                value={monthlyContribution}
-                onChange={(e) => setMonthlyContribution(e.target.value)}
-                aria-label="Monthly contribution amount in dollars"
-                className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-400"
-                placeholder="0"
-              />
+              <div className="relative">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">$</span>
+                <input
+                  id="monthly"
+                  type="text"
+                  inputMode="decimal"
+                  value={fmtNumber(monthlyContribution)}
+                  onChange={(e) => setMonthlyContribution(stripFmt(e.target.value))}
+                  aria-label="Monthly contribution amount in dollars"
+                  className="w-full rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-7 pr-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-400"
+                  placeholder="0"
+                />
+              </div>
             </div>
           </div>
         </div>

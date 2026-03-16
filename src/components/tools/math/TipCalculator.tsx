@@ -2,10 +2,20 @@
 
 import { useState } from "react";
 
+function fmtNumber(val: string): string {
+  const parts = val.replace(/[^0-9.\-]/g, "").split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+function stripFmt(val: string): string {
+  return val.replace(/,/g, "");
+}
+
 const PRESET_TIPS = [10, 15, 18, 20, 25] as const;
 
 function formatCurrency(amount: number): string {
-  return `$${amount.toFixed(2)}`;
+  return "$" + amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 export default function TipCalculator() {
@@ -53,12 +63,11 @@ export default function TipCalculator() {
             </span>
             <input
               id="bill-amount"
-              type="number"
-              min="0"
-              step="0.01"
+              type="text"
+              inputMode="decimal"
               placeholder="0.00"
-              value={billAmount}
-              onChange={(e) => setBillAmount(e.target.value)}
+              value={fmtNumber(billAmount)}
+              onChange={(e) => setBillAmount(stripFmt(e.target.value))}
               aria-label="Bill amount in dollars"
               className="w-full rounded-xl border border-gray-300 py-3 pl-8 pr-4 text-gray-900 placeholder:text-gray-400 focus:border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-200"
             />

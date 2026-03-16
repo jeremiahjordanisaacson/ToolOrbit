@@ -80,7 +80,8 @@ export default function DisclaimerPage() {
         <h2 className="text-xl font-semibold text-gray-900">Contact</h2>
         <p>
           If you have concerns about the accuracy of any tool, please contact
-          us at contact@toolorbit.com.
+          us via our{" "}
+          <a href="/contact/" className="text-primary-600 hover:underline">contact page</a>.
         </p>
       </div>
     </div>

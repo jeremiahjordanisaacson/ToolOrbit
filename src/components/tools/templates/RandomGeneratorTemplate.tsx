@@ -45,6 +45,74 @@ const EIGHT_BALL = [
   "Outlook not so good.", "Very doubtful.",
 ];
 
+/* ─── Animals ─── */
+const ANIMALS = [
+  "Dog","Cat","Eagle","Dolphin","Tiger","Elephant","Wolf","Fox","Bear","Lion",
+  "Penguin","Owl","Hawk","Shark","Whale","Octopus","Turtle","Rabbit","Deer","Horse",
+  "Giraffe","Zebra","Koala","Panda","Gorilla","Cheetah","Leopard","Jaguar","Orca","Seal",
+  "Otter","Beaver","Raccoon","Hedgehog","Squirrel","Moose","Bison","Rhino","Hippo","Crocodile",
+  "Parrot","Flamingo","Peacock","Swan","Hummingbird","Toucan","Pelican","Stork","Falcon","Raven",
+  "Cobra","Python","Iguana","Chameleon","Gecko","Frog","Salamander","Axolotl","Starfish","Jellyfish",
+  "Crab","Lobster","Seahorse","Clownfish","Manta Ray","Hammerhead","Narwhal","Manatee","Platypus","Armadillo",
+  "Sloth","Lemur","Capybara","Chinchilla","Ferret","Wombat","Quokka","Red Panda","Snow Leopard","Arctic Fox",
+  "Bald Eagle","Golden Retriever","Siberian Husky","Persian Cat","Blue Whale","Humpback Whale","Great White Shark","Komodo Dragon","Poison Dart Frog","Monarch Butterfly",
+  "Dragonfly","Mantis","Firefly","Ladybug","Bee","Ant","Tarantula","Scorpion","Pangolin","Okapi",
+];
+
+/* ─── Countries ─── */
+const COUNTRIES = [
+  "Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan",
+  "Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
+  "Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada",
+  "Chad","Chile","China","Colombia","Comoros","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic",
+  "Denmark","Djibouti","Dominican Republic","Ecuador","Egypt","El Salvador","Estonia","Ethiopia","Fiji","Finland",
+  "France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Guatemala","Guinea","Guyana",
+  "Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel",
+  "Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Laos","Latvia","Lebanon",
+  "Libya","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mexico",
+  "Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nepal","Netherlands",
+  "New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Panama",
+  "Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saudi Arabia",
+  "Senegal","Serbia","Singapore","Slovakia","Slovenia","Somalia","South Africa","South Korea","Spain","Sri Lanka",
+  "Sudan","Sweden","Switzerland","Syria","Taiwan","Tanzania","Thailand","Togo","Trinidad and Tobago","Tunisia",
+  "Turkey","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Venezuela","Vietnam",
+  "Yemen","Zambia","Zimbabwe",
+];
+
+/* ─── Quotes ─── */
+const QUOTES = [
+  "The only way to do great work is to love what you do. — Steve Jobs",
+  "Innovation distinguishes between a leader and a follower. — Steve Jobs",
+  "Stay hungry, stay foolish. — Steve Jobs",
+  "Life is what happens when you're busy making other plans. — John Lennon",
+  "The future belongs to those who believe in the beauty of their dreams. — Eleanor Roosevelt",
+  "It is during our darkest moments that we must focus to see the light. — Aristotle",
+  "The only impossible journey is the one you never begin. — Tony Robbins",
+  "Success is not final, failure is not fatal: it is the courage to continue that counts. — Winston Churchill",
+  "Believe you can and you're halfway there. — Theodore Roosevelt",
+  "In the middle of every difficulty lies opportunity. — Albert Einstein",
+  "The best time to plant a tree was 20 years ago. The second best time is now. — Chinese Proverb",
+  "Your time is limited, don't waste it living someone else's life. — Steve Jobs",
+  "Not everything that is faced can be changed, but nothing can be changed until it is faced. — James Baldwin",
+  "What you get by achieving your goals is not as important as what you become by achieving your goals. — Zig Ziglar",
+  "The mind is everything. What you think you become. — Buddha",
+  "An unexamined life is not worth living. — Socrates",
+  "Everything you've ever wanted is on the other side of fear. — George Addair",
+  "Do what you can, with what you have, where you are. — Theodore Roosevelt",
+  "The only limit to our realization of tomorrow is our doubts of today. — Franklin D. Roosevelt",
+  "Act as if what you do makes a difference. It does. — William James",
+];
+
+/* ─── Usernames ─── */
+const USERNAME_ADJECTIVES = [
+  "Swift","Bold","Silent","Cosmic","Neon","Cyber","Turbo","Ultra","Epic","Mystic",
+  "Shadow","Thunder","Crystal","Golden","Silver","Iron","Quantum","Pixel","Stellar","Frozen",
+];
+const USERNAME_NOUNS = [
+  "Wolf","Fox","Eagle","Tiger","Phoenix","Dragon","Knight","Ninja","Wizard","Ranger",
+  "Falcon","Raven","Storm","Blaze","Frost","Shadow","Spark","Nova","Viper","Hawk",
+];
+
 /* ─── Emoji List ─── */
 const EMOJIS = [
   "😀", "😂", "🥰", "😎", "🤔", "🎉", "🔥", "💡", "🌈", "⭐",
@@ -145,6 +213,46 @@ const generators: Record<
   },
   "magic-8-ball": () => ({ text: randomPick(EIGHT_BALL) }),
   "random-emoji": () => ({ text: randomPick(EMOJIS) }),
+  "random-animal": () => ({ text: randomPick(ANIMALS) }),
+  "random-country": () => ({ text: randomPick(COUNTRIES) }),
+  "random-quote": () => ({ text: randomPick(QUOTES) }),
+  "random-username": () => {
+    const adj = randomPick(USERNAME_ADJECTIVES);
+    const noun = randomPick(USERNAME_NOUNS);
+    const num = randomInt(1, 999);
+    return { text: `${adj}${noun}${num}` };
+  },
+  "random-passphrase": ({ quantity }) => {
+    const count = quantity ?? 4;
+    const words = Array.from({ length: count }, () => randomPick(WORDS));
+    return { text: words.join("-") };
+  },
+  "random-mac-address": () => {
+    const parts = Array.from({ length: 6 }, () =>
+      randomInt(0, 255).toString(16).padStart(2, "0").toUpperCase()
+    );
+    return { text: parts.join(":") };
+  },
+  "spin-wheel": ({ names }) => {
+    const nameList = (names ?? "")
+      .split(/[,\n]+/)
+      .map((n) => n.trim())
+      .filter(Boolean);
+    if (nameList.length === 0) return { text: "Enter options above (comma or newline separated)" };
+    return { text: "🎯 " + randomPick(nameList) };
+  },
+  "lottery-numbers": ({ quantity }) => {
+    const count = quantity ?? 6;
+    const max = 49;
+    const nums = new Set<number>();
+    while (nums.size < count) nums.add(randomInt(1, max));
+    return { text: Array.from(nums).sort((a, b) => a - b).join("  ") };
+  },
+  "bingo-caller": () => {
+    const n = randomInt(1, 75);
+    const letter = n <= 15 ? "B" : n <= 30 ? "I" : n <= 45 ? "N" : n <= 60 ? "G" : "O";
+    return { text: `${letter}-${n}` };
+  },
 };
 
 export default function RandomGeneratorTemplate({
@@ -216,10 +324,16 @@ export default function RandomGeneratorTemplate({
     "yes-or-no",
     "magic-8-ball",
     "random-team",
+    "spin-wheel",
+    "bingo-caller",
+    "random-quote",
+    "random-animal",
+    "random-country",
   ].includes(generatorId);
 
   const showUppercase = generatorId === "random-letter";
   const showTeamOptions = generatorId === "random-team";
+  const showNamesInput = generatorId === "spin-wheel";
 
   return (
     <div className="mx-auto w-full max-w-xl space-y-6">
@@ -311,6 +425,26 @@ export default function RandomGeneratorTemplate({
                   />
                 </div>
               </>
+            )}
+
+            {showNamesInput && (
+              <div className="w-full">
+                <label
+                  htmlFor="wheel-names"
+                  className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
+                  Options (comma or newline separated)
+                </label>
+                <textarea
+                  id="wheel-names"
+                  rows={3}
+                  value={names}
+                  onChange={(e) => setNames(e.target.value)}
+                  placeholder="Pizza, Burgers, Sushi, Tacos..."
+                  aria-label="Wheel options"
+                  className="w-full resize-y rounded-lg border border-gray-300 bg-white p-3 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+                />
+              </div>
             )}
           </div>
 

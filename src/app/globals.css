@@ -95,3 +95,8 @@ input, textarea, select {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-surface-400);
 }
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
