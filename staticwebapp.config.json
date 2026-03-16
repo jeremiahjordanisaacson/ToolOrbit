@@ -14,7 +14,8 @@
       "*.xml",
       "*.txt",
       "*.woff",
-      "*.woff2"
+      "*.woff2",
+      "google*.html"
     ]
   },
   "globalHeaders": {
