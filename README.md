@@ -1,10 +1,10 @@
 # ToolOrbit
 
-**Free Online Tools for Everyday Tasks** — A production-ready, SEO-first utility website built with Next.js, TypeScript, and Tailwind CSS. Deployable to Azure Static Web Apps.
+**Free Online Tools for Everyday Tasks** — A production-ready, SEO-first, multilingual utility website built with Next.js, TypeScript, and Tailwind CSS. Deployed to Azure Blob Storage + Front Door CDN.
 
 ## Overview
 
-ToolOrbit is a high-traffic utility website designed to rank for thousands of long-tail Google searches. It offers 36 free, browser-based tools across four categories: Text Tools, Developer Tools, Math & Conversion Tools, and Random & Utility Tools.
+ToolOrbit is a high-traffic utility website designed to rank for thousands of long-tail Google searches across 10 languages. It offers 989 free, browser-based tools across 11 categories.
 
 All tools run entirely in the browser — no data ever leaves the user's device.
 
@@ -16,8 +16,10 @@ All tools run entirely in the browser — no data ever leaves the user's device.
 | Language | TypeScript |
 | Styling | Tailwind CSS v4 |
 | Output | Static Export (`output: "export"`) |
-| Hosting | Azure Static Web Apps |
+| Hosting | Azure Blob Storage + Front Door CDN |
 | CI/CD | GitHub Actions |
+| Languages | 10 (en, es, fr, de, pt, ja, zh, ko, it, hi) |
+| Total Pages | 11,214 |
 
 ### Key Design Decisions
 

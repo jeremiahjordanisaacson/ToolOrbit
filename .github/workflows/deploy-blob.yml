@@ -1,0 +1,54 @@
+name: Deploy to Azure Blob Storage + CDN
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Install azcopy
+        run: |
+          wget -q https://aka.ms/downloadazcopy-v10-linux -O /tmp/azcopy.tar.gz
+          tar -xzf /tmp/azcopy.tar.gz -C /tmp --strip-components=1
+          sudo mv /tmp/azcopy /usr/local/bin/
+
+      - name: Upload to Azure Blob Storage
+        run: |
+          azcopy sync "./out/" "https://toolorbitsite.blob.core.windows.net/\$web?${{ secrets.AZURE_STORAGE_SAS_TOKEN }}" \
+            --recursive \
+            --delete-destination=true \
+            --compare-hash=MD5
+        env:
+          AZCOPY_CONCURRENCY_VALUE: 32
+
+      - name: Purge CDN cache
+        run: |
+          az login --service-principal \
+            -u ${{ secrets.AZURE_CLIENT_ID }} \
+            -p ${{ secrets.AZURE_CLIENT_SECRET }} \
+            --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az afd endpoint purge \
+            --endpoint-name toolorbit \
+            --profile-name toolorbitcdn \
+            --resource-group ToolOrbit \
+            --content-paths "/*" \
+            --domains toolorbit-dgg8bre5haagh7hp.z01.azurefd.net
+        continue-on-error: true
