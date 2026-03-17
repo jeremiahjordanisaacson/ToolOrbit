@@ -155,7 +155,8 @@ export async function generateMetadata({
   return generatePageMetadata(
     t.metaTitle,
     t.metaDescription,
-    `/${locale}/contact/`
+    `/${locale}/contact/`,
+    locale
   );
 }
 

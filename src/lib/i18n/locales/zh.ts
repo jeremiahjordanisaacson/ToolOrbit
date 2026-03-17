@@ -73,6 +73,9 @@ const zh: UIDictionary = {
   cookieAccept: "全部接受",
   cookieReject: "拒绝非必要",
 
+  allToolsMetaTitle: "所有免费在线工具 | ToolOrbit",
+  allToolsMetaDescription: "浏览 ToolOrbit 上的所有免费在线工具。文本工具、开发者工具、计算器、转换器等。快速、私密，无需注册。",
+
   tools: "工具",
   tool: "工具",
   category: "分类",

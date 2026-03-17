@@ -555,7 +555,8 @@ export async function generateMetadata({
   return generatePageMetadata(
     t.metaTitle,
     t.metaDescription,
-    `/${locale}/privacy/`
+    `/${locale}/privacy/`,
+    locale
   );
 }
 

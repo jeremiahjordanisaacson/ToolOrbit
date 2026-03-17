@@ -1,8 +1,10 @@
 import { Metadata } from "next";
-import { generatePageMetadata } from "@/lib/seo/metadata";
+import { siteConfig } from "@/lib/data/site";
 import { allTools } from "@/lib/data/tools-all";
 import { categories } from "@/lib/data/categories";
+import { locales } from "@/lib/i18n/config";
 import { getDict, Locale } from "@/lib/i18n";
+import { getCategoryTranslation } from "@/lib/i18n/category-translations";
 import ToolCard from "@/components/shared/ToolCard";
 import Link from "next/link";
 
@@ -12,11 +14,31 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  return generatePageMetadata(
-    "All Free Online Tools | ToolOrbit",
-    "Browse all free online tools on ToolOrbit. Text tools, developer tools, calculators, converters, and more. Fast, private, and no signup required.",
-    `/${locale}/tools/`
-  );
+  const dict = await getDict(locale as Locale);
+  const url = `${siteConfig.url}/${locale}/tools/`;
+  return {
+    title: dict.allToolsMetaTitle,
+    description: dict.allToolsMetaDescription,
+    alternates: {
+      canonical: url,
+      languages: Object.fromEntries(
+        locales.map((l) => [l, `${siteConfig.url}/${l}/tools/`])
+      ),
+    },
+    openGraph: {
+      title: dict.allToolsMetaTitle,
+      description: dict.allToolsMetaDescription,
+      url,
+      siteName: "ToolOrbit",
+      locale: locale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.allToolsMetaTitle,
+      description: dict.allToolsMetaDescription,
+    },
+  };
 }
 
 export default async function AllToolsPage({
@@ -45,7 +67,7 @@ export default async function AllToolsPage({
             <div className="mb-4 flex items-baseline justify-between border-b border-surface-200 pb-3">
               <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-surface-900">
                 <span>{cat.icon}</span>
-                {cat.name}
+                {getCategoryTranslation(cat.slug, locale as Locale).name}
               </h2>
               <Link
                 href={`/${locale}/categories/${cat.slug}/`}

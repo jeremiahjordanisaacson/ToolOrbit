@@ -84,7 +84,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t =
     translations[locale as keyof typeof translations] || translations.en;
-  return generatePageMetadata(t.metaTitle, t.metaDescription, `/${locale}/search/`);
+  return generatePageMetadata(t.metaTitle, t.metaDescription, `/${locale}/search/`, locale);
 }
 
 export default async function SearchPage({

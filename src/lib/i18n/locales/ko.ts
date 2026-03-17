@@ -73,6 +73,9 @@ const ko: UIDictionary = {
   cookieAccept: "모두 수락",
   cookieReject: "비필수 쿠키 거부",
 
+  allToolsMetaTitle: "모든 무료 온라인 도구 | ToolOrbit",
+  allToolsMetaDescription: "ToolOrbit에서 모든 무료 온라인 도구를 둘러보세요. 텍스트 도구, 개발자 도구, 계산기, 변환기 등. 빠르고 안전하며 가입이 필요 없습니다.",
+
   tools: "도구",
   tool: "도구",
   category: "카테고리",

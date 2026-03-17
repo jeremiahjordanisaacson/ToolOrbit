@@ -73,6 +73,9 @@ const hi: UIDictionary = {
   cookieAccept: "सभी स्वीकार करें",
   cookieReject: "गैर-आवश्यक अस्वीकार करें",
 
+  allToolsMetaTitle: "सभी मुफ़्त ऑनलाइन टूल | ToolOrbit",
+  allToolsMetaDescription: "ToolOrbit पर सभी मुफ़्त ऑनलाइन टूल ब्राउज़ करें। टेक्स्ट टूल, डेवलपर टूल, कैलकुलेटर, कन्वर्टर और बहुत कुछ। तेज़, निजी और बिना साइनअप के।",
+
   tools: "टूल",
   tool: "टूल",
   category: "श्रेणी",

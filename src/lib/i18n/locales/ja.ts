@@ -73,6 +73,9 @@ const ja: UIDictionary = {
   cookieAccept: "すべて受け入れる",
   cookieReject: "必須以外を拒否",
 
+  allToolsMetaTitle: "すべての無料オンラインツール | ToolOrbit",
+  allToolsMetaDescription: "ToolOrbitのすべての無料オンラインツールをご覧ください。テキストツール、開発者ツール、計算機、変換ツールなど。高速・プライベート・登録不要。",
+
   tools: "ツール",
   tool: "ツール",
   category: "カテゴリ",

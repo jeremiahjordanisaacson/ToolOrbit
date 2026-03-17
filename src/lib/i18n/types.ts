@@ -81,6 +81,10 @@ export interface UIDictionary {
   cookieAccept: string;
   cookieReject: string;
 
+  // Tools index page
+  allToolsMetaTitle: string;
+  allToolsMetaDescription: string;
+
   // Misc
   tools: string;
   tool: string;

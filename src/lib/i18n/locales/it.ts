@@ -73,6 +73,9 @@ const it: UIDictionary = {
   cookieAccept: "Accetta tutto",
   cookieReject: "Rifiuta non essenziali",
 
+  allToolsMetaTitle: "Tutti gli strumenti online gratuiti | ToolOrbit",
+  allToolsMetaDescription: "Sfoglia tutti gli strumenti online gratuiti su ToolOrbit. Strumenti di testo, strumenti per sviluppatori, calcolatrici, convertitori e altro ancora. Veloci, privati e senza registrazione.",
+
   tools: "strumenti",
   tool: "strumento",
   category: "Categoria",

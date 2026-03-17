@@ -27,10 +27,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const dict = await getDict(locale as Locale);
   const url = `${siteConfig.url}/${locale}/`;
   return {
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    title: `ToolOrbit — ${dict.siteTagline}`,
+    description: dict.siteDescription,
     alternates: {
       canonical: url,
       languages: Object.fromEntries(
@@ -38,12 +39,17 @@ export async function generateMetadata({
       ),
     },
     openGraph: {
-      title: `${siteConfig.name} — ${siteConfig.tagline}`,
-      description: siteConfig.description,
+      title: `ToolOrbit — ${dict.siteTagline}`,
+      description: dict.siteDescription,
       url,
-      siteName: siteConfig.name,
-      locale: siteConfig.locale,
+      siteName: "ToolOrbit",
+      locale: locale,
       type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `ToolOrbit — ${dict.siteTagline}`,
+      description: dict.siteDescription,
     },
   };
 }

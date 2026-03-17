@@ -28,7 +28,7 @@ export function generateToolMetadata(tool: Tool, locale: string = defaultLocale)
       description: translation.description,
       url,
       siteName: siteConfig.name,
-      locale: siteConfig.locale,
+      locale: locale,
       type: "website",
     },
     twitter: {
@@ -58,7 +58,7 @@ export function generateCategoryMetadata(category: Category, locale: string = de
       description,
       url,
       siteName: siteConfig.name,
-      locale: siteConfig.locale,
+      locale: locale,
       type: "website",
     },
     twitter: {
@@ -73,25 +73,28 @@ export function generateCategoryMetadata(category: Category, locale: string = de
 
 export function generateGuideMetadata(category: Category, locale: string = defaultLocale): Metadata {
   const url = `${siteConfig.url}/${locale}/guides/${category.slug}/`;
+  const catTranslation = getCategoryTranslation(category.slug, locale as Locale);
+  const title = `${catTranslation.headline} — Guide | ToolOrbit`;
+  const description = catTranslation.intro;
   return {
-    title: category.guideTitle,
-    description: category.guideDescription,
+    title,
+    description,
     alternates: {
       canonical: url,
       languages: hreflangAlternates(`/guides/${category.slug}/`),
     },
     openGraph: {
-      title: category.guideTitle,
-      description: category.guideDescription,
+      title,
+      description,
       url,
       siteName: siteConfig.name,
-      locale: siteConfig.locale,
+      locale: locale,
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: category.guideTitle,
-      description: category.guideDescription,
+      title,
+      description,
       site: siteConfig.twitter,
     },
     robots: { index: true, follow: true },
@@ -101,7 +104,8 @@ export function generateGuideMetadata(category: Category, locale: string = defau
 export function generatePageMetadata(
   title: string,
   description: string,
-  path: string
+  path: string,
+  locale?: string
 ): Metadata {
   const url = `${siteConfig.url}${path}`;
   return {
@@ -113,7 +117,7 @@ export function generatePageMetadata(
       description,
       url,
       siteName: siteConfig.name,
-      locale: siteConfig.locale,
+      locale: locale || defaultLocale,
       type: "website",
     },
     twitter: {

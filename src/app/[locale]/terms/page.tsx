@@ -305,7 +305,8 @@ export async function generateMetadata({
   return generatePageMetadata(
     t.metaTitle,
     t.metaDescription,
-    `/${locale}/terms/`
+    `/${locale}/terms/`,
+    locale
   );
 }
 

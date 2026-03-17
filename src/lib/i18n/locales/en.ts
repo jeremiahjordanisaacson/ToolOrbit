@@ -73,6 +73,9 @@ const en: UIDictionary = {
   cookieAccept: "Accept All",
   cookieReject: "Reject Non-Essential",
 
+  allToolsMetaTitle: "All Free Online Tools | ToolOrbit",
+  allToolsMetaDescription: "Browse all free online tools on ToolOrbit. Text tools, developer tools, calculators, converters, and more. Fast, private, and no signup required.",
+
   tools: "tools",
   tool: "tool",
   category: "Category",
