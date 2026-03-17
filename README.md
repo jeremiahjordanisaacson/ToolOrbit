@@ -27,7 +27,7 @@ All tools run entirely in the browser — no data ever leaves the user's device.
 - **Static-first**: Every page is statically generated at build time. No server-side rendering needed.
 - **Data-driven pages**: Tools, categories, FAQs, and SEO metadata are defined in structured TypeScript config files. Pages are generated programmatically from this data.
 - **SEO as first-class concern**: Every page has unique title, meta description, canonical URL, Open Graph tags, Twitter cards, and JSON-LD structured data — all translated per locale.
-- **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, and tool component labels — everything is translated across all 10 locales. The `ToolUILabels` system (via `useToolUI()` hook) provides 120+ translated UI strings to tool components for date labels, month/day names, stat labels, button text, and more.
+- **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, and all tool component UI — everything is translated across all 10 locales. The `ToolUILabels` system (via `useToolUI()` hook) provides 180+ translated UI strings to all 35 tool components, including stat labels, form labels, month/day names, error messages, placeholders, BMI categories, number bases, unit converter categories, and more. Formula calculator field labels (115+ labels) are translated at runtime via `formula-label-translations.ts`. Currency symbols are locale-appropriate (`$`, `€`, `¥`, `₩`, `₹`, `R$`).
 - **Client-side tools**: Tool logic runs entirely in the browser using Web APIs (Crypto, SubtleCrypto, Canvas, etc.). No server dependencies.
 - **Code-split tools**: Each tool component is dynamically imported, so users only download the code for the tool they're using.
 - **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section, no tracking cookies by default. Analytics (Google Analytics 4) only loads after explicit user consent.
@@ -275,7 +275,6 @@ ToolOrbit uses **Google Analytics 4** (Measurement ID: `G-BQ9CBQJRWP`) with cons
 - MD5 hash uses a basic inline implementation; SHA algorithms use the native Web Crypto API
 - No dark mode (could be added with Tailwind's `dark:` variant)
 - Static content pages (privacy, terms, about, contact, disclaimer) are English-only and not yet routed through the i18n system
-- Some developer tool error messages and placeholders remain in English (low visibility, technical context)
 - No real ad network integration yet (placeholder slots in layout)
 - Site URL in config defaults to `https://toolorbit.com` — update when custom domain is set
 
