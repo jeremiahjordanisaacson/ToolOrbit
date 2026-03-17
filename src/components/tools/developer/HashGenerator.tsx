@@ -110,6 +110,7 @@ const ALGORITHMS = [
 ] as const;
 
 export default function HashGenerator() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [hashes, setHashes] = useState<HashResult[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -158,7 +159,7 @@ export default function HashGenerator() {
           id="hash-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter text to hash…"
+          placeholder={ui.enterTextHere}
           rows={5}
           className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 font-mono text-sm shadow-sm focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-200"
           spellCheck={false}

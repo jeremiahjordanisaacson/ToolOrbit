@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 interface MatchInfo {
   index: number;
@@ -9,6 +10,7 @@ interface MatchInfo {
 }
 
 export default function RegexTester() {
+  const t = useToolUI();
   const [pattern, setPattern] = useState("");
   const [flags, setFlags] = useState({ g: true, i: false, m: false, s: false, u: false });
   const [testString, setTestString] = useState("");
@@ -142,7 +144,7 @@ export default function RegexTester() {
           id="regex-test"
           value={testString}
           onChange={(e) => setTestString(e.target.value)}
-          placeholder="Enter text to test against…"
+          placeholder={t.enterTextHere}
           rows={5}
           className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 font-mono text-sm shadow-sm focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-200"
           spellCheck={false}

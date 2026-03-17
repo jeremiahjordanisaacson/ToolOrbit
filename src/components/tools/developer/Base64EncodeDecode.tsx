@@ -54,7 +54,7 @@ export default function Base64EncodeDecode() {
     try {
       setOutput(utf8ToBase64(input));
     } catch {
-      setError("Failed to encode input.");
+      setError(ui.encodingError);
       setOutput("");
     }
   }, [input]);
@@ -64,9 +64,7 @@ export default function Base64EncodeDecode() {
     try {
       setOutput(base64ToUtf8(input));
     } catch {
-      setError(
-        "Invalid Base64 string. Make sure the input contains only valid Base64 characters."
-      );
+      setError(ui.invalidBase64);
       setOutput("");
     }
   }, [input]);
@@ -84,7 +82,7 @@ export default function Base64EncodeDecode() {
           id="b64-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter text to encode or Base64 to decode…"
+          placeholder={ui.enterTextHere}
           rows={6}
           className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 font-mono text-sm shadow-sm focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-200"
           spellCheck={false}

@@ -67,6 +67,7 @@ function toDateString(date: Date): string {
 }
 
 export default function UnixTimestampConverter() {
+  const ui = useToolUI();
   const nowSeconds = useSyncExternalStore(subscribeToClock, getClockSnapshot, getServerClockSnapshot);
   const [tsInput, setTsInput] = useState("");
   const [tsResult, setTsResult] = useState<{
@@ -86,20 +87,20 @@ export default function UnixTimestampConverter() {
     setTsResult(null);
     const num = Number(tsInput.trim());
     if (!tsInput.trim() || isNaN(num)) {
-      setTsError("Please enter a valid number.");
+      setTsError(ui.invalidInput);
       return;
     }
     const ms = isMilliseconds(num) ? num : num * 1000;
     const date = new Date(ms);
     if (isNaN(date.getTime())) {
-      setTsError("Invalid timestamp.");
+      setTsError(ui.invalidInput);
       return;
     }
     setTsResult({
       utc: date.toUTCString(),
       local: date.toLocaleString(),
     });
-  }, [tsInput]);
+  }, [tsInput, ui]);
 
   const handleDateConvert = useCallback(() => {
     if (!dateInput) return;

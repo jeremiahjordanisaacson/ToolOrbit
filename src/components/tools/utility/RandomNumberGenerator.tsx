@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function getSecureRandom(min: number, max: number): number {
   const range = max - min + 1;
@@ -18,6 +19,7 @@ function getSecureRandom(min: number, max: number): number {
 }
 
 export default function RandomNumberGenerator() {
+  const t = useToolUI();
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(100);
   const [quantity, setQuantity] = useState(1);
@@ -153,14 +155,14 @@ export default function RandomNumberGenerator() {
           onClick={generate}
           className="px-6 py-2.5 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
-          Generate
+          {t.generate}
         </button>
         {results.length > 0 && (
           <button
             onClick={copyAll}
             className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
           >
-            {copied ? "✓ Copied!" : "Copy All"}
+            {copied ? `✓ ${t.copied}` : t.copyAll}
           </button>
         )}
       </div>

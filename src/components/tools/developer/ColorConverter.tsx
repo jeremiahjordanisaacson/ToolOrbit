@@ -201,7 +201,7 @@ export default function ColorConverter() {
           >
             HEX
           </label>
-          <CopyButton text={hexCss} label="Copy HEX value" />
+          <CopyButton text={hexCss} />
         </div>
         <input
           id="hex-input"
@@ -219,7 +219,7 @@ export default function ColorConverter() {
       <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
         <div className="mb-3 flex items-center justify-between">
           <span className="text-sm font-semibold text-gray-700">RGB</span>
-          <CopyButton text={rgbCss} label="Copy RGB value" />
+          <CopyButton text={rgbCss} />
         </div>
         <div className="grid grid-cols-3 gap-3">
           {(["r", "g", "b"] as const).map((ch) => (
@@ -249,7 +249,7 @@ export default function ColorConverter() {
       <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
         <div className="mb-3 flex items-center justify-between">
           <span className="text-sm font-semibold text-gray-700">HSL</span>
-          <CopyButton text={hslCss} label="Copy HSL value" />
+          <CopyButton text={hslCss} />
         </div>
         <div className="grid grid-cols-3 gap-3">
           {(["h", "s", "l"] as const).map((ch) => (

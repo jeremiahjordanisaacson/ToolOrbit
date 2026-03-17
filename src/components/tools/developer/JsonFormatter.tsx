@@ -40,39 +40,39 @@ export default function JsonFormatter() {
 
   const validate = useCallback(
     (json: string): { valid: boolean; parsed?: unknown; message?: string } => {
-      if (!json.trim()) return { valid: false, message: "Input is empty" };
+      if (!json.trim()) return { valid: false, message: ui.inputEmpty };
       try {
         const parsed = JSON.parse(json);
         return { valid: true, parsed };
       } catch (e) {
-        const msg = e instanceof SyntaxError ? e.message : "Invalid JSON";
+        const msg = e instanceof SyntaxError ? e.message : ui.invalidJson;
         return { valid: false, message: msg };
       }
     },
-    []
+    [ui]
   );
 
   const handleFormat = useCallback(() => {
     const result = validate(input);
     if (result.valid) {
       setOutput(JSON.stringify(result.parsed, null, 2));
-      setStatus({ type: "valid", message: "Valid JSON" });
+      setStatus({ type: "valid", message: ui.validJson });
     } else {
       setOutput("");
       setStatus({ type: "invalid", message: result.message });
     }
-  }, [input, validate]);
+  }, [input, validate, ui]);
 
   const handleMinify = useCallback(() => {
     const result = validate(input);
     if (result.valid) {
       setOutput(JSON.stringify(result.parsed));
-      setStatus({ type: "valid", message: "Valid JSON (minified)" });
+      setStatus({ type: "valid", message: ui.validJson });
     } else {
       setOutput("");
       setStatus({ type: "invalid", message: result.message });
     }
-  }, [input, validate]);
+  }, [input, validate, ui]);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">

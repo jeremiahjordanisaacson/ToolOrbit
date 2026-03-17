@@ -114,15 +114,13 @@ export default function JwtDecoder() {
 
     const token = input.trim();
     if (!token) {
-      setError("Please enter a JWT token.");
+      setError(ui.enterValue);
       return;
     }
 
     const parts = token.split(".");
     if (parts.length !== 3) {
-      setError(
-        "Invalid JWT format. A JWT must have exactly 3 parts separated by dots."
-      );
+      setError(ui.invalidInput);
       return;
     }
 
@@ -133,7 +131,7 @@ export default function JwtDecoder() {
       setDecoded(jwt);
       computeMeta(jwt);
     } catch {
-      setError("Failed to decode JWT. The token may be malformed.");
+      setError(ui.invalidInput);
     }
   }, [input, computeMeta]);
 

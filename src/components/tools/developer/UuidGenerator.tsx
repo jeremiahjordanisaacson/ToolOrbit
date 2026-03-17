@@ -103,7 +103,7 @@ export default function UuidGenerator() {
             <h3 className="text-sm font-semibold text-gray-700">
               Generated UUID{uuids.length > 1 ? "s" : ""} ({uuids.length})
             </h3>
-            {uuids.length > 1 && <CopyButton text={allText} label="Copy all UUIDs" />}
+            {uuids.length > 1 && <CopyButton text={allText} label={ui.copyAll} />}
           </div>
 
           <ul className="space-y-2" aria-label="Generated UUIDs">

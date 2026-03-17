@@ -40,7 +40,7 @@ export default function UrlEncoderDecoder() {
     try {
       setOutput(encodeURIComponent(input));
     } catch {
-      setError("Failed to encode input.");
+      setError(ui.encodingError);
       setOutput("");
     }
   }, [input]);
@@ -50,7 +50,7 @@ export default function UrlEncoderDecoder() {
     try {
       setOutput(encodeURI(input));
     } catch {
-      setError("Failed to encode URL.");
+      setError(ui.encodingError);
       setOutput("");
     }
   }, [input]);
@@ -60,9 +60,7 @@ export default function UrlEncoderDecoder() {
     try {
       setOutput(decodeURIComponent(input));
     } catch {
-      setError(
-        "Failed to decode input. Make sure it contains valid percent-encoded characters."
-      );
+      setError(ui.invalidInput);
       setOutput("");
     }
   }, [input]);
@@ -80,7 +78,7 @@ export default function UrlEncoderDecoder() {
           id="url-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter text or URL to encode/decode…"
+          placeholder={ui.enterTextHere}
           rows={5}
           className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 font-mono text-sm shadow-sm focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-200"
           spellCheck={false}
