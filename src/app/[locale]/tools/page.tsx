@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo/metadata";
 import { allTools } from "@/lib/data/tools-all";
 import { categories } from "@/lib/data/categories";
+import { getDict, Locale } from "@/lib/i18n";
 import ToolCard from "@/components/shared/ToolCard";
 import Link from "next/link";
 
@@ -24,11 +25,12 @@ export default async function AllToolsPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const dict = await getDict(locale as Locale);
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-10">
         <h1 className="mb-2 text-2xl font-extrabold tracking-tight text-surface-900 sm:text-3xl">
-          All Free Online Tools
+          {dict.navAllTools}
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-surface-500">
           Browse our complete collection of {allTools.length} free online tools.
@@ -46,15 +48,15 @@ export default async function AllToolsPage({
                 {cat.name}
               </h2>
               <Link
-                href={`/categories/${cat.slug}/`}
+                href={`/${locale}/categories/${cat.slug}/`}
                 className="text-sm font-medium text-primary-600 hover:text-primary-800"
               >
-                View category →
+                {dict.viewCategory} →
               </Link>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {tools.map((tool) => (
-                <ToolCard key={tool.slug} tool={tool} />
+                <ToolCard key={tool.slug} tool={tool} locale={locale} useTool={dict.useTool} />
               ))}
             </div>
           </section>

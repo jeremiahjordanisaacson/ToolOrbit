@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { categories, getCategoryBySlug } from "@/lib/data/categories";
 import { getToolsByCategory } from "@/lib/data/tools";
 import { generateGuideMetadata } from "@/lib/seo/metadata";
+import { getDict, Locale } from "@/lib/i18n";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ToolCard from "@/components/shared/ToolCard";
 import AdSlot from "@/components/layout/AdSlot";
@@ -27,19 +28,20 @@ export default async function GuidePage({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const category = getCategoryBySlug(slug);
   if (!category) notFound();
 
+  const dict = await getDict(locale as Locale);
   const tools = getToolsByCategory(slug);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <Breadcrumb
         items={[
-          { label: "Home", href: "/" },
-          { label: category.name, href: `/categories/${category.slug}/` },
-          { label: "Guide" },
+          { label: dict.home, href: `/${locale}/` },
+          { label: category.name, href: `/${locale}/categories/${category.slug}/` },
+          { label: dict.guide },
         ]}
       />
 
@@ -63,7 +65,7 @@ export default async function GuidePage({
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {tools.map((tool) => (
-              <ToolCard key={tool.slug} tool={tool} />
+              <ToolCard key={tool.slug} tool={tool} locale={locale} useTool={dict.useTool} />
             ))}
           </div>
         </section>

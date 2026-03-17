@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo/metadata";
+import { getDict, Locale } from "@/lib/i18n";
 import SearchPageClient from "./SearchPageClient";
 
 export async function generateMetadata({
@@ -21,16 +22,17 @@ export default async function SearchPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const dict = await getDict(locale as Locale);
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="mb-2 text-2xl font-extrabold tracking-tight text-surface-900 sm:text-3xl">
-        Search Tools
+        {dict.searchTitle}
       </h1>
       <p className="mb-8 text-base leading-relaxed text-surface-500">
         Find the perfect tool for your task. Search across all tools and
         categories.
       </p>
-      <SearchPageClient />
+      <SearchPageClient locale={locale} labels={{ placeholder: dict.searchPlaceholder, browseAll: dict.browseTools }} />
     </div>
   );
 }

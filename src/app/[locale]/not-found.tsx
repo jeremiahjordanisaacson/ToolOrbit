@@ -27,7 +27,7 @@ export default function NotFound() {
           Go Home
         </Link>
         <Link
-          href="/tools/"
+          href="/en/tools/"
           className="rounded-xl border border-surface-200 bg-white px-6 py-2.5 text-sm font-semibold text-surface-700 shadow-sm transition-colors hover:bg-surface-50"
         >
           Browse Tools

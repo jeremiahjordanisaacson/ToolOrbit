@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { allTools, getToolBySlug } from "@/lib/data/tools-all";
 import { generateToolMetadata } from "@/lib/seo/metadata";
+import { getDict, translateTool, Locale } from "@/lib/i18n";
 import ToolPageLayout from "@/components/shared/ToolPageLayout";
 import ToolRenderer from "@/components/shared/ToolRenderer";
 
@@ -25,12 +26,15 @@ export default async function ToolPage({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
   if (!tool) notFound();
 
+  const dict = await getDict(locale as Locale);
+  const translation = translateTool(tool, locale as Locale);
+
   return (
-    <ToolPageLayout tool={tool}>
+    <ToolPageLayout tool={tool} locale={locale} dict={dict} translation={translation}>
       <ToolRenderer slug={tool.slug} />
     </ToolPageLayout>
   );

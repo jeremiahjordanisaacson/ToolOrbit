@@ -93,7 +93,7 @@ export default async function DisclaimerPage({
         <p>
           If you have concerns about the accuracy of any tool, please contact
           us via our{" "}
-          <a href="/contact/" className="text-primary-600 hover:underline">contact page</a>.
+          <a href={`/${locale}/contact/`} className="text-primary-600 hover:underline">contact page</a>.
         </p>
       </div>
     </div>

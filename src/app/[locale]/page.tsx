@@ -4,6 +4,7 @@ import { categories } from "@/lib/data/categories";
 import { allTools, getToolsByCategory } from "@/lib/data/tools-all";
 import { siteConfig } from "@/lib/data/site";
 import { locales } from "@/lib/i18n/config";
+import { getDict, Locale } from "@/lib/i18n";
 import CategoryCard from "@/components/shared/CategoryCard";
 import ToolCard from "@/components/shared/ToolCard";
 import SearchBar from "@/components/shared/SearchBar";
@@ -52,6 +53,7 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const dict = await getDict(locale as Locale);
   const popularTools = popularToolSlugs
     .map((slug) => allTools.find((t) => t.slug === slug))
     .filter(Boolean);
@@ -62,16 +64,15 @@ export default async function HomePage({
       <section className="relative overflow-hidden border-b border-surface-200 bg-white">
         <div className="mx-auto max-w-4xl px-6 pb-16 pt-16 text-center sm:pt-20">
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-surface-900 sm:text-5xl lg:text-6xl">
-            {allTools.length}+ Free Tools.
+            {dict.heroTitle1}
             <br />
-            <span className="text-primary-600">Zero Signups.</span>
+            <span className="text-primary-600">{dict.heroTitle2}</span>
           </h1>
           <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-surface-500">
-            Text editors, developer utilities, calculators, converters, and more.
-            Everything runs in your browser — fast, private, free.
+            {dict.heroSubtitle}
           </p>
           <div className="mx-auto max-w-xl">
-            <SearchBar />
+            <SearchBar locale={locale} placeholder={dict.searchPlaceholder} />
           </div>
         </div>
         {/* Subtle grid pattern decoration */}
@@ -83,18 +84,18 @@ export default async function HomePage({
         <section className="mb-20">
           <div className="mb-6 flex items-baseline justify-between">
             <h2 className="text-xl font-bold tracking-tight text-surface-900">
-              Popular Tools
+              {dict.popularTools}
             </h2>
             <Link
-              href="/tools/"
+              href={`/${locale}/tools/`}
               className="text-sm font-medium text-primary-600 hover:text-primary-800"
             >
-              View all →
+              {dict.viewAll} →
             </Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {popularTools.map(
-              (tool) => tool && <ToolCard key={tool.slug} tool={tool} />
+              (tool) => tool && <ToolCard key={tool.slug} tool={tool} locale={locale} useTool={dict.useTool} />
             )}
           </div>
         </section>
@@ -102,17 +103,17 @@ export default async function HomePage({
         {/* Categories */}
         <section className="mb-20">
           <h2 className="mb-6 text-xl font-bold tracking-tight text-surface-900">
-            Browse by Category
+            {dict.browseByCategory}
           </h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {categories.slice(0, 8).map((cat) => (
-              <CategoryCard key={cat.slug} category={cat} />
+              <CategoryCard key={cat.slug} category={cat} locale={locale} toolsLabel={dict.tools} />
             ))}
           </div>
           {categories.length > 8 && (
             <div className="mt-6 text-center">
-              <Link href="/tools/" className="text-sm font-medium text-primary-600 hover:text-primary-800">
-                View all {categories.length} categories →
+              <Link href={`/${locale}/tools/`} className="text-sm font-medium text-primary-600 hover:text-primary-800">
+                {dict.viewAll} {categories.length} {dict.navCategories.toLowerCase()} →
               </Link>
             </div>
           )}
@@ -129,15 +130,15 @@ export default async function HomePage({
                   {cat.name}
                 </h2>
                 <Link
-                  href={`/categories/${cat.slug}/`}
+                  href={`/${locale}/categories/${cat.slug}/`}
                   className="text-sm font-medium text-primary-600 hover:text-primary-800"
                 >
-                  View all →
+                  {dict.viewAll} →
                 </Link>
               </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {tools.slice(0, 6).map((tool) => (
-                  <ToolCard key={tool.slug} tool={tool} />
+                  <ToolCard key={tool.slug} tool={tool} locale={locale} useTool={dict.useTool} />
                 ))}
               </div>
             </section>
@@ -147,7 +148,7 @@ export default async function HomePage({
         {/* SEO content block */}
         <section className="mx-auto max-w-3xl rounded-2xl border border-surface-200 bg-white p-8 sm:p-10">
           <h2 className="mb-4 text-xl font-bold text-surface-900">
-            What is ToolOrbit?
+            {dict.whatIs}
           </h2>
           <div className="space-y-4 text-sm leading-relaxed text-surface-500">
             <p>
@@ -164,7 +165,7 @@ export default async function HomePage({
               {categories.slice(0, 4).map((cat, i) => (
                 <span key={cat.slug}>
                   {i > 0 && ", "}
-                  <Link href={`/categories/${cat.slug}/`} className="text-primary-600 hover:underline">
+                  <Link href={`/${locale}/categories/${cat.slug}/`} className="text-primary-600 hover:underline">
                     {cat.name}
                   </Link>
                 </span>

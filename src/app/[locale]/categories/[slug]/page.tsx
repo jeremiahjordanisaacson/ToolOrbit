@@ -7,6 +7,7 @@ import {
   generateBreadcrumbSchema,
   generateCategoryBreadcrumbs,
 } from "@/lib/seo/schema";
+import { getDict, Locale } from "@/lib/i18n";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ToolCard from "@/components/shared/ToolCard";
 import AdSlot from "@/components/layout/AdSlot";
@@ -32,10 +33,11 @@ export default async function CategoryPage({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const category = getCategoryBySlug(slug);
   if (!category) notFound();
 
+  const dict = await getDict(locale as Locale);
   const tools = getToolsByCategory(slug);
   const breadcrumbs = generateCategoryBreadcrumbs(category);
 
@@ -51,7 +53,7 @@ export default async function CategoryPage({
       <div className="mx-auto max-w-6xl px-4 py-8">
         <Breadcrumb
           items={[
-            { label: "Home", href: "/" },
+            { label: dict.home, href: `/${locale}/` },
             { label: category.name },
           ]}
         />
@@ -65,7 +67,7 @@ export default async function CategoryPage({
 
         <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} />
+            <ToolCard key={tool.slug} tool={tool} locale={locale} useTool={dict.useTool} />
           ))}
         </div>
 
@@ -74,16 +76,16 @@ export default async function CategoryPage({
         {/* Category guide link */}
         <div className="rounded-xl bg-white p-6 shadow-sm">
           <h2 className="mb-2 text-lg font-semibold text-gray-900">
-            Learn More
+            {dict.learnMore}
           </h2>
           <p className="mb-3 text-gray-600">
             Read our comprehensive guide to get the most out of these tools.
           </p>
           <Link
-            href={`/guides/${category.slug}/`}
+            href={`/${locale}/guides/${category.slug}/`}
             className="inline-block rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700"
           >
-            Read the {category.name} Guide →
+            {dict.readGuide} →
           </Link>
         </div>
       </div>

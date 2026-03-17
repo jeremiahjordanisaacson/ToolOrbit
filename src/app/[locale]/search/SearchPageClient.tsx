@@ -4,9 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { searchTools, SearchResult } from "@/lib/search";
 
-export default function SearchPageClient() {
+export default function SearchPageClient({ locale, labels }: { locale?: string; labels?: { placeholder?: string; results?: string; noResults?: string; browseAll?: string } }) {
   const [query, setQuery] = useState("");
   const results = query.length > 0 ? searchTools(query) : [];
+  const prefix = locale ? `/${locale}` : "";
 
   return (
     <>
@@ -16,7 +17,7 @@ export default function SearchPageClient() {
       <input
         id="search-page-input"
         type="search"
-        placeholder="Type to search tools..."
+        placeholder={labels?.placeholder || "Type to search tools..."}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         className="mb-8 w-full rounded-xl border border-surface-200 bg-white px-4 py-3 text-base text-surface-900 shadow-sm transition-all placeholder:text-surface-400 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100"
@@ -35,7 +36,7 @@ export default function SearchPageClient() {
         {results.map((result) => (
           <Link
             key={result.slug}
-            href={result.url}
+            href={`${prefix}${result.url}`}
             className="block rounded-xl border border-surface-200 bg-white p-4 transition-all hover:border-primary-300 hover:shadow-md"
           >
             <div className="flex items-center gap-3">
@@ -59,10 +60,10 @@ export default function SearchPageClient() {
           <p className="mt-2 text-sm text-surface-500">
             Try different keywords or{" "}
             <Link
-              href="/tools/"
+              href={`${prefix}/tools/`}
               className="text-primary-600 hover:underline"
             >
-              browse all tools
+              {labels?.browseAll || "browse all tools"}
             </Link>
           </p>
         </div>

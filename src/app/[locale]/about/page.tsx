@@ -66,28 +66,28 @@ export default async function AboutPage({
         <p>
           Our growing collection includes tools for{" "}
           <Link
-            href="/categories/text-tools/"
+            href={`/${locale}/categories/text-tools/`}
             className="text-primary-600 hover:underline"
           >
             text editing
           </Link>
           ,{" "}
           <Link
-            href="/categories/developer-tools/"
+            href={`/${locale}/categories/developer-tools/`}
             className="text-primary-600 hover:underline"
           >
             software development
           </Link>
           ,{" "}
           <Link
-            href="/categories/math-and-conversion-tools/"
+            href={`/${locale}/categories/math-and-conversion-tools/`}
             className="text-primary-600 hover:underline"
           >
             math and unit conversion
           </Link>
           , and{" "}
           <Link
-            href="/categories/random-and-utility-tools/"
+            href={`/${locale}/categories/random-and-utility-tools/`}
             className="text-primary-600 hover:underline"
           >
             random generators
@@ -109,7 +109,7 @@ export default async function AboutPage({
         <p>
           Have feedback, a tool request, or a bug report? Visit our{" "}
           <Link
-            href="/contact/"
+            href={`/${locale}/contact/`}
             className="text-primary-600 hover:underline"
           >
             contact page
