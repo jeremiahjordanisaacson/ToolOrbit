@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 interface CleanOptions {
   trimLines: boolean;
@@ -10,6 +11,7 @@ interface CleanOptions {
 }
 
 export default function WhitespaceCleaner() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [options, setOptions] = useState<CleanOptions>({
     trimLines: true,
@@ -119,9 +121,9 @@ export default function WhitespaceCleaner() {
             onClick={() => copyToClipboard(output)}
             disabled={!output}
             className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
-            aria-label="Copy cleaned text to clipboard"
+            aria-label={ui.copy}
           >
-            {copied ? "Copied!" : "Copy to clipboard"}
+            {copied ? ui.copied : ui.copy}
           </button>
         </div>
         <textarea

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 type Mode = "all" | "single";
 
 export default function RemoveLineBreaks() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<Mode>("all");
   const [copied, setCopied] = useState(false);
@@ -96,9 +98,9 @@ export default function RemoveLineBreaks() {
             onClick={() => copyToClipboard(output)}
             disabled={!output}
             className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
-            aria-label="Copy output to clipboard"
+            aria-label={ui.copy}
           >
-            {copied ? "Copied!" : "Copy to clipboard"}
+            {copied ? ui.copied : ui.copy}
           </button>
         </div>
         <textarea

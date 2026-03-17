@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 type CaseType =
   | "upper"
@@ -116,6 +117,7 @@ const caseOptions: { type: CaseType; label: string }[] = [
 ];
 
 export default function CaseConverter() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [activeCase, setActiveCase] = useState<CaseType | null>(null);
@@ -190,9 +192,9 @@ export default function CaseConverter() {
             onClick={() => copyToClipboard(output)}
             disabled={!output}
             className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
-            aria-label="Copy output to clipboard"
+            aria-label={ui.copy}
           >
-            {copied ? "Copied!" : "Copy to clipboard"}
+            {copied ? ui.copied : ui.copy}
           </button>
         </div>
         <textarea

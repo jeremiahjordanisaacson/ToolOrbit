@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function CopyButton({ text, label }: { text: string; label?: string }) {
+  const ui = useToolUI();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -19,15 +21,16 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      aria-label={label ?? "Copy to clipboard"}
+      aria-label={label ?? ui.copy}
       className="rounded-lg border border-gray-300 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 transition-colors hover:border-primary-300 hover:text-primary-700"
     >
-      {copied ? "✓" : "Copy"}
+      {copied ? "✓" : ui.copy}
     </button>
   );
 }
 
 export default function UuidGenerator() {
+  const ui = useToolUI();
   const [uuids, setUuids] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(1);
   const [uppercase, setUppercase] = useState(false);
@@ -51,7 +54,7 @@ export default function UuidGenerator() {
             htmlFor="uuid-qty"
             className="mb-2 block text-sm font-semibold text-gray-700"
           >
-            Quantity
+            {ui.quantity}
           </label>
           <input
             id="uuid-qty"
@@ -82,7 +85,7 @@ export default function UuidGenerator() {
             }}
             className="h-4 w-4 rounded border-gray-300 text-primary-700 focus:ring-primary-200"
           />
-          <span className="text-sm font-medium text-gray-700">Uppercase</span>
+          <span className="text-sm font-medium text-gray-700">{ui.uppercase}</span>
         </label>
 
         <button
@@ -90,7 +93,7 @@ export default function UuidGenerator() {
           onClick={generate}
           className="rounded-xl bg-primary-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-600"
         >
-          Generate
+          {ui.generate}
         </button>
       </div>
 

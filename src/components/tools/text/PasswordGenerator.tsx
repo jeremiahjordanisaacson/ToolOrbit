@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 interface GeneratorOptions {
   length: number;
@@ -22,7 +23,7 @@ const CHARS = {
   symbols: "!@#$%^&*()_+-=[]{}|;:,.<>?",
 };
 
-function getStrength(password: string): {
+function getStrength(password: string, ui: { weak: string; fair: string; strong: string; veryStrong: string }): {
   label: string;
   color: string;
   width: string;
@@ -36,15 +37,16 @@ function getStrength(password: string): {
   if (/[^a-zA-Z0-9]/.test(password)) score++;
 
   if (score <= 2)
-    return { label: "Weak", color: "bg-red-500", width: "w-1/4" };
+    return { label: ui.weak, color: "bg-red-500", width: "w-1/4" };
   if (score <= 3)
-    return { label: "Fair", color: "bg-yellow-500", width: "w-2/4" };
+    return { label: ui.fair, color: "bg-yellow-500", width: "w-2/4" };
   if (score <= 4)
-    return { label: "Strong", color: "bg-blue-500", width: "w-3/4" };
-  return { label: "Very Strong", color: "bg-green-500", width: "w-full" };
+    return { label: ui.strong, color: "bg-blue-500", width: "w-3/4" };
+  return { label: ui.veryStrong, color: "bg-green-500", width: "w-full" };
 }
 
 export default function PasswordGenerator() {
+  const ui = useToolUI();
   const [options, setOptions] = useState<GeneratorOptions>({
     length: 16,
     uppercase: true,
@@ -123,7 +125,7 @@ export default function PasswordGenerator() {
               htmlFor="pw-length"
               className="text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              Length
+              {ui.length}
             </label>
             <span className="rounded bg-gray-100 px-2 py-0.5 text-sm font-mono font-semibold text-gray-900 dark:bg-gray-700 dark:text-white">
               {options.length}
@@ -153,10 +155,10 @@ export default function PasswordGenerator() {
         {/* Character set toggles */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {[
-            { key: "uppercase" as const, label: "Uppercase (A-Z)" },
-            { key: "lowercase" as const, label: "Lowercase (a-z)" },
-            { key: "numbers" as const, label: "Numbers (0-9)" },
-            { key: "symbols" as const, label: "Symbols (!@#$...)" },
+            { key: "uppercase" as const, label: `${ui.uppercase} (A-Z)` },
+            { key: "lowercase" as const, label: `${ui.lowercase} (a-z)` },
+            { key: "numbers" as const, label: `${ui.numbers} (0-9)` },
+            { key: "symbols" as const, label: `${ui.symbols} (!@#$...)` },
             {
               key: "excludeAmbiguous" as const,
               label: "Exclude ambiguous (0OlI1)",
@@ -183,7 +185,7 @@ export default function PasswordGenerator() {
             htmlFor="pw-quantity"
             className="text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Quantity
+            {ui.quantity}
           </label>
           <select
             id="pw-quantity"
@@ -211,7 +213,7 @@ export default function PasswordGenerator() {
           className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-40"
           aria-label="Generate passwords"
         >
-          Generate Password{options.quantity > 1 ? "s" : ""}
+          {ui.generate}
         </button>
       </div>
 
@@ -226,15 +228,15 @@ export default function PasswordGenerator() {
               <button
                 onClick={copyAllToClipboard}
                 className="rounded-md bg-gray-200 px-3 py-1 text-sm text-gray-700 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-                aria-label="Copy all passwords to clipboard"
+                aria-label={ui.copy}
               >
-                {copiedAll ? "Copied all!" : "Copy all"}
+                {copiedAll ? ui.copied : ui.copy}
               </button>
             )}
           </div>
 
           {passwords.map((pw, i) => {
-            const strength = getStrength(pw);
+            const strength = getStrength(pw, ui);
             return (
               <div
                 key={i}
@@ -247,23 +249,23 @@ export default function PasswordGenerator() {
                   <button
                     onClick={() => copyToClipboard(pw, i)}
                     className="shrink-0 rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition hover:bg-blue-700"
-                    aria-label={`Copy password ${i + 1} to clipboard`}
+                    aria-label={ui.copy}
                   >
-                    {copiedIndex === i ? "Copied!" : "Copy"}
+                    {copiedIndex === i ? ui.copied : ui.copy}
                   </button>
                 </div>
                 <div className="mt-3 space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-gray-500 dark:text-gray-400">
-                      Strength
+                      {ui.strength}
                     </span>
                     <span
                       className={`font-medium ${
-                        strength.label === "Weak"
+                        strength.label === ui.weak
                           ? "text-red-600"
-                          : strength.label === "Fair"
+                          : strength.label === ui.fair
                             ? "text-yellow-600"
-                            : strength.label === "Strong"
+                            : strength.label === ui.strong
                               ? "text-blue-600"
                               : "text-green-600"
                       }`}

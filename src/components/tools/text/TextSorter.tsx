@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 type SortMode = "az" | "za" | "num-asc" | "num-desc" | "random";
 
 export default function TextSorter() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("az");
   const [caseSensitive, setCaseSensitive] = useState(false);
@@ -133,9 +135,9 @@ export default function TextSorter() {
             onClick={() => copyToClipboard(output)}
             disabled={!output}
             className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
-            aria-label="Copy sorted output to clipboard"
+            aria-label={ui.copy}
           >
-            {copied ? "Copied!" : "Copy to clipboard"}
+            {copied ? ui.copied : ui.copy}
           </button>
         </div>
         <textarea

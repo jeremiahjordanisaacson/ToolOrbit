@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function secureRandomIndex(max: number): number {
   const array = new Uint32Array(1);
@@ -14,6 +15,7 @@ interface PickRecord {
 }
 
 export default function RandomNamePicker() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [pickCount, setPickCount] = useState(1);
   const [picked, setPicked] = useState<string[]>([]);
@@ -203,13 +205,13 @@ export default function RandomNamePicker() {
           disabled={animating || names.length === 0}
           className="px-6 py-2.5 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
-          {animating ? "Picking…" : "🎯 Pick"}
+          {animating ? "…" : `🎯 ${ui.pick}`}
         </button>
         <button
           onClick={clearAll}
           className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
-          Clear All
+          {ui.clear}
         </button>
       </div>
 
@@ -242,7 +244,7 @@ export default function RandomNamePicker() {
             onClick={copyPicked}
             className="text-sm text-primary-600 hover:text-primary-700 transition-colors focus:outline-none focus:underline"
           >
-            {copied ? "✓ Copied!" : "Copy to clipboard"}
+            {copied ? `✓ ${ui.copied}` : ui.copy}
           </button>
         </div>
       )}
@@ -250,7 +252,7 @@ export default function RandomNamePicker() {
       {/* History */}
       {history.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-gray-700">Pick History</h3>
+          <h3 className="text-sm font-semibold text-gray-700">{ui.history}</h3>
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {history.map((record, i) => (
               <div

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function CopyButton({ text }: { text: string }) {
+  const ui = useToolUI();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -19,15 +21,16 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      aria-label="Copy to clipboard"
+      aria-label={ui.copy}
       className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:border-primary-300 hover:text-primary-700"
     >
-      {copied ? "✓ Copied" : "Copy"}
+      {copied ? `✓ ${ui.copied}` : ui.copy}
     </button>
   );
 }
 
 export default function UrlEncoderDecoder() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
@@ -104,7 +107,7 @@ export default function UrlEncoderDecoder() {
           onClick={handleDecode}
           className="rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition-colors hover:border-primary-300 hover:text-primary-700"
         >
-          Decode
+          {ui.decode}
         </button>
       </div>
 

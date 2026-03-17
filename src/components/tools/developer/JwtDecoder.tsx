@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function base64UrlDecode(str: string): string {
   let base64 = str.replace(/-/g, "+").replace(/_/g, "/");
@@ -38,6 +39,7 @@ interface DecodedJwt {
 }
 
 function CopyButton({ text }: { text: string }) {
+  const ui = useToolUI();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -54,15 +56,16 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      aria-label="Copy to clipboard"
+      aria-label={ui.copy}
       className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:border-primary-300 hover:text-primary-700"
     >
-      {copied ? "✓ Copied" : "Copy"}
+      {copied ? `✓ ${ui.copied}` : ui.copy}
     </button>
   );
 }
 
 export default function JwtDecoder() {
+  const ui = useToolUI();
   const [input, setInput] = useState("");
   const [decoded, setDecoded] = useState<DecodedJwt | null>(null);
   const [error, setError] = useState("");
@@ -160,7 +163,7 @@ export default function JwtDecoder() {
           onClick={handleDecode}
           className="rounded-xl bg-primary-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-600"
         >
-          Decode
+          {ui.decode}
         </button>
       </div>
 
