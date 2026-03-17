@@ -104,7 +104,7 @@ export default async function SearchPage({
       <p className="mb-8 text-base leading-relaxed text-surface-500">
         {t.subtitle}
       </p>
-      <SearchPageClient locale={locale} labels={{ placeholder: dict.searchPlaceholder, browseAll: dict.browseTools }} />
+      <SearchPageClient locale={locale} labels={{ placeholder: dict.searchPlaceholder, browseAll: dict.browseTools, tool: dict.tool, category: dict.category, results: dict.searchResults, noResults: dict.searchNoResults, tryKeywords: dict.searchTryKeywords }} />
     </div>
   );
 }

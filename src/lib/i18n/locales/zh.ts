@@ -86,6 +86,7 @@ const zh: UIDictionary = {
   goHome: "返回首页",
   browseTools: "浏览工具",
   skipToContent: "跳转到主要内容",
+  searchTryKeywords: "尝试其他关键词或",
 };
 
 export default zh;

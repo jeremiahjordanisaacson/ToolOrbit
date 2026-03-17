@@ -86,6 +86,7 @@ const ko: UIDictionary = {
   goHome: "홈으로 이동",
   browseTools: "도구 탐색",
   skipToContent: "본문으로 건너뛰기",
+  searchTryKeywords: "다른 키워드를 시도하거나",
 };
 
 export default ko;

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { searchTools, SearchResult } from "@/lib/search";
 
-export default function SearchBar({ locale, placeholder }: { locale?: string; placeholder?: string }) {
+export default function SearchBar({ locale, placeholder, labels }: { locale?: string; placeholder?: string; labels?: { tool?: string; category?: string; noResults?: string } }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -77,7 +77,7 @@ export default function SearchBar({ locale, placeholder }: { locale?: string; pl
                 }}
               >
                 <span className="text-xs font-semibold uppercase tracking-wider text-surface-500">
-                  {result.type}
+                  {result.type === "category" ? (labels?.category || "category") : (labels?.tool || "tool")}
                 </span>
                 <span className="text-sm font-medium text-surface-800">{result.name}</span>
               </Link>
@@ -87,7 +87,7 @@ export default function SearchBar({ locale, placeholder }: { locale?: string; pl
       )}
       {isOpen && query.length > 0 && results.length === 0 && (
         <div className="absolute left-0 right-0 top-full z-50 mt-1.5 rounded-xl border border-surface-200 bg-white px-4 py-6 text-center text-sm text-surface-500 shadow-lg">
-          No tools found for &quot;{query}&quot;
+          {labels?.noResults || "No tools found for"} &quot;{query}&quot;
         </div>
       )}
     </div>

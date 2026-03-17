@@ -95,4 +95,5 @@ export interface UIDictionary {
   goHome: string;
   browseTools: string;
   skipToContent: string;
+  searchTryKeywords: string;
 }

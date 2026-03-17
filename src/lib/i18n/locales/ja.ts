@@ -86,6 +86,7 @@ const ja: UIDictionary = {
   goHome: "ホームに戻る",
   browseTools: "ツールを探す",
   skipToContent: "メインコンテンツへスキップ",
+  searchTryKeywords: "別のキーワードを試すか、",
 };
 
 export default ja;

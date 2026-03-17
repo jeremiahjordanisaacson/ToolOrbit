@@ -86,6 +86,7 @@ const pt: UIDictionary = {
   goHome: "Ir para o início",
   browseTools: "Explorar ferramentas",
   skipToContent: "Pular para o conteúdo principal",
+  searchTryKeywords: "Tente palavras-chave diferentes ou",
 };
 
 export default pt;

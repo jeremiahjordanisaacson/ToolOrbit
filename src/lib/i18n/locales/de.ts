@@ -86,6 +86,7 @@ const de: UIDictionary = {
   goHome: "Zur Startseite",
   browseTools: "Tools durchsuchen",
   skipToContent: "Zum Hauptinhalt springen",
+  searchTryKeywords: "Versuchen Sie andere Suchbegriffe oder",
 };
 
 export default de;

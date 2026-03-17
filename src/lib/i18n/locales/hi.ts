@@ -86,6 +86,7 @@ const hi: UIDictionary = {
   goHome: "होम पर जाएँ",
   browseTools: "टूल ब्राउज़ करें",
   skipToContent: "मुख्य सामग्री पर जाएँ",
+  searchTryKeywords: "अलग कीवर्ड आज़माएँ या",
 };
 
 export default hi;

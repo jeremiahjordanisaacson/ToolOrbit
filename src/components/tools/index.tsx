@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import { ComponentType } from "react";
 
 const loading = () => (
-  <div className="flex items-center justify-center py-12 text-gray-500">
-    <p>Loading tool...</p>
+  <div className="flex items-center justify-center py-12">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-surface-200 border-t-primary-500" />
   </div>
 );
 

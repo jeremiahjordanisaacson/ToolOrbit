@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { searchTools, SearchResult } from "@/lib/search";
 
-export default function SearchPageClient({ locale, labels }: { locale?: string; labels?: { placeholder?: string; results?: string; noResults?: string; browseAll?: string } }) {
+export default function SearchPageClient({ locale, labels }: { locale?: string; labels?: { placeholder?: string; results?: string; noResults?: string; browseAll?: string; tool?: string; category?: string; tryKeywords?: string } }) {
   const [query, setQuery] = useState("");
   const results = query.length > 0 ? searchTools(query) : [];
   const prefix = locale ? `/${locale}` : "";
@@ -27,7 +27,7 @@ export default function SearchPageClient({ locale, labels }: { locale?: string; 
 
       {query.length > 0 && (
         <p className="mb-4 text-sm text-surface-500">
-          {results.length} result{results.length !== 1 ? "s" : ""} for &quot;
+          {results.length} {labels?.results || "results for"} &quot;
           {query}&quot;
         </p>
       )}
@@ -41,7 +41,7 @@ export default function SearchPageClient({ locale, labels }: { locale?: string; 
           >
             <div className="flex items-center gap-3">
               <span className="rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700">
-                {result.type}
+                {result.type === "category" ? (labels?.category || "category") : (labels?.tool || "tool")}
               </span>
               <h2 className="font-semibold tracking-tight text-surface-900">{result.name}</h2>
             </div>
@@ -55,10 +55,10 @@ export default function SearchPageClient({ locale, labels }: { locale?: string; 
       {query.length > 0 && results.length === 0 && (
         <div className="py-16 text-center">
           <p className="text-lg font-medium text-surface-500">
-            No tools found for &quot;{query}&quot;
+            {labels?.noResults || "No tools found for"} &quot;{query}&quot;
           </p>
           <p className="mt-2 text-sm text-surface-500">
-            Try different keywords or{" "}
+            {labels?.tryKeywords || "Try different keywords or"}{" "}
             <Link
               href={`${prefix}/tools/`}
               className="text-primary-600 hover:underline"

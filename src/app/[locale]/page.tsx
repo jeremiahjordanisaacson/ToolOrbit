@@ -73,7 +73,7 @@ export default async function HomePage({
             {dict.heroSubtitle}
           </p>
           <div className="mx-auto max-w-xl">
-            <SearchBar locale={locale} placeholder={dict.searchPlaceholder} />
+            <SearchBar locale={locale} placeholder={dict.searchPlaceholder} labels={{ tool: dict.tool, category: dict.category, noResults: dict.searchNoResults }} />
           </div>
         </div>
         {/* Subtle grid pattern decoration */}
