@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-
-/* ─── Morse Code Maps ─── */
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 const MORSE_MAP: Record<string, string> = {
   A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.", G: "--.",
   H: "....", I: "..", J: ".---", K: "-.-", L: ".-..", M: "--", N: "-.",
@@ -441,6 +440,7 @@ export default function TextTransformTemplate({
 
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState(false);
+  const ui = useToolUI();
 
   const transformFn = transforms[transformId];
   const output = transformFn ? (input || transformId === "lorem-ipsum" ? transformFn(input) : "") : null;
@@ -501,7 +501,7 @@ export default function TextTransformTemplate({
                 aria-label="Copy output"
                 className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
               >
-                {copied ? "✓ Copied" : "Copy"}
+                {copied ? `✓ ${ui.copied}` : ui.copy}
               </button>
             </div>
             <textarea

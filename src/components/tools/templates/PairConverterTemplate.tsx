@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 const COMMON_VALUES = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 5000];
 
@@ -28,6 +29,7 @@ export default function PairConverterTemplate({
   const [value, setValue] = useState("");
   const [reversed, setReversed] = useState(false);
   const [copied, setCopied] = useState(false);
+  const ui = useToolUI();
 
   const currentFrom = reversed ? toUnit : fromUnit;
   const currentTo = reversed ? fromUnit : toUnit;
@@ -131,7 +133,7 @@ export default function PairConverterTemplate({
                   aria-label="Copy result"
                   className="rounded-md bg-blue-600 px-3 py-2 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
                 >
-                  {copied ? "✓" : "Copy"}
+                  {copied ? "✓" : ui.copy}
                 </button>
               </div>
             </div>
@@ -143,7 +145,7 @@ export default function PairConverterTemplate({
       <div className="rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900">
         <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-            Common Conversions
+            {ui.commonConversions}
           </h3>
         </div>
         <div className="overflow-x-auto">

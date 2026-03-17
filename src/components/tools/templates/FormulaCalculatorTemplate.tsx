@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-
-/* ─── Formulas Registry ─── */
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 const formulas: Record<string, (values: Record<string, number | string>) => number | string> = {
   // Geometry
   "circle-area": (v) => Math.PI * +v.radius * +v.radius,
@@ -329,6 +328,8 @@ export default function FormulaCalculatorTemplate({
     resultSuffix?: string;
   };
 
+  const ui = useToolUI();
+
   const getInitialValues = useCallback(() => {
     const vals: Record<string, string> = {};
     for (const f of fields) {
@@ -439,7 +440,7 @@ export default function FormulaCalculatorTemplate({
                 <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
                   {result ?? (
                     <span className="text-base font-normal text-gray-400">
-                      Enter values to calculate
+                      {ui.enterValuesToCalculate}
                     </span>
                   )}
                   {result && resultSuffix && (
@@ -452,10 +453,10 @@ export default function FormulaCalculatorTemplate({
               <button
                 onClick={handleCopy}
                 disabled={!result}
-                aria-label="Copy result"
+                aria-label={ui.copy}
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
               >
-                {copied ? "✓" : "Copy"}
+                {copied ? "✓" : ui.copy}
               </button>
             </div>
           </div>

@@ -2,6 +2,9 @@
 
 import { getToolComponent } from "@/components/tools";
 import { getToolBySlug } from "@/lib/data/tools-all";
+import { ToolUIProvider } from "@/lib/i18n/ToolUIContext";
+import { getToolUILabels } from "@/lib/i18n/tool-ui-labels";
+import { Locale } from "@/lib/i18n/config";
 import dynamic from "next/dynamic";
 import { ComponentType } from "react";
 
@@ -16,16 +19,26 @@ const templateComponents: Record<string, ComponentType<{ config: Record<string, 
 
 interface ToolRendererProps {
   slug: string;
+  locale?: string;
 }
 
-export default function ToolRenderer({ slug }: ToolRendererProps) {
+export default function ToolRenderer({ slug, locale = "en" }: ToolRendererProps) {
   const tool = getToolBySlug(slug);
+  const labels = getToolUILabels((locale || "en") as Locale);
 
   if (tool?.template && templateComponents[tool.template]) {
     const TemplateComponent = templateComponents[tool.template];
-    return <TemplateComponent config={tool.templateConfig || {}} />;
+    return (
+      <ToolUIProvider labels={labels}>
+        <TemplateComponent config={tool.templateConfig || {}} />
+      </ToolUIProvider>
+    );
   }
 
   const CustomComponent = getToolComponent(slug);
-  return <CustomComponent />;
+  return (
+    <ToolUIProvider labels={labels}>
+      <CustomComponent />
+    </ToolUIProvider>
+  );
 }

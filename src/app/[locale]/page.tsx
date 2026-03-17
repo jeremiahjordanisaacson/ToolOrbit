@@ -5,6 +5,7 @@ import { allTools, getToolsByCategory } from "@/lib/data/tools-all";
 import { siteConfig } from "@/lib/data/site";
 import { locales } from "@/lib/i18n/config";
 import { getDict, Locale } from "@/lib/i18n";
+import { getCategoryTranslation } from "@/lib/i18n/category-translations";
 import CategoryCard from "@/components/shared/CategoryCard";
 import ToolCard from "@/components/shared/ToolCard";
 import SearchBar from "@/components/shared/SearchBar";
@@ -127,7 +128,7 @@ export default async function HomePage({
               <div className="mb-4 flex items-baseline justify-between">
                 <h2 className="flex items-center gap-2 text-lg font-bold text-surface-900">
                   <span>{cat.icon}</span>
-                  {cat.name}
+                  {getCategoryTranslation(cat.slug, locale as Locale).name}
                 </h2>
                 <Link
                   href={`/${locale}/categories/${cat.slug}/`}
@@ -166,7 +167,7 @@ export default async function HomePage({
                 <span key={cat.slug}>
                   {i > 0 && ", "}
                   <Link href={`/${locale}/categories/${cat.slug}/`} className="text-primary-600 hover:underline">
-                    {cat.name}
+                    {getCategoryTranslation(cat.slug, locale as Locale).name}
                   </Link>
                 </span>
               ))}

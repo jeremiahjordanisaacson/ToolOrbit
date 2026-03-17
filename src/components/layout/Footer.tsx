@@ -3,6 +3,7 @@ import { categories } from "@/lib/data/categories";
 import { siteConfig } from "@/lib/data/site";
 import { getDictSync } from "@/lib/i18n/get-dict-sync";
 import { Locale } from "@/lib/i18n/config";
+import { getCategoryTranslation } from "@/lib/i18n/category-translations";
 
 interface FooterProps {
   locale?: string;
@@ -43,7 +44,7 @@ export default function Footer({ locale = "en" }: FooterProps) {
                     href={`${prefix}/categories/${cat.slug}/`}
                     className="text-sm text-surface-500 hover:text-primary-600"
                   >
-                    {cat.name}
+                    {getCategoryTranslation(cat.slug, locale as Locale).name}
                   </Link>
                 </li>
               ))}

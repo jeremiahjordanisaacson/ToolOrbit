@@ -13,6 +13,9 @@ import HowToUse from "./HowToUse";
 import RelatedTools from "./RelatedTools";
 import type { UIDictionary } from "@/lib/i18n";
 import type { ToolTranslation } from "@/lib/i18n";
+import { Locale } from "@/lib/i18n/config";
+import { getCategoryTranslation } from "@/lib/i18n/category-translations";
+import { getToolName } from "@/lib/i18n/tool-name-translations";
 
 interface ToolPageLayoutProps {
   tool: Tool;
@@ -29,10 +32,13 @@ export default function ToolPageLayout({ tool, children, locale, dict, translati
     ? generateToolBreadcrumbs(tool, category)
     : [];
   const prefix = locale ? `/${locale}` : "";
+  const loc = (locale || "en") as Locale;
   const headline = translation?.headline || tool.headline;
   const intro = translation?.intro || tool.intro;
   const faqs = translation?.faqs || tool.faqs;
   const howToUse = translation?.howToUse || tool.howToUse;
+  const translatedCategoryName = category ? getCategoryTranslation(category.slug, loc).name : "";
+  const translatedToolName = getToolName(tool.slug, loc) || tool.name;
 
   return (
     <>
@@ -51,11 +57,11 @@ export default function ToolPageLayout({ tool, children, locale, dict, translati
           }}
         />
       )}
-      {tool.faqs.length > 0 && (
+      {faqs.length > 0 && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generateFAQSchema(tool.faqs)),
+            __html: JSON.stringify(generateFAQSchema(faqs)),
           }}
         />
       )}
@@ -66,8 +72,8 @@ export default function ToolPageLayout({ tool, children, locale, dict, translati
           <Breadcrumb
             items={[
               { label: dict?.home || "Home", href: `${prefix}/` },
-              { label: category.name, href: `${prefix}/categories/${category.slug}/` },
-              { label: tool.name },
+              { label: translatedCategoryName, href: `${prefix}/categories/${category.slug}/` },
+              { label: translatedToolName },
             ]}
           />
         )}
@@ -84,7 +90,7 @@ export default function ToolPageLayout({ tool, children, locale, dict, translati
 
         {/* The interactive tool */}
         <section
-          aria-label={`${tool.name} tool`}
+          aria-label={`${translatedToolName} tool`}
           className="mb-12 overflow-hidden rounded-2xl border border-surface-200 bg-white shadow-sm"
         >
           <div className="border-l-[3px] border-primary-500 p-6 sm:p-8">
@@ -123,7 +129,7 @@ export default function ToolPageLayout({ tool, children, locale, dict, translati
 
         {/* How to Use */}
         {howToUse.length > 0 && (
-          <HowToUse steps={howToUse} toolName={tool.name} title={dict?.howToUse} />
+          <HowToUse steps={howToUse} toolName={translatedToolName} title={dict?.howToUse} />
         )}
 
         <AdSlot slot="in-content" className="my-8 h-20" />

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { categories } from "@/lib/data/categories";
 import { getDictSync } from "@/lib/i18n/get-dict-sync";
 import { locales, localeNames, localeFlags, Locale } from "@/lib/i18n/config";
+import { getCategoryTranslation } from "@/lib/i18n/category-translations";
 
 interface HeaderProps {
   locale?: string;
@@ -37,7 +38,7 @@ export default function Header({ locale = "en" }: HeaderProps) {
               href={`${prefix}/categories/${cat.slug}/`}
               className="relative px-3 py-2 text-[13px] font-medium text-surface-600 hover:text-primary-600 after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:origin-left after:scale-x-0 after:bg-primary-500 after:transition-transform hover:after:scale-x-100"
             >
-              {cat.name}
+              {getCategoryTranslation(cat.slug, locale as Locale).name}
             </Link>
           ))}
           <Link
@@ -105,7 +106,7 @@ export default function Header({ locale = "en" }: HeaderProps) {
                 onClick={() => setMenuOpen(false)}
               >
                 <span className="text-base">{cat.icon}</span>
-                {cat.name}
+                {getCategoryTranslation(cat.slug, locale as Locale).name}
               </Link>
             ))}
             <div className="my-2 h-px bg-surface-200" />

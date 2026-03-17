@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Tool } from "@/lib/data/tools-all";
+import { getToolName } from "@/lib/i18n/tool-name-translations";
+import { Locale } from "@/lib/i18n/config";
 
 interface RelatedToolsProps {
   tools: Tool[];
@@ -23,7 +25,7 @@ export default function RelatedTools({ tools, locale = "en", title = "Related To
             className="group flex items-center gap-3 rounded-lg border border-surface-200 bg-white px-4 py-3 transition-all hover:border-primary-200 hover:bg-primary-50/30"
           >
             <span className="text-sm font-medium text-surface-800 group-hover:text-primary-600">
-              {tool.name}
+              {getToolName(tool.slug, locale as Locale) || tool.name}
             </span>
             <svg className="ml-auto h-4 w-4 text-surface-300 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />

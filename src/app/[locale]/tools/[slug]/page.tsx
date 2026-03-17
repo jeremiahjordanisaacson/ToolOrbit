@@ -35,7 +35,7 @@ export default async function ToolPage({
 
   return (
     <ToolPageLayout tool={tool} locale={locale} dict={dict} translation={translation}>
-      <ToolRenderer slug={tool.slug} />
+      <ToolRenderer slug={tool.slug} locale={locale} />
     </ToolPageLayout>
   );
 }

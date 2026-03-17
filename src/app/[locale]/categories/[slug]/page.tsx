@@ -8,6 +8,7 @@ import {
   generateCategoryBreadcrumbs,
 } from "@/lib/seo/schema";
 import { getDict, Locale } from "@/lib/i18n";
+import { getCategoryTranslation } from "@/lib/i18n/category-translations";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ToolCard from "@/components/shared/ToolCard";
 import AdSlot from "@/components/layout/AdSlot";
@@ -40,6 +41,7 @@ export default async function CategoryPage({
   const dict = await getDict(locale as Locale);
   const tools = getToolsByCategory(slug);
   const breadcrumbs = generateCategoryBreadcrumbs(category);
+  const catTranslation = getCategoryTranslation(slug, locale as Locale);
 
   return (
     <>
@@ -54,14 +56,14 @@ export default async function CategoryPage({
         <Breadcrumb
           items={[
             { label: dict.home, href: `/${locale}/` },
-            { label: category.name },
+            { label: catTranslation.name },
           ]}
         />
 
         <h1 className="mb-3 text-3xl font-bold text-gray-900 md:text-4xl">
-          {category.headline}
+          {catTranslation.headline}
         </h1>
-        <p className="mb-8 text-lg text-gray-600">{category.intro}</p>
+        <p className="mb-8 text-lg text-gray-600">{catTranslation.intro}</p>
 
         <AdSlot slot="top" className="mb-6 h-20" />
 
