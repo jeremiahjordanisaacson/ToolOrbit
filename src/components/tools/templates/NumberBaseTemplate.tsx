@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 const BASE_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz";
 
@@ -82,6 +83,7 @@ export default function NumberBaseTemplate({
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
+  const ui = useToolUI();
 
   const handleInputChange = (val: string) => {
     const cleaned = val.replace(/\s/g, "");
@@ -177,7 +179,7 @@ export default function NumberBaseTemplate({
                 aria-label="Copy result"
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
               >
-                {copied ? "✓" : "Copy"}
+                {copied ? "✓" : ui.copy}
               </button>
             </div>
           </div>
@@ -186,7 +188,7 @@ export default function NumberBaseTemplate({
           {input && result && (
             <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
               <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                All Bases
+                {ui.allBases}
               </h3>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 {[

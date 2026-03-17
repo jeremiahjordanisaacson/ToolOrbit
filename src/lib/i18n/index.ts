@@ -5,3 +5,6 @@ export { getDictionary, getDict } from "./dictionary";
 export { getDictSync } from "./get-dict-sync";
 export { translateTool } from "./translate-tools";
 export type { ToolTranslation } from "./translate-tools";
+export { ToolUIProvider, useToolUI } from "./ToolUIContext";
+export type { ToolUILabels } from "./ToolUIContext";
+export { getToolUILabels } from "./tool-ui-labels";

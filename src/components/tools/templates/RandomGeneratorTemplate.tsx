@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 /* ─── Word List ─── */
 const WORDS = [
@@ -273,6 +274,7 @@ export default function RandomGeneratorTemplate({
   const [names, setNames] = useState("");
   const [teams, setTeams] = useState(2);
   const [animating, setAnimating] = useState(false);
+  const ui = useToolUI();
 
   const gen = generators[generatorId];
 
@@ -356,7 +358,7 @@ export default function RandomGeneratorTemplate({
                   htmlFor="quantity"
                   className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Quantity
+                  {ui.quantity}
                 </label>
                 <input
                   id="quantity"
@@ -367,7 +369,7 @@ export default function RandomGeneratorTemplate({
                   onChange={(e) =>
                     setQuantity(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))
                   }
-                  aria-label="Quantity"
+                  aria-label={ui.quantity}
                   className="w-24 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                 />
               </div>
@@ -381,7 +383,7 @@ export default function RandomGeneratorTemplate({
                   onChange={(e) => setUppercase(e.target.checked)}
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                Uppercase
+                  {ui.uppercase}
               </label>
             )}
 
@@ -452,10 +454,10 @@ export default function RandomGeneratorTemplate({
           <button
             onClick={handleGenerate}
             disabled={!gen || animating}
-            aria-label={label ?? "Generate"}
+            aria-label={label ?? ui.generate}
             className="w-full rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-[0.98] disabled:opacity-40 dark:focus:ring-offset-gray-900"
           >
-            {animating ? "..." : label ?? "Generate"}
+            {animating ? "..." : label ?? ui.generate}
           </button>
 
           {/* Result */}
@@ -487,7 +489,7 @@ export default function RandomGeneratorTemplate({
                   aria-label="Copy result"
                   className="shrink-0 rounded-md bg-blue-600 px-3 py-2 text-sm text-white transition hover:bg-blue-700"
                 >
-                  {copied ? "✓" : "Copy"}
+                  {copied ? "✓" : ui.copy}
                 </button>
               </div>
             </div>
@@ -497,7 +499,7 @@ export default function RandomGeneratorTemplate({
           {history.length > 1 && (
             <div>
               <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                History
+                {ui.history}
               </h3>
               <div className="space-y-1.5">
                 {history.slice(1).map((item, i) => (

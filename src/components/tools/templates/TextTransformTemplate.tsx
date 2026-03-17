@@ -498,7 +498,7 @@ export default function TextTransformTemplate({
               <button
                 onClick={handleCopy}
                 disabled={!output}
-                aria-label="Copy output"
+                aria-label={ui.copy}
                 className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white transition hover:bg-blue-700 disabled:opacity-40"
               >
                 {copied ? `✓ ${ui.copied}` : ui.copy}
