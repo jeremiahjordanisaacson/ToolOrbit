@@ -55,8 +55,7 @@ export default async function AllToolsPage({
           {dict.navAllTools}
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-surface-500">
-          Browse our complete collection of {allTools.length} free online tools.
-          Every tool runs in your browser — no signup required.
+          {dict.allToolsMetaDescription}
         </p>
       </div>
 
