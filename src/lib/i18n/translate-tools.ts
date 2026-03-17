@@ -1,6 +1,7 @@
 import { Locale } from "./config";
 import { Tool, FAQ } from "../data/tools";
 import { getToolName } from "./tool-name-translations";
+import { getTranslatedToolContent } from "./tool-content-translations";
 
 // Translation patterns for tool content per locale
 // These use template patterns to generate accurate translations from the English tool data
@@ -258,13 +259,14 @@ export function translateTool(tool: Tool, locale: Locale): ToolTranslation {
   // For non-converter tools, use translated tool name where available
   const toolName = getToolName(tool.slug, locale) || tool.name;
 
+  const content = getTranslatedToolContent(tool.slug, locale);
   return {
     title: `${toolName} — ${patterns.freeTool} | ToolOrbit`,
     description: tool.description,
     headline: `${patterns.freeOnline} ${toolName}`,
-    intro: tool.intro,
-    faqs: tool.faqs,
-    howToUse: tool.howToUse,
+    intro: content.intro,
+    faqs: content.faqs,
+    howToUse: content.howToUse,
   };
 }
 
