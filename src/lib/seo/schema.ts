@@ -53,28 +53,28 @@ export function generateToolSchema(tool: Tool, translatedName?: string, translat
   };
 }
 
-export function generateWebSiteSchema() {
+export function generateWebSiteSchema(description?: string, locale?: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: siteConfig.name,
     url: siteConfig.url,
-    description: siteConfig.description,
+    description: description || siteConfig.description,
     potentialAction: {
       "@type": "SearchAction",
-      target: `${siteConfig.url}/search/?q={search_term_string}`,
+      target: `${siteConfig.url}/${locale || "en"}/search/?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
   };
 }
 
-export function generateOrganizationSchema() {
+export function generateOrganizationSchema(description?: string) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
-    description: siteConfig.description,
+    description: description || siteConfig.description,
   };
 }
 

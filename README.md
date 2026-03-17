@@ -25,9 +25,12 @@ All tools run entirely in the browser — no data ever leaves the user's device.
 
 - **Static-first**: Every page is statically generated at build time. No server-side rendering needed.
 - **Data-driven pages**: Tools, categories, FAQs, and SEO metadata are defined in structured TypeScript config files. Pages are generated programmatically from this data.
-- **SEO as first-class concern**: Every page has unique title, meta description, canonical URL, Open Graph tags, Twitter cards, and JSON-LD structured data.
+- **SEO as first-class concern**: Every page has unique title, meta description, canonical URL, Open Graph tags, Twitter cards, and JSON-LD structured data — all translated per locale.
+- **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, legal pages — everything is translated. Zero English leaks on non-English pages (verified by automated audit).
 - **Client-side tools**: Tool logic runs entirely in the browser using Web APIs (Crypto, SubtleCrypto, Canvas, etc.). No server dependencies.
 - **Code-split tools**: Each tool component is dynamically imported, so users only download the code for the tool they're using.
+- **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section, no tracking cookies.
+- **ADA/WCAG 2.1 AA compliant**: Skip navigation, aria-live regions, proper labels, color contrast, keyboard accessible.
 
 ## SEO Implementation
 

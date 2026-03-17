@@ -37,18 +37,6 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content={siteConfig.themeColor} />
         <meta name="google-site-verification" content="pa36lkzHlJmGIyLgAKvUDR2lRIlNGN9e-nf7OCMoVTg" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generateWebSiteSchema()),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generateOrganizationSchema()),
-          }}
-        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-gray-50 antialiased`}
