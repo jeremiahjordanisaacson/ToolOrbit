@@ -46,7 +46,7 @@ export default function ToolPageLayout({ tool, children, locale, dict, translati
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(generateToolSchema(tool)),
+          __html: JSON.stringify(generateToolSchema(tool, translatedToolName, intro, locale)),
         }}
       />
       {breadcrumbItems.length > 0 && (

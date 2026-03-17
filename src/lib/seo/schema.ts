@@ -35,13 +35,13 @@ export function generateFAQSchema(faqs: FAQ[]) {
   };
 }
 
-export function generateToolSchema(tool: Tool) {
+export function generateToolSchema(tool: Tool, translatedName?: string, translatedDescription?: string, locale?: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: tool.name,
-    description: tool.description,
-    url: `${siteConfig.url}/tools/${tool.slug}/`,
+    name: translatedName || tool.name,
+    description: translatedDescription || tool.description,
+    url: `${siteConfig.url}/${locale || "en"}/tools/${tool.slug}/`,
     applicationCategory: "UtilityApplication",
     operatingSystem: "Any",
     offers: {

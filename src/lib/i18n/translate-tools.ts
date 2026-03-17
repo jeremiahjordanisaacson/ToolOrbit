@@ -262,7 +262,7 @@ export function translateTool(tool: Tool, locale: Locale): ToolTranslation {
   const content = getTranslatedToolContent(tool.slug, locale);
   return {
     title: `${toolName} — ${patterns.freeTool} | ToolOrbit`,
-    description: tool.description,
+    description: content.intro,
     headline: `${patterns.freeOnline} ${toolName}`,
     intro: content.intro,
     faqs: content.faqs,
