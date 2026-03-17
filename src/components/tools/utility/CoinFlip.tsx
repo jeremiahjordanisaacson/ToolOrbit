@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function getSecureRandomBool(): boolean {
   const array = new Uint8Array(1);
@@ -16,6 +17,7 @@ interface FlipStats {
 }
 
 export default function CoinFlip() {
+  const t = useToolUI();
   const [coinCount, setCoinCount] = useState(1);
   const [results, setResults] = useState<boolean[]>([]);
   const [flipping, setFlipping] = useState(false);
@@ -61,7 +63,7 @@ export default function CoinFlip() {
           htmlFor="coin-count"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Number of Coins (1–10)
+          {`${t.numberOfCoins} (1–10)`}
         </label>
         <input
           id="coin-count"
@@ -82,7 +84,7 @@ export default function CoinFlip() {
         disabled={flipping}
         className="px-10 py-4 bg-primary-600 text-white font-semibold text-lg rounded-full hover:bg-primary-700 transition-colors disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 shadow-md hover:shadow-lg"
       >
-        {flipping ? "Flipping…" : "🪙 Flip"}
+        {flipping ? t.flipping : `🪙 ${t.flip}`}
       </button>
 
       {/* Results */}
@@ -108,7 +110,7 @@ export default function CoinFlip() {
                   isHeads ? "text-amber-700" : "text-slate-700"
                 }`}
               >
-                {isHeads ? "Heads" : "Tails"}
+                {isHeads ? t.heads : t.tails}
               </span>
             </div>
           ))}
@@ -119,10 +121,10 @@ export default function CoinFlip() {
       {results.length > 1 && !flipping && (
         <div className="flex gap-6 text-sm bg-gray-50 rounded-lg px-4 py-3">
           <span className="text-amber-700 font-medium">
-            Heads: {results.filter((r) => r).length}
+            {`${t.heads}: `}{results.filter((r) => r).length}
           </span>
           <span className="text-slate-700 font-medium">
-            Tails: {results.filter((r) => !r).length}
+            {`${t.tails}: `}{results.filter((r) => !r).length}
           </span>
         </div>
       )}
@@ -131,18 +133,18 @@ export default function CoinFlip() {
       {stats.total > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-gray-700">Statistics</h3>
+            <h3 className="text-sm font-semibold text-gray-700">{t.statistics}</h3>
             <button
               onClick={resetHistory}
               className="text-sm text-red-600 hover:text-red-700 transition-colors focus:outline-none focus:underline"
             >
-              Reset
+              {t.reset}
             </button>
           </div>
 
           <div className="bg-gray-50 rounded-xl p-4 space-y-3">
             <p className="text-sm text-gray-600">
-              Total Flips:{" "}
+              {`${t.totalFlips}: `}
               <strong className="text-gray-900">{stats.total}</strong>
             </p>
 
@@ -150,7 +152,7 @@ export default function CoinFlip() {
             <div className="space-y-1">
               <div className="flex justify-between text-sm">
                 <span className="text-amber-700 font-medium">
-                  Heads: {stats.heads}
+                  {`${t.heads}: `}{stats.heads}
                 </span>
                 <span className="text-gray-500">{headsPct}%</span>
               </div>
@@ -162,7 +164,7 @@ export default function CoinFlip() {
                   aria-valuenow={stats.heads}
                   aria-valuemin={0}
                   aria-valuemax={stats.total}
-                  aria-label={`Heads: ${headsPct}%`}
+                  aria-label={`${t.heads}: ${headsPct}%`}
                 />
               </div>
             </div>
@@ -171,7 +173,7 @@ export default function CoinFlip() {
             <div className="space-y-1">
               <div className="flex justify-between text-sm">
                 <span className="text-slate-700 font-medium">
-                  Tails: {stats.tails}
+                  {`${t.tails}: `}{stats.tails}
                 </span>
                 <span className="text-gray-500">{tailsPct}%</span>
               </div>
@@ -183,7 +185,7 @@ export default function CoinFlip() {
                   aria-valuenow={stats.tails}
                   aria-valuemin={0}
                   aria-valuemax={stats.total}
-                  aria-label={`Tails: ${tailsPct}%`}
+                  aria-label={`${t.tails}: ${tailsPct}%`}
                 />
               </div>
             </div>

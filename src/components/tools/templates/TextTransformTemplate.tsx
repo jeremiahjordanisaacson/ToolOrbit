@@ -428,9 +428,9 @@ export default function TextTransformTemplate({
 }) {
   const {
     transformId,
-    placeholder = "Type or paste your text here…",
-    inputLabel = "Input",
-    outputLabel = "Output",
+    placeholder,
+    inputLabel,
+    outputLabel,
   } = config as {
     transformId: string;
     placeholder?: string;
@@ -441,6 +441,10 @@ export default function TextTransformTemplate({
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState(false);
   const ui = useToolUI();
+
+  const actualPlaceholder = placeholder || ui.enterTextHere;
+  const actualInputLabel = inputLabel || ui.input;
+  const actualOutputLabel = outputLabel || ui.output;
 
   const transformFn = transforms[transformId];
   const output = transformFn ? (input || transformId === "lorem-ipsum" ? transformFn(input) : "") : null;
@@ -473,15 +477,15 @@ export default function TextTransformTemplate({
               htmlFor="text-input"
               className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              {inputLabel}
+              {actualInputLabel}
             </label>
             <textarea
               id="text-input"
               rows={6}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={placeholder}
-              aria-label={inputLabel}
+              placeholder={actualPlaceholder}
+              aria-label={actualInputLabel}
               className="w-full resize-y rounded-lg border border-gray-300 bg-white p-4 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
             />
           </div>
@@ -493,7 +497,7 @@ export default function TextTransformTemplate({
                 htmlFor="text-output"
                 className="text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                {outputLabel}
+                {actualOutputLabel}
               </label>
               <button
                 onClick={handleCopy}
@@ -509,7 +513,7 @@ export default function TextTransformTemplate({
               rows={6}
               readOnly
               value={output ?? ""}
-              aria-label={outputLabel}
+              aria-label={actualOutputLabel}
               aria-live="polite"
               className="w-full resize-y rounded-lg border border-gray-200 bg-gray-50 p-4 font-mono text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             />

@@ -57,10 +57,10 @@ export default function WhitespaceCleaner() {
   const output = cleanText();
 
   const checkboxOptions: { key: keyof CleanOptions; label: string }[] = [
-    { key: "trimLines", label: "Trim leading/trailing spaces per line" },
-    { key: "collapseSpaces", label: "Collapse multiple spaces to single" },
-    { key: "removeTabs", label: "Remove tabs" },
-    { key: "removeBlankLines", label: "Remove blank lines" },
+    { key: "trimLines", label: ui.trimSpaces },
+    { key: "collapseSpaces", label: ui.collapseSpaces },
+    { key: "removeTabs", label: ui.removeTabs },
+    { key: "removeBlankLines", label: ui.removeBlankLines },
   ];
 
   return (
@@ -80,7 +80,7 @@ export default function WhitespaceCleaner() {
           id="whitespace-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste messy text here..."
+          placeholder={ui.pasteTextHere}
           rows={8}
           className="w-full resize-y rounded-lg border border-gray-300 bg-white p-4 font-mono text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
           aria-label="Input text for whitespace cleaning"

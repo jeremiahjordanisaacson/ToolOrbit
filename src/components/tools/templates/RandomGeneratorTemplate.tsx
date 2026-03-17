@@ -197,7 +197,7 @@ const generators: Record<
       .split(/[,\n]+/)
       .map((n) => n.trim())
       .filter(Boolean);
-    if (nameList.length === 0) return { text: "Enter names above (comma or newline separated)" };
+    if (nameList.length === 0) return { text: "__ENTER_NAMES_PROMPT__" };
     const numTeams = teams ?? 2;
     // Shuffle
     for (let i = nameList.length - 1; i > 0; i--) {
@@ -239,7 +239,7 @@ const generators: Record<
       .split(/[,\n]+/)
       .map((n) => n.trim())
       .filter(Boolean);
-    if (nameList.length === 0) return { text: "Enter options above (comma or newline separated)" };
+    if (nameList.length === 0) return { text: "__ENTER_OPTIONS_PROMPT__" };
     return { text: "🎯 " + randomPick(nameList) };
   },
   "lottery-numbers": ({ quantity }) => {
@@ -481,7 +481,9 @@ export default function RandomGeneratorTemplate({
                           : "text-lg"
                     } ${animating ? "animate-pulse" : ""}`}
                   >
-                    {result.text}
+                    {result.text === "__ENTER_NAMES_PROMPT__" ? ui.enterNamesPrompt
+                      : result.text === "__ENTER_OPTIONS_PROMPT__" ? ui.enterOptionsPrompt
+                      : result.text}
                   </p>
                 </div>
                 <button

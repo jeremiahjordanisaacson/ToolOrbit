@@ -161,7 +161,7 @@ export default function PasswordGenerator() {
             { key: "symbols" as const, label: `${ui.symbols} (!@#$...)` },
             {
               key: "excludeAmbiguous" as const,
-              label: "Exclude ambiguous (0OlI1)",
+              label: ui.excludeAmbiguous,
             },
           ].map((opt) => (
             <label

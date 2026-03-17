@@ -20,16 +20,17 @@ All tools run entirely in the browser — no data ever leaves the user's device.
 | CI/CD | GitHub Actions |
 | Languages | 10 (en, es, fr, de, pt, ja, zh, ko, it, hi) |
 | Total Pages | 11,214 |
+| Analytics | Google Analytics 4 (consent-gated) |
 
 ### Key Design Decisions
 
 - **Static-first**: Every page is statically generated at build time. No server-side rendering needed.
 - **Data-driven pages**: Tools, categories, FAQs, and SEO metadata are defined in structured TypeScript config files. Pages are generated programmatically from this data.
 - **SEO as first-class concern**: Every page has unique title, meta description, canonical URL, Open Graph tags, Twitter cards, and JSON-LD structured data — all translated per locale.
-- **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, legal pages — everything is translated. Zero English leaks on non-English pages (verified by automated audit).
+- **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, and tool component labels — everything is translated across all 10 locales. The `ToolUILabels` system (via `useToolUI()` hook) provides 120+ translated UI strings to tool components for date labels, month/day names, stat labels, button text, and more.
 - **Client-side tools**: Tool logic runs entirely in the browser using Web APIs (Crypto, SubtleCrypto, Canvas, etc.). No server dependencies.
 - **Code-split tools**: Each tool component is dynamically imported, so users only download the code for the tool they're using.
-- **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section, no tracking cookies.
+- **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section, no tracking cookies by default. Analytics (Google Analytics 4) only loads after explicit user consent.
 - **ADA/WCAG 2.1 AA compliant**: Skip navigation, aria-live regions, proper labels, color contrast, keyboard accessible.
 
 ## SEO Implementation
@@ -91,9 +92,19 @@ src/
 │   ├── seo/
 │   │   ├── metadata.ts           # Metadata generation helpers
 │   │   └── schema.ts             # JSON-LD schema generators
-│   └── search.ts                 # Client-side search index
+│   ├── search.ts                 # Client-side search index
+│   └── i18n/                     # Internationalization system
+│       ├── config.ts             # Locale definitions (10 languages)
+│       ├── types.ts              # UIDictionary interface
+│       ├── ToolUIContext.tsx      # React Context + useToolUI() hook (120+ labels)
+│       ├── tool-ui-labels.ts     # Translated UI labels for all locales
+│       ├── locales/*.ts          # Per-locale UI string dictionaries
+│       ├── tool-name-translations.ts
+│       ├── tool-content-translations.ts
+│       ├── category-translations.ts
+│       └── translate-tools.ts
 └── components/
-    ├── layout/                   # Header, Footer, Breadcrumb, AdSlot
+    ├── layout/                   # Header, Footer, Breadcrumb, CookieConsent, GoogleAnalytics
     ├── shared/                   # ToolPageLayout, FAQSection, RelatedTools, etc.
     └── tools/                    # Tool implementations
         ├── index.tsx             # Tool component registry
@@ -248,13 +259,23 @@ The architecture supports this natively:
 | Education Tools | ~5 tools (GPA, grades, test scores...) |
 | Random & Utility | ~30 tools (dice, coins, names, colors, teams, QR codes...) |
 
+## Analytics
+
+ToolOrbit uses **Google Analytics 4** (Measurement ID: `G-BQ9CBQJRWP`) with consent-gated loading:
+
+- Analytics scripts only load after the user clicks "Accept" on the cookie consent banner
+- The `GoogleAnalytics` component listens for a `cookie-consent-change` event dispatched by the `CookieConsent` component, so tracking activates immediately on consent without a page reload
+- If the user rejects cookies, no analytics scripts are loaded at all
+- Compatible with static export (no server-side dependencies)
+
 ## Known Limitations
 
 - QR Code Generator uses a canvas-based approach without external QR library; consider adding `qrcode` package for more robust encoding
 - Markdown Preview uses a basic inline parser; consider `marked` or `remark` for full GFM support
 - MD5 hash uses a basic inline implementation; SHA algorithms use the native Web Crypto API
 - No dark mode (could be added with Tailwind's `dark:` variant)
-- No real analytics integration yet (placeholder ready)
+- Static content pages (privacy, terms, about, contact, disclaimer) are English-only and not yet routed through the i18n system
+- Some developer tool error messages and placeholders remain in English (low visibility, technical context)
 - No real ad network integration yet (placeholder slots in layout)
 - Site URL in config defaults to `https://toolorbit.com` — update when custom domain is set
 

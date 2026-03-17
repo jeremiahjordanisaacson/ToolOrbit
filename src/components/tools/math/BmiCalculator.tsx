@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function fmtNumber(val: string): string {
   const parts = val.replace(/[^0-9.\-]/g, "").split(".");
@@ -21,10 +22,10 @@ interface BmiCategory {
   textColor: string;
 }
 
-function getBmiCategory(bmi: number): BmiCategory {
+function getBmiCategory(bmi: number, labels: { underweight: string; normal: string; overweight: string; obeseLabel: string }): BmiCategory {
   if (bmi < 18.5) {
     return {
-      label: "Underweight",
+      label: labels.underweight,
       color: "#3b82f6",
       bgColor: "bg-blue-50",
       textColor: "text-blue-700",
@@ -32,7 +33,7 @@ function getBmiCategory(bmi: number): BmiCategory {
   }
   if (bmi < 25) {
     return {
-      label: "Normal",
+      label: labels.normal,
       color: "#22c55e",
       bgColor: "bg-green-50",
       textColor: "text-green-700",
@@ -40,14 +41,14 @@ function getBmiCategory(bmi: number): BmiCategory {
   }
   if (bmi < 30) {
     return {
-      label: "Overweight",
+      label: labels.overweight,
       color: "#f59e0b",
       bgColor: "bg-amber-50",
       textColor: "text-amber-700",
     };
   }
   return {
-    label: "Obese",
+    label: labels.obeseLabel,
     color: "#ef4444",
     bgColor: "bg-red-50",
     textColor: "text-red-700",
@@ -62,6 +63,7 @@ const SCALE_MIN = 10;
 const SCALE_MAX = 40;
 
 export default function BmiCalculator() {
+  const t = useToolUI();
   const [unit, setUnit] = useState<UnitSystem>("metric");
   const [weight, setWeight] = useState("");
   const [heightCm, setHeightCm] = useState("");
@@ -87,7 +89,7 @@ export default function BmiCalculator() {
   };
 
   const bmi = calculateBmi();
-  const category = bmi !== null ? getBmiCategory(bmi) : null;
+  const category = bmi !== null ? getBmiCategory(bmi, t) : null;
   const markerPercent =
     bmi !== null
       ? ((clamp(bmi, SCALE_MIN, SCALE_MAX) - SCALE_MIN) /
@@ -311,28 +313,28 @@ export default function BmiCalculator() {
                 <div className="flex items-center gap-1.5">
                   <span className="inline-block h-2.5 w-2.5 rounded-full bg-blue-500" />
                   <span className="text-gray-600">
-                    Underweight{" "}
+                    {t.underweight}{" "}
                     <span className="text-gray-400">&lt; 18.5</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="inline-block h-2.5 w-2.5 rounded-full bg-green-500" />
                   <span className="text-gray-600">
-                    Normal{" "}
+                    {t.normal}{" "}
                     <span className="text-gray-400">18.5 – 24.9</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="inline-block h-2.5 w-2.5 rounded-full bg-amber-500" />
                   <span className="text-gray-600">
-                    Overweight{" "}
+                    {t.overweight}{" "}
                     <span className="text-gray-400">25 – 29.9</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-500" />
                   <span className="text-gray-600">
-                    Obese <span className="text-gray-400">≥ 30</span>
+                    {t.obeseLabel} <span className="text-gray-400">≥ 30</span>
                   </span>
                 </div>
               </div>

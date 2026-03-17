@@ -48,7 +48,7 @@ export default function SlugGenerator() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter a title or phrase..."
+          placeholder={ui.enterTextHere}
           className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
           aria-label="Text input for slug generation"
         />

@@ -35,9 +35,9 @@ export default function TextReverser() {
   const output = reverseText();
 
   const modeOptions: { value: ReverseMode; label: string }[] = [
-    { value: "characters", label: "Reverse characters" },
-    { value: "words", label: "Reverse words" },
-    { value: "lines", label: "Reverse lines" },
+    { value: "characters", label: ui.reverseCharacters },
+    { value: "words", label: ui.reverseWords },
+    { value: "lines", label: ui.reverseLines },
   ];
 
   return (
@@ -57,7 +57,7 @@ export default function TextReverser() {
           id="reverser-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter text to reverse..."
+          placeholder={ui.enterTextHere}
           rows={6}
           className="w-full resize-y rounded-lg border border-gray-300 bg-white p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
           aria-label="Input text for reversing"

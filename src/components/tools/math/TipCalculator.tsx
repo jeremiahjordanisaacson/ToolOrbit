@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function fmtNumber(val: string): string {
   const parts = val.replace(/[^0-9.\-]/g, "").split(".");
@@ -19,6 +20,7 @@ function formatCurrency(amount: number): string {
 }
 
 export default function TipCalculator() {
+  const t = useToolUI();
   const [billAmount, setBillAmount] = useState<string>("");
   const [tipPercent, setTipPercent] = useState<number | null>(18);
   const [customTip, setCustomTip] = useState<string>("");

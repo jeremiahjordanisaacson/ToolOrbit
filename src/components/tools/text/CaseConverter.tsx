@@ -104,20 +104,20 @@ function convertCase(text: string, caseType: CaseType): string {
   }
 }
 
-const caseOptions: { type: CaseType; label: string }[] = [
-  { type: "upper", label: "UPPERCASE" },
-  { type: "lower", label: "lowercase" },
-  { type: "title", label: "Title Case" },
-  { type: "sentence", label: "Sentence case" },
-  { type: "toggle", label: "tOGGLE cASE" },
-  { type: "camel", label: "camelCase" },
-  { type: "pascal", label: "PascalCase" },
-  { type: "snake", label: "snake_case" },
-  { type: "kebab", label: "kebab-case" },
-];
-
 export default function CaseConverter() {
   const ui = useToolUI();
+
+  const caseOptions: { type: CaseType; label: string }[] = [
+    { type: "upper", label: "UPPERCASE" },
+    { type: "lower", label: "lowercase" },
+    { type: "title", label: ui.titleCase },
+    { type: "sentence", label: ui.sentenceCase },
+    { type: "toggle", label: "tOGGLE cASE" },
+    { type: "camel", label: "camelCase" },
+    { type: "pascal", label: "PascalCase" },
+    { type: "snake", label: "snake_case" },
+    { type: "kebab", label: "kebab-case" },
+  ];
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [activeCase, setActiveCase] = useState<CaseType | null>(null);
@@ -145,7 +145,7 @@ export default function CaseConverter() {
           htmlFor="case-input"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Input text
+          {ui.input}
         </label>
         <textarea
           id="case-input"
@@ -156,7 +156,7 @@ export default function CaseConverter() {
               setOutput(convertCase(e.target.value, activeCase));
             }
           }}
-          placeholder="Enter text to convert..."
+          placeholder={ui.enterTextToConvert}
           rows={6}
           className="w-full resize-y rounded-lg border border-gray-300 bg-white p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
           aria-label="Input text for case conversion"
@@ -186,7 +186,7 @@ export default function CaseConverter() {
             htmlFor="case-output"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Output
+            {ui.output}
           </label>
           <button
             onClick={() => copyToClipboard(output)}

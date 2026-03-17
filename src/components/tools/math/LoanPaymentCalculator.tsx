@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function fmtNumber(val: string): string {
   const parts = val.replace(/[^0-9.\-]/g, "").split(".");
@@ -70,6 +71,7 @@ function formatCurrency(value: number): string {
 }
 
 export default function LoanPaymentCalculator() {
+  const t = useToolUI();
   const [principal, setPrincipal] = useState<string>("250000");
   const [rate, setRate] = useState<string>("6.5");
   const [years, setYears] = useState<string>("30");

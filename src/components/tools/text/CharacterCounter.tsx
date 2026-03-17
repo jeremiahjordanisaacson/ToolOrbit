@@ -31,10 +31,10 @@ export default function CharacterCounter() {
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { label: "Chars (with spaces)", value: charsWithSpaces },
-          { label: "Chars (no spaces)", value: charsWithoutSpaces },
-          { label: "Words", value: wordCount },
-          { label: "Lines", value: lineCount },
+          { label: ui.charsWithSpaces, value: charsWithSpaces },
+          { label: ui.charsNoSpaces, value: charsWithoutSpaces },
+          { label: ui.words, value: wordCount },
+          { label: ui.lines, value: lineCount },
         ].map((stat) => (
           <div
             key={stat.label}
@@ -135,7 +135,7 @@ export default function CharacterCounter() {
           id="char-counter-input"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Start typing or paste your text here..."
+          placeholder={ui.enterTextHere}
           rows={10}
           className="w-full resize-y rounded-lg border border-gray-300 bg-white p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
           aria-label="Text input for character counting"

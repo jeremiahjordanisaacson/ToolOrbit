@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 interface AgeResult {
   years: number;
@@ -10,18 +11,8 @@ interface AgeResult {
   totalWeeks: number;
   totalMonths: number;
   nextBirthdayDays: number;
-  dayOfWeekBorn: string;
+  dayOfWeekIndex: number;
 }
-
-const DAYS_OF_WEEK = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
 
 function parseDateInput(value: string): Date | null {
   const [year, month, day] = value.split("-").map(Number);
@@ -44,7 +35,7 @@ function getDaysInMonth(year: number, month: number): number {
 function calculateAge(dob: Date, end: Date): AgeResult | null {
   if (dob > end) return null;
 
-  const dayOfWeekBorn = DAYS_OF_WEEK[dob.getDay()];
+  const dayOfWeekIndex = dob.getDay();
 
   // Years, months, days breakdown
   let years = end.getFullYear() - dob.getFullYear();
@@ -110,7 +101,7 @@ function calculateAge(dob: Date, end: Date): AgeResult | null {
     totalWeeks,
     totalMonths,
     nextBirthdayDays,
-    dayOfWeekBorn,
+    dayOfWeekIndex,
   };
 }
 
@@ -142,6 +133,8 @@ function StatCard({
 }
 
 export default function AgeCalculator() {
+  const t = useToolUI();
+  const daysOfWeek = [t.sunday, t.monday, t.tuesday, t.wednesday, t.thursday, t.friday, t.saturday];
   const [dobInput, setDobInput] = useState("");
   const [endInput, setEndInput] = useState("");
 
@@ -174,7 +167,7 @@ export default function AgeCalculator() {
             htmlFor="dob"
             className="mb-1 block text-sm font-medium text-gray-700"
           >
-            Date of Birth
+            {t.dateOfBirth}
           </label>
           <input
             id="dob"
@@ -192,7 +185,7 @@ export default function AgeCalculator() {
             htmlFor="end-date"
             className="mb-1 block text-sm font-medium text-gray-700"
           >
-            End Date{" "}
+            {t.date}{" "}
             <span className="font-normal text-gray-400">(optional)</span>
           </label>
           <input
@@ -242,25 +235,25 @@ export default function AgeCalculator() {
           {/* Stats grid */}
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <StatCard
-              label="Total Days"
+              label={t.totalDays}
               value={formatNumber(result.totalDays)}
             />
             <StatCard
-              label="Total Weeks"
+              label={t.totalWeeks}
               value={formatNumber(result.totalWeeks)}
             />
             <StatCard
-              label="Total Months"
+              label={t.totalMonths}
               value={formatNumber(result.totalMonths)}
             />
             <StatCard
-              label="Next Birthday In"
+              label={t.nextBirthdayIn}
               value={`${formatNumber(result.nextBirthdayDays)} day${result.nextBirthdayDays === 1 ? "" : "s"}`}
               accent
             />
             <StatCard
-              label="Born On"
-              value={result.dayOfWeekBorn}
+              label={t.bornOn}
+              value={daysOfWeek[result.dayOfWeekIndex]}
               accent
             />
           </div>

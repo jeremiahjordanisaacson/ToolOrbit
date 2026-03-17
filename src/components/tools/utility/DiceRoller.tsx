@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 const DICE_TYPES = [4, 6, 8, 10, 12, 20, 100] as const;
 type DiceType = (typeof DICE_TYPES)[number];
@@ -20,6 +21,7 @@ function rollDie(sides: number): number {
 }
 
 export default function DiceRoller() {
+  const t = useToolUI();
   const [diceType, setDiceType] = useState<DiceType>(6);
   const [count, setCount] = useState(1);
   const [results, setResults] = useState<number[]>([]);
@@ -52,7 +54,7 @@ export default function DiceRoller() {
       {/* Dice type selector */}
       <div>
         <span className="block text-sm font-medium text-gray-700 mb-2">
-          Dice Type
+          {t.diceType}
         </span>
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Dice type">
           {DICE_TYPES.map((d) => (
@@ -79,7 +81,7 @@ export default function DiceRoller() {
           htmlFor="dice-count"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Number of Dice (1–20)
+          {`${t.numberOfDice} (1–20)`}
         </label>
         <input
           id="dice-count"
@@ -100,7 +102,7 @@ export default function DiceRoller() {
         disabled={rolling}
         className="px-8 py-3 bg-primary-600 text-white font-semibold text-lg rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
       >
-        {rolling ? "Rolling…" : "🎲 Roll"}
+        {rolling ? t.rolling : `🎲 ${t.roll}`}
       </button>
 
       {/* Results */}
@@ -130,7 +132,7 @@ export default function DiceRoller() {
           </div>
           {!rolling && results.length > 1 && (
             <p className="text-sm text-gray-600">
-              Total:{" "}
+              {`${t.total}: `}
               <strong className="text-gray-900 text-lg">{total}</strong>
             </p>
           )}
@@ -142,13 +144,13 @@ export default function DiceRoller() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-gray-700">
-              Roll History
+              {t.rollHistory}
             </h3>
             <button
               onClick={() => setHistory([])}
               className="text-sm text-red-600 hover:text-red-700 transition-colors focus:outline-none focus:underline"
             >
-              Clear History
+              {t.clearHistory}
             </button>
           </div>
           <div className="space-y-2 max-h-64 overflow-y-auto">

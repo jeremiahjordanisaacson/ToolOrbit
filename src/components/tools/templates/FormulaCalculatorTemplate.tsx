@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { useToolUI } from "@/lib/i18n/ToolUIContext";
+import { translateFormulaLabel, getEnterPrefix, getSelectPlaceholder } from "@/lib/i18n/formula-label-translations";
+import { Locale } from "@/lib/i18n/config";
 const formulas: Record<string, (values: Record<string, number | string>) => number | string> = {
   // Geometry
   "circle-area": (v) => Math.PI * +v.radius * +v.radius,
@@ -199,7 +202,7 @@ interface FieldConfig {
 // Detect if a suffix indicates currency
 function isCurrencySuffix(suffix?: string): boolean {
   if (!suffix) return false;
-  return /^\$|USD|€|£|¥/.test(suffix.trim());
+  return /^\$|USD|€|£|¥|R\$|₩|₹/.test(suffix.trim());
 }
 
 // Detect if a field likely holds a monetary value
@@ -246,14 +249,21 @@ function MoneyAwareInput({
   value,
   onChange,
   resultSuffix,
+  locale,
+  currencySymbol,
 }: {
   field: FieldConfig;
   value: string;
   onChange: (val: string) => void;
   resultSuffix?: string;
+  locale: Locale;
+  currencySymbol: string;
 }) {
   const isMoney = isMoneyField(field, resultSuffix);
   const isText = field.type === "text";
+
+  const tl = (label: string) => translateFormulaLabel(label, locale);
+  const placeholderText = `${getEnterPrefix(locale)} ${tl(field.label)}`;
 
   // For text fields, just render a plain text input
   if (isText) {
@@ -264,8 +274,8 @@ function MoneyAwareInput({
         inputMode="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={`Enter ${field.label.toLowerCase()}`}
-        aria-label={field.label}
+        placeholder={placeholderText}
+        aria-label={tl(field.label)}
         className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
       />
     );
@@ -276,7 +286,7 @@ function MoneyAwareInput({
     const displayValue = value ? formatWithCommas(value) : "";
     return (
       <div className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">$</span>
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">{currencySymbol}</span>
         <input
           id={`field-${field.id}`}
           type="text"
@@ -286,8 +296,8 @@ function MoneyAwareInput({
             const raw = e.target.value.replace(/[^0-9.\-]/g, "");
             onChange(raw);
           }}
-          placeholder={`Enter ${field.label.toLowerCase()}`}
-          aria-label={field.label}
+          placeholder={placeholderText}
+          aria-label={tl(field.label)}
           className="w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-7 pr-3 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
         />
       </div>
@@ -309,8 +319,8 @@ function MoneyAwareInput({
         const raw = e.target.value.replace(/[^0-9.\-]/g, "");
         onChange(raw);
       }}
-      placeholder={`Enter ${field.label.toLowerCase()}`}
-      aria-label={field.label}
+      placeholder={placeholderText}
+      aria-label={tl(field.label)}
       className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
     />
   );
@@ -329,6 +339,9 @@ export default function FormulaCalculatorTemplate({
   };
 
   const ui = useToolUI();
+  const pathname = usePathname();
+  const locale = (pathname?.split("/")[1] || "en") as Locale;
+  const tl = (label: string) => translateFormulaLabel(label, locale);
 
   const getInitialValues = useCallback(() => {
     const vals: Record<string, string> = {};
@@ -361,10 +374,10 @@ export default function FormulaCalculatorTemplate({
       } else if (Number.isFinite(raw)) {
         result = formatResult(raw, resultSuffix);
       } else {
-        result = "Invalid result";
+        result = ui.invalidInput;
       }
     } catch {
-      result = "Calculation error";
+      result = ui.calculationError;
     }
   }
 
@@ -396,7 +409,7 @@ export default function FormulaCalculatorTemplate({
                   htmlFor={`field-${field.id}`}
                   className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  {field.label}
+                  {tl(field.label)}
                   {field.suffix && (
                     <span className="ml-1 text-xs text-gray-500">
                       ({field.suffix})
@@ -408,10 +421,10 @@ export default function FormulaCalculatorTemplate({
                     id={`field-${field.id}`}
                     value={values[field.id] ?? ""}
                     onChange={(e) => updateValue(field.id, e.target.value)}
-                    aria-label={field.label}
+                    aria-label={tl(field.label)}
                     className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                   >
-                    <option value="">Select…</option>
+                    <option value="">{getSelectPlaceholder(locale)}</option>
                     {field.options.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
@@ -424,6 +437,8 @@ export default function FormulaCalculatorTemplate({
                     value={values[field.id] ?? ""}
                     onChange={(val) => updateValue(field.id, val)}
                     resultSuffix={resultSuffix}
+                    locale={locale}
+                    currencySymbol={ui.currencySymbol}
                   />
                 )}
               </div>
@@ -435,7 +450,7 @@ export default function FormulaCalculatorTemplate({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                  {resultLabel}
+                  {tl(resultLabel)}
                 </p>
                 <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
                   {result ?? (

@@ -35,12 +35,14 @@ export default function CookieConsent() {
     localStorage.setItem("toolorbit_cookie_consent", "accepted");
     setConsent("accepted");
     setVisible(false);
+    window.dispatchEvent(new Event("cookie-consent-change"));
   };
 
   const handleReject = () => {
     localStorage.setItem("toolorbit_cookie_consent", "rejected");
     setConsent("rejected");
     setVisible(false);
+    window.dispatchEvent(new Event("cookie-consent-change"));
   };
 
   if (consent !== "pending" || !visible) return null;

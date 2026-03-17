@@ -95,6 +95,7 @@ interface CalcProps {
 }
 
 function DateDifference({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [date1, setDate1] = useState("");
   const [date2, setDate2] = useState("");
 
@@ -106,22 +107,22 @@ function DateDifference({ copied, onCopy }: CalcProps) {
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="dd-start" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
+          <label htmlFor="dd-start" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.startDate}</label>
           <input id="dd-start" type="date" value={date1} onChange={(e) => setDate1(e.target.value)} aria-label="Start date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
         <div>
-          <label htmlFor="dd-end" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
+          <label htmlFor="dd-end" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.endDate}</label>
           <input id="dd-end" type="date" value={date2} onChange={(e) => setDate2(e.target.value)} aria-label="End date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
       {result && (
         <ResultBox onCopy={onCopy} copied={copied} text={`${result.years}y ${result.months}m ${result.days}d (${result.totalDays} total days)`}>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <Stat label="Years" value={result.years} />
-            <Stat label="Months" value={result.months} />
-            <Stat label="Days" value={result.days} />
-            <Stat label="Total Days" value={result.totalDays} />
-            <Stat label="Total Weeks" value={result.totalWeeks} />
+            <Stat label={t.years} value={result.years} />
+            <Stat label={t.months} value={result.months} />
+            <Stat label={t.days} value={result.days} />
+            <Stat label={t.totalDays} value={result.totalDays} />
+            <Stat label={t.totalWeeks} value={result.totalWeeks} />
           </div>
         </ResultBox>
       )}
@@ -130,6 +131,7 @@ function DateDifference({ copied, onCopy }: CalcProps) {
 }
 
 function AddSubDays({ mode, copied, onCopy }: CalcProps & { mode: "add" | "subtract" }) {
+  const t = useToolUI();
   const [date, setDate] = useState("");
   const [days, setDays] = useState("");
   const d = parseDate(date);
@@ -145,12 +147,12 @@ function AddSubDays({ mode, copied, onCopy }: CalcProps & { mode: "add" | "subtr
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="asd-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
+          <label htmlFor="asd-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.date}</label>
           <input id="asd-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
         <div>
           <label htmlFor="asd-days" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Days</label>
-          <input id="asd-days" type="number" min={0} value={days} onChange={(e) => setDays(e.target.value)} placeholder="Number of days" aria-label="Number of days" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
+          <input id="asd-days" type="number" min={0} value={days} onChange={(e) => setDays(e.target.value)} placeholder={t.numberOfDays} aria-label="Number of days" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
       {result && (
@@ -163,6 +165,7 @@ function AddSubDays({ mode, copied, onCopy }: CalcProps & { mode: "add" | "subtr
 }
 
 function AddMonths({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [date, setDate] = useState("");
   const [months, setMonths] = useState("");
   const d = parseDate(date);
@@ -178,12 +181,12 @@ function AddMonths({ copied, onCopy }: CalcProps) {
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="am-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
+          <label htmlFor="am-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.date}</label>
           <input id="am-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
         <div>
           <label htmlFor="am-months" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Months</label>
-          <input id="am-months" type="number" value={months} onChange={(e) => setMonths(e.target.value)} placeholder="Number of months" aria-label="Number of months" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
+          <input id="am-months" type="number" value={months} onChange={(e) => setMonths(e.target.value)} placeholder={t.numberOfMonths} aria-label="Number of months" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
       {result && (
@@ -196,6 +199,7 @@ function AddMonths({ copied, onCopy }: CalcProps) {
 }
 
 function AddYears({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [date, setDate] = useState("");
   const [years, setYears] = useState("");
   const d = parseDate(date);
@@ -211,12 +215,12 @@ function AddYears({ copied, onCopy }: CalcProps) {
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="ay-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
+          <label htmlFor="ay-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.date}</label>
           <input id="ay-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
         <div>
-          <label htmlFor="ay-years" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Years</label>
-          <input id="ay-years" type="number" value={years} onChange={(e) => setYears(e.target.value)} placeholder="Number of years" aria-label="Number of years" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
+          <label htmlFor="ay-years" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.years}</label>
+          <input id="ay-years" type="number" value={years} onChange={(e) => setYears(e.target.value)} placeholder={t.numberOfYears} aria-label="Number of years" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
       {result && (
@@ -229,6 +233,7 @@ function AddYears({ copied, onCopy }: CalcProps) {
 }
 
 function WeekNumber({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [date, setDate] = useState("");
   const d = parseDate(date);
   const week = d ? getISOWeek(d) : null;
@@ -236,12 +241,12 @@ function WeekNumber({ copied, onCopy }: CalcProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor="wn-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
+        <label htmlFor="wn-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.date}</label>
         <input id="wn-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 sm:max-w-xs" />
       </div>
       {week !== null && (
         <ResultBox onCopy={onCopy} copied={copied} text={`Week ${week}`}>
-          <p className="text-lg font-semibold text-gray-900 dark:text-white">ISO Week {week}</p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">{t.isoWeek} {week}</p>
         </ResultBox>
       )}
     </div>
@@ -249,6 +254,7 @@ function WeekNumber({ copied, onCopy }: CalcProps) {
 }
 
 function DayOfYear({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [date, setDate] = useState("");
   const d = parseDate(date);
   const day = d ? getDayOfYear(d) : null;
@@ -256,12 +262,12 @@ function DayOfYear({ copied, onCopy }: CalcProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor="doy-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
+        <label htmlFor="doy-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.date}</label>
         <input id="doy-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 sm:max-w-xs" />
       </div>
       {day !== null && (
         <ResultBox onCopy={onCopy} copied={copied} text={`Day ${day} of ${d!.getFullYear()}`}>
-          <p className="text-lg font-semibold text-gray-900 dark:text-white">Day {day} of {d!.getFullYear()}</p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">{t.dayOfYear} {day} of {d!.getFullYear()}</p>
           <p className="text-sm text-gray-500 dark:text-gray-400">{365 - day + (isLeapYear(d!.getFullYear()) ? 1 : 0)} days remaining in the year</p>
         </ResultBox>
       )}
@@ -270,6 +276,7 @@ function DayOfYear({ copied, onCopy }: CalcProps) {
 }
 
 function DayOfWeek({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [date, setDate] = useState("");
   const d = parseDate(date);
   const dayName = d ? d.toLocaleDateString("en-US", { weekday: "long" }) : null;
@@ -277,7 +284,7 @@ function DayOfWeek({ copied, onCopy }: CalcProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor="dow-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
+        <label htmlFor="dow-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.date}</label>
         <input id="dow-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 sm:max-w-xs" />
       </div>
       {dayName && (
@@ -290,6 +297,7 @@ function DayOfWeek({ copied, onCopy }: CalcProps) {
 }
 
 function LeapYearCheck({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [year, setYear] = useState("");
   const y = parseInt(year);
   const valid = !isNaN(y) && y > 0;
@@ -305,16 +313,16 @@ function LeapYearCheck({ copied, onCopy }: CalcProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor="ly-year" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Year</label>
-        <input id="ly-year" type="number" min={1} value={year} onChange={(e) => setYear(e.target.value)} placeholder="Enter year" aria-label="Year" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 sm:max-w-xs" />
+        <label htmlFor="ly-year" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.year}</label>
+        <input id="ly-year" type="number" min={1} value={year} onChange={(e) => setYear(e.target.value)} placeholder={t.enterYear} aria-label="Year" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 sm:max-w-xs" />
       </div>
       {leap !== null && (
-        <ResultBox onCopy={onCopy} copied={copied} text={leap ? `${y} is a leap year` : `${y} is not a leap year`}>
+        <ResultBox onCopy={onCopy} copied={copied} text={leap ? `${y} ${t.isLeapYear}` : `${y} ${t.isNotLeapYear}`}>
           <p className={`text-lg font-semibold ${leap ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
-            {y} is {leap ? "" : "not "}a leap year
+            {y} {leap ? t.isLeapYear : t.isNotLeapYear}
           </p>
           {nextLeap && (
-            <p className="text-sm text-gray-500 dark:text-gray-400">Next leap year: {nextLeap}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t.nextLeapYear}: {nextLeap}</p>
           )}
         </ResultBox>
       )}
@@ -323,6 +331,7 @@ function LeapYearCheck({ copied, onCopy }: CalcProps) {
 }
 
 function DaysInMonthCalc({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const m = parseInt(month);
@@ -334,22 +343,22 @@ function DaysInMonthCalc({ copied, onCopy }: CalcProps) {
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="dim-month" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Month</label>
+          <label htmlFor="dim-month" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.month}</label>
           <select id="dim-month" value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Month" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100">
-            <option value="">Select month</option>
-            {["January","February","March","April","May","June","July","August","September","October","November","December"].map((name, i) => (
+            <option value="">{t.selectMonth}</option>
+            {[t.january, t.february, t.march, t.april, t.may, t.june, t.july, t.august, t.september, t.october, t.november, t.december].map((name, i) => (
               <option key={i} value={i + 1}>{name}</option>
             ))}
           </select>
         </div>
         <div>
-          <label htmlFor="dim-year" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Year</label>
-          <input id="dim-year" type="number" min={1} value={year} onChange={(e) => setYear(e.target.value)} placeholder="Enter year" aria-label="Year" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
+          <label htmlFor="dim-year" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.year}</label>
+          <input id="dim-year" type="number" min={1} value={year} onChange={(e) => setYear(e.target.value)} placeholder={t.enterYear} aria-label="Year" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
       {days !== null && (
-        <ResultBox onCopy={onCopy} copied={copied} text={`${days} days`}>
-          <p className="text-lg font-semibold text-gray-900 dark:text-white">{days} days</p>
+        <ResultBox onCopy={onCopy} copied={copied} text={`${days} ${t.days}`}>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">{days} {t.days}</p>
         </ResultBox>
       )}
     </div>
@@ -357,6 +366,7 @@ function DaysInMonthCalc({ copied, onCopy }: CalcProps) {
 }
 
 function BusinessDays({ copied, onCopy }: CalcProps) {
+  const t = useToolUI();
   const [date1, setDate1] = useState("");
   const [date2, setDate2] = useState("");
   const d1 = parseDate(date1);
@@ -367,18 +377,18 @@ function BusinessDays({ copied, onCopy }: CalcProps) {
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="bd-start" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
+          <label htmlFor="bd-start" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.startDate}</label>
           <input id="bd-start" type="date" value={date1} onChange={(e) => setDate1(e.target.value)} aria-label="Start date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
         <div>
-          <label htmlFor="bd-end" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
+          <label htmlFor="bd-end" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.endDate}</label>
           <input id="bd-end" type="date" value={date2} onChange={(e) => setDate2(e.target.value)} aria-label="End date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
       {count !== null && (
-        <ResultBox onCopy={onCopy} copied={copied} text={`${count} business days`}>
-          <p className="text-lg font-semibold text-gray-900 dark:text-white">{count} business days</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Excludes weekends (Saturday & Sunday)</p>
+        <ResultBox onCopy={onCopy} copied={copied} text={`${count} ${t.businessDays}`}>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">{count} {t.businessDays}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t.excludesWeekends}</p>
         </ResultBox>
       )}
     </div>
@@ -390,6 +400,7 @@ function DaysUntil({ copied, onCopy }: CalcProps) {
   const d = parseDate(date);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const ui = useToolUI();
 
   let diff: number | null = null;
   if (d) {
@@ -406,7 +417,7 @@ function DaysUntil({ copied, onCopy }: CalcProps) {
         <ResultBox onCopy={onCopy} copied={copied} text={`${Math.abs(diff)} days ${diff >= 0 ? "until" : "ago"}`}>
           <p className="text-2xl font-bold text-gray-900 dark:text-white">{Math.abs(diff)} days</p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {diff > 0 ? `${toDateStr(d!)} is in the future` : diff < 0 ? `${toDateStr(d!)} has passed` : "That's today!"}
+            {diff > 0 ? `${toDateStr(d!)} ${ui.isInFuture}` : diff < 0 ? `${toDateStr(d!)} ${ui.hasPassed}` : ui.thatsToday}
           </p>
         </ResultBox>
       )}
@@ -419,6 +430,7 @@ function DaysSince({ copied, onCopy }: CalcProps) {
   const d = parseDate(date);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const ui = useToolUI();
 
   let diff: number | null = null;
   if (d) {
@@ -435,7 +447,7 @@ function DaysSince({ copied, onCopy }: CalcProps) {
         <ResultBox onCopy={onCopy} copied={copied} text={`${Math.abs(diff)} days ${diff >= 0 ? "since" : "until"}`}>
           <p className="text-2xl font-bold text-gray-900 dark:text-white">{Math.abs(diff)} days</p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {diff > 0 ? `Since ${toDateStr(d!)}` : diff < 0 ? `${toDateStr(d!)} is in the future` : "That's today!"}
+            {diff > 0 ? `${ui.since} ${toDateStr(d!)}` : diff < 0 ? `${toDateStr(d!)} ${ui.isInFuture}` : ui.thatsToday}
           </p>
         </ResultBox>
       )}

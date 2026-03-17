@@ -26,12 +26,12 @@ export default function WordCounter() {
   };
 
   const stats = [
-    { label: "Words", value: words },
-    { label: "Characters (with spaces)", value: charsWithSpaces },
-    { label: "Characters (no spaces)", value: charsWithoutSpaces },
-    { label: "Sentences", value: sentences },
-    { label: "Paragraphs", value: paragraphs },
-    { label: "Reading time", value: `${readingTimeMinutes} min` },
+    { label: ui.words, value: words },
+    { label: ui.charsWithSpaces, value: charsWithSpaces },
+    { label: ui.charsNoSpaces, value: charsWithoutSpaces },
+    { label: ui.sentences, value: sentences },
+    { label: ui.paragraphs, value: paragraphs },
+    { label: ui.readingTime, value: `${readingTimeMinutes} min` },
   ];
 
   return (
@@ -77,7 +77,7 @@ export default function WordCounter() {
           id="word-counter-input"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Start typing or paste your text here..."
+          placeholder={ui.enterTextHere}
           rows={12}
           className="w-full resize-y rounded-lg border border-gray-300 bg-white p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
           aria-label="Text input for word counting"

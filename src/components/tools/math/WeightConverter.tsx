@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 const UNITS = [
   { key: "mg", label: "Milligram (mg)", toGrams: 0.001 },
@@ -50,6 +51,7 @@ function buildFormula(
 }
 
 export default function WeightConverter() {
+  const t = useToolUI();
   const [sourceUnit, setSourceUnit] = useState<UnitKey>("kg");
   const [targetUnit, setTargetUnit] = useState<UnitKey>("lb");
   const [inputValue, setInputValue] = useState<string>("1");
@@ -104,7 +106,7 @@ export default function WeightConverter() {
               aria-label="Value to convert"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Enter a value"
+              placeholder={t.enterValue}
               className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-blue-400"
             />
           </div>

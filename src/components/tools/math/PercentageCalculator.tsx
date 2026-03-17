@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function fmtNumber(val: string): string {
   const parts = val.replace(/[^0-9.\-]/g, "").split(".");
@@ -20,13 +21,15 @@ function fmtResult(n: number): string {
 
 type Tab = "percentOf" | "whatPercent" | "percentChange";
 
-const tabs: { key: Tab; label: string }[] = [
-  { key: "percentOf", label: "What is X% of Y?" },
-  { key: "whatPercent", label: "X is what % of Y?" },
-  { key: "percentChange", label: "% Change from X to Y" },
-];
-
 export default function PercentageCalculator() {
+  const t = useToolUI();
+
+  const tabs: { key: Tab; label: string }[] = [
+    { key: "percentOf", label: t.whatIsXPercentOfY },
+    { key: "whatPercent", label: t.xIsWhatPercentOfY },
+    { key: "percentChange", label: t.percentChange },
+  ];
+
   const [activeTab, setActiveTab] = useState<Tab>("percentOf");
 
   // Mode 1: What is X% of Y?
@@ -64,7 +67,7 @@ export default function PercentageCalculator() {
         {/* Header */}
         <div className="border-b border-gray-200 px-6 pt-6 pb-0 dark:border-gray-700">
           <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-100">
-            Percentage Calculator
+            {t.percentageCalculator}
           </h2>
 
           {/* Tabs */}
@@ -93,17 +96,13 @@ export default function PercentageCalculator() {
           {/* Mode 1: What is X% of Y? */}
           {activeTab === "percentOf" && (
             <div id="panel-percentOf" role="tabpanel" className="space-y-5">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Calculate a percentage of a given number.
-              </p>
-
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label
                     htmlFor="percent-input"
                     className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    Percentage (%)
+                    {t.percentage} (%)
                   </label>
                   <input
                     id="percent-input"
@@ -121,7 +120,7 @@ export default function PercentageCalculator() {
                     htmlFor="base-number-input"
                     className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    Number
+                    {t.number}
                   </label>
                   <input
                     id="base-number-input"
@@ -140,7 +139,7 @@ export default function PercentageCalculator() {
                 className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800"
                 aria-live="polite"
               >
-                <span className="text-sm text-gray-500 dark:text-gray-400">Result: </span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t.result}: </span>
                 <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                   {percentOfResult !== null ? fmtResult(percentOfResult) : "—"}
                 </span>
@@ -151,17 +150,13 @@ export default function PercentageCalculator() {
           {/* Mode 2: X is what % of Y? */}
           {activeTab === "whatPercent" && (
             <div id="panel-whatPercent" role="tabpanel" className="space-y-5">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Find what percentage one number is of another.
-              </p>
-
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label
                     htmlFor="part-input"
                     className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    Part
+                    {t.part}
                   </label>
                   <input
                     id="part-input"
@@ -179,7 +174,7 @@ export default function PercentageCalculator() {
                     htmlFor="whole-input"
                     className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    Whole
+                    {t.whole}
                   </label>
                   <input
                     id="whole-input"
@@ -198,7 +193,7 @@ export default function PercentageCalculator() {
                 className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800"
                 aria-live="polite"
               >
-                <span className="text-sm text-gray-500 dark:text-gray-400">Result: </span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t.result}: </span>
                 <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                   {whatPercentResult !== null ? `${fmtResult(whatPercentResult)}%` : "—"}
                 </span>
@@ -209,17 +204,13 @@ export default function PercentageCalculator() {
           {/* Mode 3: Percentage change from X to Y */}
           {activeTab === "percentChange" && (
             <div id="panel-percentChange" role="tabpanel" className="space-y-5">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Calculate the percentage change between two values.
-              </p>
-
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label
                     htmlFor="old-value-input"
                     className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    Old Value
+                    {t.oldValue}
                   </label>
                   <input
                     id="old-value-input"
@@ -237,7 +228,7 @@ export default function PercentageCalculator() {
                     htmlFor="new-value-input"
                     className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
-                    New Value
+                    {t.newValue}
                   </label>
                   <input
                     id="new-value-input"
@@ -256,7 +247,7 @@ export default function PercentageCalculator() {
                 className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800"
                 aria-live="polite"
               >
-                <span className="text-sm text-gray-500 dark:text-gray-400">Result: </span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t.result}: </span>
                 {percentChangeResult !== null ? (
                   <span
                     className={`text-lg font-semibold ${
@@ -266,7 +257,7 @@ export default function PercentageCalculator() {
                     {isIncrease ? "+" : ""}
                     {fmtResult(percentChangeResult)}%{" "}
                     <span className="text-sm font-normal">
-                      ({isIncrease ? "Increase" : "Decrease"})
+                      ({isIncrease ? t.increase : t.decrease})
                     </span>
                   </span>
                 ) : (

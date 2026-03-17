@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 type Unit = "C" | "F" | "K";
 
@@ -85,6 +86,7 @@ function formatValue(value: number): string {
 }
 
 export default function TemperatureConverter() {
+  const t = useToolUI();
   const [input, setInput] = useState<string>("0");
   const [unit, setUnit] = useState<Unit>("C");
 
@@ -166,7 +168,7 @@ export default function TemperatureConverter() {
               step="any"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Enter temperature"
+              placeholder={t.enterValue}
               aria-label={`Temperature value in ${UNIT_LABELS[unit]}`}
               className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 pr-14 text-lg
                          text-gray-900 placeholder-gray-400

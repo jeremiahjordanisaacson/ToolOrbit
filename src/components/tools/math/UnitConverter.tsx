@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 type Category =
   | "Length"
@@ -143,6 +144,19 @@ function formatResult(value: number): string {
 }
 
 export default function UnitConverter() {
+  const t = useToolUI();
+
+  const categoryLabels: Record<Category, string> = {
+    Length: t.length,
+    Weight: t.weightCat,
+    Temperature: t.temperatureCat,
+    Volume: t.volumeCat,
+    Speed: t.speedCat,
+    Area: t.areaCat,
+    Time: t.timeCat,
+    "Digital Storage": t.digitalStorageCat,
+  };
+
   const [category, setCategory] = useState<Category>("Length");
   const [fromIdx, setFromIdx] = useState(0);
   const [toIdx, setToIdx] = useState(2); // default: mm → m for Length
@@ -210,7 +224,7 @@ export default function UnitConverter() {
             >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {categoryLabels[cat]}
                 </option>
               ))}
             </select>
@@ -228,7 +242,7 @@ export default function UnitConverter() {
               id="uc-value"
               type="number"
               aria-label="Value to convert"
-              placeholder="Enter a value"
+              placeholder={t.enterValue}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 tabular-nums transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
@@ -263,7 +277,7 @@ export default function UnitConverter() {
               type="button"
               onClick={handleSwap}
               aria-label="Swap source and target units"
-              title="Swap units"
+              title={t.swap}
               className="mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30 active:scale-95 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100"
             >
               <span className="text-lg leading-none">↔</span>

@@ -69,7 +69,7 @@ export default function TextSorter() {
     { mode: "za", label: "Z → A" },
     { mode: "num-asc", label: "0 → 9" },
     { mode: "num-desc", label: "9 → 0" },
-    { mode: "random", label: "Shuffle" },
+    { mode: "random", label: ui.shuffleMode },
   ];
 
   return (
@@ -89,7 +89,7 @@ export default function TextSorter() {
           id="sorter-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter items to sort, one per line..."
+          placeholder={ui.pasteTextHere}
           rows={8}
           className="w-full resize-y rounded-lg border border-gray-300 bg-white p-4 font-mono text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"
           aria-label="Input text for sorting"

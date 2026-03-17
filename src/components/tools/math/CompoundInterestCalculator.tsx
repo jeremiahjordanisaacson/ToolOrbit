@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 function fmtNumber(val: string): string {
   const parts = val.replace(/[^0-9.\-]/g, "").split(".");
@@ -20,14 +21,6 @@ interface YearlyBreakdown {
 }
 
 type CompoundingFrequency = 1 | 2 | 4 | 12 | 365;
-
-const COMPOUNDING_OPTIONS: { label: string; value: CompoundingFrequency }[] = [
-  { label: "Annually", value: 1 },
-  { label: "Semi-Annually", value: 2 },
-  { label: "Quarterly", value: 4 },
-  { label: "Monthly", value: 12 },
-  { label: "Daily", value: 365 },
-];
 
 function formatCurrency(value: number): string {
   return `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -72,6 +65,16 @@ function calculateCompoundInterest(
 }
 
 export default function CompoundInterestCalculator() {
+  const t = useToolUI();
+
+  const COMPOUNDING_OPTIONS: { label: string; value: CompoundingFrequency }[] = [
+    { label: t.annually, value: 1 },
+    { label: t.semiAnnually, value: 2 },
+    { label: t.quarterlyLabel, value: 4 },
+    { label: t.monthlyLabel, value: 12 },
+    { label: t.dailyLabel, value: 365 },
+  ];
+
   const [principal, setPrincipal] = useState<string>("10000");
   const [rate, setRate] = useState<string>("7");
   const [years, setYears] = useState<string>("10");

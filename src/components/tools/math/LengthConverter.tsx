@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 interface UnitDefinition {
   label: string;
@@ -60,6 +61,7 @@ function buildFormula(
 }
 
 export default function LengthConverter() {
+  const t = useToolUI();
   const [sourceUnit, setSourceUnit] = useState("km");
   const [targetUnit, setTargetUnit] = useState("mi");
   const [inputValue, setInputValue] = useState("1");
@@ -107,7 +109,7 @@ export default function LengthConverter() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-lg tabular-nums text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
-            placeholder="Enter a value"
+            placeholder={t.enterValue}
           />
         </div>
 
@@ -142,7 +144,7 @@ export default function LengthConverter() {
             onClick={handleSwap}
             aria-label="Swap source and target units"
             className="mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white text-lg text-gray-600 shadow-sm transition hover:bg-blue-50 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 active:scale-95 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-blue-400"
-            title="Swap units"
+            title={t.swap}
           >
             ↔
           </button>
