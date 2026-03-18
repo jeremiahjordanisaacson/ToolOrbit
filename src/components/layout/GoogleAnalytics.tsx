@@ -14,16 +14,33 @@ export default function GoogleAnalytics() {
 
     setConsentGiven(checkConsent());
 
-    const handleConsentChange = () => setConsentGiven(checkConsent());
+    const handleConsentChange = () => {
+      const accepted = checkConsent();
+      setConsentGiven(accepted);
+      // Upgrade consent when user accepts
+      if (accepted && typeof (window as unknown as { gtag?: Function }).gtag === "function") {
+        (window as unknown as { gtag: Function }).gtag("consent", "update", {
+          analytics_storage: "granted",
+        });
+      }
+    };
     window.addEventListener("cookie-consent-change", handleConsentChange);
     return () =>
       window.removeEventListener("cookie-consent-change", handleConsentChange);
   }, []);
 
-  if (!consentGiven) return null;
-
   return (
     <>
+      {/* Default consent to denied — enables cookieless pings */}
+      <Script id="ga4-consent-default" strategy="beforeInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('consent', 'default', {
+            analytics_storage: '${consentGiven ? "granted" : "denied"}',
+          });
+        `}
+      </Script>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
         strategy="afterInteractive"
