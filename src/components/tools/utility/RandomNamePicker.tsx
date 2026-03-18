@@ -194,7 +194,7 @@ export default function RandomNamePicker() {
               }`}
             />
           </button>
-          <span className="text-sm text-gray-700">Remove picked from list</span>
+          <span className="text-sm text-gray-700">{ui.removePickedFromList}</span>
         </div>
       </div>
 

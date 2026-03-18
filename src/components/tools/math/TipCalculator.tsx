@@ -152,13 +152,13 @@ export default function TipCalculator() {
         <div className="rounded-xl bg-gray-50 p-5">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Tip Amount</span>
+              <span className="text-sm text-gray-600">{t.tipAmount}</span>
               <span className="text-lg font-semibold text-gray-900">
                 {formatCurrency(tipAmount)}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Total with Tip</span>
+              <span className="text-sm text-gray-600">{t.totalWithTip}</span>
               <span className="text-lg font-semibold text-gray-900">
                 {formatCurrency(total)}
               </span>
@@ -167,7 +167,7 @@ export default function TipCalculator() {
               <div className="border-t border-gray-200 pt-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700">
-                    Per Person
+                    {t.perPerson}
                   </span>
                   <span className="text-xl font-bold text-primary-700">
                     {formatCurrency(perPerson)}

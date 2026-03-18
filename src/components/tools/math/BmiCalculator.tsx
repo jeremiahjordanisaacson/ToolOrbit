@@ -254,7 +254,7 @@ export default function BmiCalculator() {
               {/* BMI Value & Category */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Your BMI</p>
+                  <p className="text-sm font-medium text-gray-500">{t.yourBmi}</p>
                   <p className="text-3xl font-bold text-gray-900">
                     {bmi.toFixed(1)}
                   </p>

@@ -151,7 +151,7 @@ function AddSubDays({ mode, copied, onCopy }: CalcProps & { mode: "add" | "subtr
           <input id="asd-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
         <div>
-          <label htmlFor="asd-days" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Days</label>
+          <label htmlFor="asd-days" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.days}</label>
           <input id="asd-days" type="number" min={0} value={days} onChange={(e) => setDays(e.target.value)} placeholder={t.numberOfDays} aria-label="Number of days" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
@@ -185,7 +185,7 @@ function AddMonths({ copied, onCopy }: CalcProps) {
           <input id="am-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
         <div>
-          <label htmlFor="am-months" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Months</label>
+          <label htmlFor="am-months" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{t.months}</label>
           <input id="am-months" type="number" value={months} onChange={(e) => setMonths(e.target.value)} placeholder={t.numberOfMonths} aria-label="Number of months" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100" />
         </div>
       </div>
@@ -410,12 +410,12 @@ function DaysUntil({ copied, onCopy }: CalcProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor="du-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Target Date</label>
+        <label htmlFor="du-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{ui.targetDate}</label>
         <input id="du-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Target date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 sm:max-w-xs" />
       </div>
       {diff !== null && (
-        <ResultBox onCopy={onCopy} copied={copied} text={`${Math.abs(diff)} days ${diff >= 0 ? "until" : "ago"}`}>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{Math.abs(diff)} days</p>
+        <ResultBox onCopy={onCopy} copied={copied} text={`${Math.abs(diff)} ${ui.days}`}>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white">{Math.abs(diff)} {ui.days}</p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             {diff > 0 ? `${toDateStr(d!)} ${ui.isInFuture}` : diff < 0 ? `${toDateStr(d!)} ${ui.hasPassed}` : ui.thatsToday}
           </p>
@@ -440,12 +440,12 @@ function DaysSince({ copied, onCopy }: CalcProps) {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor="ds-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Past Date</label>
+        <label htmlFor="ds-date" className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{ui.pastDate}</label>
         <input id="ds-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Past date" className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 sm:max-w-xs" />
       </div>
       {diff !== null && (
-        <ResultBox onCopy={onCopy} copied={copied} text={`${Math.abs(diff)} days ${diff >= 0 ? "since" : "until"}`}>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{Math.abs(diff)} days</p>
+        <ResultBox onCopy={onCopy} copied={copied} text={`${Math.abs(diff)} ${ui.days}`}>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white">{Math.abs(diff)} {ui.days}</p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             {diff > 0 ? `${ui.since} ${toDateStr(d!)}` : diff < 0 ? `${toDateStr(d!)} ${ui.isInFuture}` : ui.thatsToday}
           </p>

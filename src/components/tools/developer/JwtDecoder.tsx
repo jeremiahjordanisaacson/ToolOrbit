@@ -85,17 +85,17 @@ export default function JwtDecoder() {
     const { payload } = jwt;
 
     if (typeof payload.exp !== "number") {
-      setExpStatus({ label: "No expiration", color: "text-gray-500 bg-gray-100" });
+      setExpStatus({ label: ui.noExpiration, color: "text-gray-500 bg-gray-100" });
     } else {
       const now = Math.floor(Date.now() / 1000);
       if (payload.exp < now) {
         setExpStatus({
-          label: `Expired (${new Date(payload.exp * 1000).toLocaleString()})`,
+          label: `${ui.expired} (${new Date(payload.exp * 1000).toLocaleString()})`,
           color: "text-red-700 bg-red-50",
         });
       } else {
         setExpStatus({
-          label: `Valid until ${new Date(payload.exp * 1000).toLocaleString()}`,
+          label: `${ui.validUntil} ${new Date(payload.exp * 1000).toLocaleString()}`,
           color: "text-green-700 bg-green-50",
         });
       }
@@ -106,7 +106,7 @@ export default function JwtDecoder() {
         ? new Date(payload.iat * 1000).toLocaleString()
         : null
     );
-  }, []);
+  }, [ui.noExpiration, ui.expired, ui.validUntil]);
 
   const handleDecode = useCallback(() => {
     setError("");
@@ -197,7 +197,7 @@ export default function JwtDecoder() {
 
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-700">Header</h3>
+              <h3 className="text-sm font-semibold text-gray-700">{ui.jwtHeader}</h3>
               <CopyButton text={formatJson(decoded.header)} />
             </div>
             <pre className="overflow-x-auto rounded-lg bg-gray-50 p-4 text-sm leading-relaxed">
@@ -211,7 +211,7 @@ export default function JwtDecoder() {
 
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-700">Payload</h3>
+              <h3 className="text-sm font-semibold text-gray-700">{ui.jwtPayload}</h3>
               <CopyButton text={formatJson(decoded.payload)} />
             </div>
             <pre className="overflow-x-auto rounded-lg bg-gray-50 p-4 text-sm leading-relaxed">

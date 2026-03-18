@@ -213,6 +213,29 @@ export interface ToolUILabels {
 
   // Currency symbol per locale
   currencySymbol: string;
+
+  // Date calculator extras
+  targetDate: string;
+  pastDate: string;
+
+  // Tip calculator
+  tipAmount: string;
+  totalWithTip: string;
+  perPerson: string;
+
+  // BMI
+  yourBmi: string;
+
+  // Random tools extras
+  allowDuplicates: string;
+  removePickedFromList: string;
+
+  // JWT Decoder
+  jwtHeader: string;
+  jwtPayload: string;
+  noExpiration: string;
+  expired: string;
+  validUntil: string;
 }
 
 const defaultLabels: ToolUILabels = {
@@ -426,6 +449,29 @@ const defaultLabels: ToolUILabels = {
 
   // Currency symbol per locale
   currencySymbol: "$",
+
+  // Date calculator extras
+  targetDate: "Target Date",
+  pastDate: "Past Date",
+
+  // Tip calculator
+  tipAmount: "Tip Amount",
+  totalWithTip: "Total with Tip",
+  perPerson: "Per Person",
+
+  // BMI
+  yourBmi: "Your BMI",
+
+  // Random tools extras
+  allowDuplicates: "Allow duplicates",
+  removePickedFromList: "Remove picked from list",
+
+  // JWT Decoder
+  jwtHeader: "Header",
+  jwtPayload: "Payload",
+  noExpiration: "No expiration",
+  expired: "Expired",
+  validUntil: "Valid until",
 };
 
 const ToolUIContext = createContext<ToolUILabels>(defaultLabels);

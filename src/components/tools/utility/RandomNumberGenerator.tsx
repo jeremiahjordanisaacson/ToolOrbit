@@ -147,7 +147,7 @@ export default function RandomNumberGenerator() {
             }`}
           />
         </button>
-        <span className="text-sm text-gray-700">Allow duplicates</span>
+        <span className="text-sm text-gray-700">{t.allowDuplicates}</span>
       </div>
 
       <div className="flex items-center gap-3 flex-wrap">
