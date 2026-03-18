@@ -90,8 +90,8 @@ export default function NumberBaseTemplate({
     if (cleaned && !isValidForBase(cleaned, fromBase)) {
       setError(
         fromBase === "roman"
-          ? "Invalid character. Allowed: I, V, X, L, C, D, M"
-          : `Invalid character for base ${fromBase}. Allowed: ${BASE_CHARS.slice(0, fromBase as number).toUpperCase()}`
+          ? ui.invalidRomanNumeral
+          : ui.invalidCharForBase
       );
     } else {
       setError("");

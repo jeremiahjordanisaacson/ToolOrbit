@@ -236,6 +236,25 @@ export interface ToolUILabels {
   noExpiration: string;
   expired: string;
   validUntil: string;
+
+  // Tip calculator extras
+  person: string;
+  people: string;
+  customPercent: string;
+
+  // Fallback / error messages
+  toolNotFound: string;
+  invalidEscapedString: string;
+  noUrlsFound: string;
+  noData: string;
+  pleaseEnterValidNumber: string;
+  needHeaderAndDataRow: string;
+  inputMustBeJsonArray: string;
+  noInvisibleCharsFound: string;
+  foundInvisibleChars: string;
+  noWordsFound: string;
+  invalidRomanNumeral: string;
+  invalidCharForBase: string;
 }
 
 const defaultLabels: ToolUILabels = {
@@ -472,6 +491,25 @@ const defaultLabels: ToolUILabels = {
   noExpiration: "No expiration",
   expired: "Expired",
   validUntil: "Valid until",
+
+  // Tip calculator extras
+  person: "person",
+  people: "people",
+  customPercent: "Custom %",
+
+  // Fallback / error messages
+  toolNotFound: "Tool not found.",
+  invalidEscapedString: "Invalid escaped string",
+  noUrlsFound: "No URLs found",
+  noData: "No data",
+  pleaseEnterValidNumber: "Please enter a valid number",
+  needHeaderAndDataRow: "Need at least a header row and one data row",
+  inputMustBeJsonArray: "Input must be a non-empty JSON array",
+  noInvisibleCharsFound: "No invisible characters found.",
+  foundInvisibleChars: "Found {n} invisible character(s):",
+  noWordsFound: "No words found",
+  invalidRomanNumeral: "Invalid character. Allowed: I, V, X, L, C, D, M",
+  invalidCharForBase: "Invalid character for this base",
 };
 
 const ToolUIContext = createContext<ToolUILabels>(defaultLabels);

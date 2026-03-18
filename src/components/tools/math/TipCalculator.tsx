@@ -106,7 +106,7 @@ export default function TipCalculator() {
                 type="number"
                 min="0"
                 step="1"
-                placeholder="Custom %"
+                placeholder={t.customPercent}
                 value={customTip}
                 onChange={(e) => handleCustomTipChange(e.target.value)}
                 aria-label="Custom tip percentage"
@@ -143,7 +143,7 @@ export default function TipCalculator() {
               className="w-full rounded-xl border border-gray-300 py-3 pl-4 pr-16 text-gray-900 placeholder:text-gray-400 focus:border-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-200"
             />
             <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-gray-400">
-              {numPeople === 1 ? "person" : "people"}
+              {numPeople === 1 ? t.person : t.people}
             </span>
           </div>
         </div>

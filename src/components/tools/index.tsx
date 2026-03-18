@@ -1,5 +1,8 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import { ComponentType } from "react";
+import { useToolUI } from "@/lib/i18n/ToolUIContext";
 
 const loading = () => (
   <div className="flex items-center justify-center py-12">
@@ -54,9 +57,10 @@ const toolComponents: Record<string, ComponentType> = {
 };
 
 function FallbackComponent() {
+  const ui = useToolUI();
   return (
     <div className="flex items-center justify-center py-12 text-gray-500">
-      <p>Tool not found.</p>
+      <p>{ui.toolNotFound}</p>
     </div>
   );
 }

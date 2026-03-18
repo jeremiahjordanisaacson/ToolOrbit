@@ -446,8 +446,29 @@ export default function TextTransformTemplate({
   const actualInputLabel = inputLabel || ui.input;
   const actualOutputLabel = outputLabel || ui.output;
 
+  // Translate known error strings from module-level transforms
+  const errorMap: Record<string, string> = {
+    "Invalid binary input": ui.invalidBinary,
+    "Invalid hex input": ui.invalidHex,
+    "Invalid CSV input": ui.invalidCsv,
+    "Invalid JSON input": ui.invalidJson,
+    "Invalid JSON": ui.invalidJson,
+    "Invalid Base64": ui.invalidBase64,
+    "Encoding error": ui.encodingError,
+    "Parse error": ui.parseError,
+    "Invalid escaped string": ui.invalidEscapedString,
+    "No URLs found": ui.noUrlsFound,
+    "No data": ui.noData,
+    "Please enter a valid number": ui.pleaseEnterValidNumber,
+    "Need at least a header row and one data row": ui.needHeaderAndDataRow,
+    "Input must be a non-empty JSON array": ui.inputMustBeJsonArray,
+    "No invisible characters found.": ui.noInvisibleCharsFound,
+    "No words found": ui.noWordsFound,
+  };
+
   const transformFn = transforms[transformId];
-  const output = transformFn ? (input || transformId === "lorem-ipsum" ? transformFn(input) : "") : null;
+  const rawOutput = transformFn ? (input || transformId === "lorem-ipsum" ? transformFn(input) : "") : null;
+  const output = rawOutput !== null ? (errorMap[rawOutput] ?? rawOutput.replace(/^Found (\d+) invisible character\(s\):/, (_, n) => ui.foundInvisibleChars.replace("{n}", n))) : null;
   const hasError = !transformFn;
 
   const handleCopy = useCallback(async () => {
