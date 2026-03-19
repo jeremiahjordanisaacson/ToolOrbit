@@ -20,17 +20,17 @@ All tools run entirely in the browser — no data ever leaves the user's device.
 | CI/CD | GitHub Actions |
 | Languages | 10 (en, es, fr, de, pt, ja, zh, ko, it, hi) |
 | Total Pages | 11,214 |
-| Analytics | Google Analytics 4 (consent-gated) |
+| Analytics | Google Analytics 4 (Consent Mode v2) |
 
 ### Key Design Decisions
 
 - **Static-first**: Every page is statically generated at build time. No server-side rendering needed.
 - **Data-driven pages**: Tools, categories, FAQs, and SEO metadata are defined in structured TypeScript config files. Pages are generated programmatically from this data.
 - **SEO as first-class concern**: Every page has unique title, meta description, canonical URL, Open Graph tags, Twitter cards, and JSON-LD structured data — all translated per locale.
-- **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, and all tool component UI — everything is translated across all 10 locales. The `ToolUILabels` system (via `useToolUI()` hook) provides 180+ translated UI strings to all 35 tool components, including stat labels, form labels, month/day names, error messages, placeholders, BMI categories, number bases, unit converter categories, and more. Formula calculator field labels (115+ labels) are translated at runtime via `formula-label-translations.ts`. Currency symbols are locale-appropriate (`$`, `€`, `¥`, `₩`, `₹`, `R$`).
+- **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, and all tool component UI — everything is translated across all 10 locales. The `ToolUILabels` system (via `useToolUI()` hook) provides 210+ translated UI strings to all 35 tool components, including stat labels, form labels, month/day names, error messages, validation messages, placeholders, BMI categories, number bases, unit converter categories, and more. Formula calculator field labels (115+ labels) are translated at runtime via `formula-label-translations.ts`. Currency symbols are locale-appropriate (`$`, `€`, `¥`, `₩`, `₹`, `R$`). The locale-aware 404 page detects the user's language from the URL path.
 - **Client-side tools**: Tool logic runs entirely in the browser using Web APIs (Crypto, SubtleCrypto, Canvas, etc.). No server dependencies.
 - **Code-split tools**: Each tool component is dynamically imported, so users only download the code for the tool they're using.
-- **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section, no tracking cookies by default. Analytics (Google Analytics 4) only loads after explicit user consent.
+- **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section. Analytics uses GA4 Consent Mode v2 — cookieless pings by default, full tracking only after explicit consent.
 - **ADA/WCAG 2.1 AA compliant**: Skip navigation, aria-live regions, proper labels, color contrast, keyboard accessible.
 
 ## SEO Implementation
@@ -96,7 +96,7 @@ src/
 │   └── i18n/                     # Internationalization system
 │       ├── config.ts             # Locale definitions (10 languages)
 │       ├── types.ts              # UIDictionary interface
-│       ├── ToolUIContext.tsx      # React Context + useToolUI() hook (120+ labels)
+│       ├── ToolUIContext.tsx      # React Context + useToolUI() hook (210+ labels)
 │       ├── tool-ui-labels.ts     # Translated UI labels for all locales
 │       ├── locales/*.ts          # Per-locale UI string dictionaries
 │       ├── tool-name-translations.ts
@@ -261,11 +261,12 @@ The architecture supports this natively:
 
 ## Analytics
 
-ToolOrbit uses **Google Analytics 4** (Measurement ID: `G-BQ9CBQJRWP`) with consent-gated loading:
+ToolOrbit uses **Google Analytics 4** (Measurement ID: `G-BQ9CBQJRWP`) with **Consent Mode v2**:
 
-- Analytics scripts only load after the user clicks "Accept" on the cookie consent banner
-- The `GoogleAnalytics` component listens for a `cookie-consent-change` event dispatched by the `CookieConsent` component, so tracking activates immediately on consent without a page reload
-- If the user rejects cookies, no analytics scripts are loaded at all
+- GA4 scripts load on every page with `analytics_storage: 'denied'` by default
+- In this mode, Google receives anonymous, cookieless pageview pings (no cookies set, no PII collected)
+- When a user clicks "Accept" on the cookie consent banner, consent is upgraded to `analytics_storage: 'granted'` via `gtag('consent', 'update', ...)` for full cookie-based tracking
+- If the user rejects cookies, analytics remains in cookieless mode
 - Compatible with static export (no server-side dependencies)
 
 ## Known Limitations
@@ -274,7 +275,7 @@ ToolOrbit uses **Google Analytics 4** (Measurement ID: `G-BQ9CBQJRWP`) with cons
 - Markdown Preview uses a basic inline parser; consider `marked` or `remark` for full GFM support
 - MD5 hash uses a basic inline implementation; SHA algorithms use the native Web Crypto API
 - No dark mode (could be added with Tailwind's `dark:` variant)
-- Static content pages (privacy, terms, about, contact, disclaimer) are English-only and not yet routed through the i18n system
+- Static content pages (privacy, terms, about, contact, disclaimer) have locale-routed versions under `/[locale]/` but the `(main)` English-only copies still exist
 - No real ad network integration yet (placeholder slots in layout)
 - Site URL in config defaults to `https://toolorbit.com` — update when custom domain is set
 
