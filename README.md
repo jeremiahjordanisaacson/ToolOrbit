@@ -1,10 +1,12 @@
 # ToolOrbit
 
-**Free Online Tools for Everyday Tasks** — A production-ready, SEO-first, multilingual utility website built with Next.js, TypeScript, and Tailwind CSS. Deployed to Azure Blob Storage + Front Door CDN.
+**Free Online Tools for Everyday Tasks** — A production-ready, SEO-first, multilingual utility website built with Next.js, TypeScript, and Tailwind CSS.
+
+🌐 **Live at [www.tool-orbit.com](https://www.tool-orbit.com)**
 
 ## Overview
 
-ToolOrbit is a high-traffic utility website designed to rank for thousands of long-tail Google searches across 10 languages. It offers 989 free, browser-based tools across 11 categories.
+ToolOrbit is a utility website designed to rank for thousands of long-tail Google searches across 10 languages. It offers 989 free, browser-based tools across 11 categories.
 
 All tools run entirely in the browser — no data ever leaves the user's device.
 
@@ -16,11 +18,12 @@ All tools run entirely in the browser — no data ever leaves the user's device.
 | Language | TypeScript |
 | Styling | Tailwind CSS v4 |
 | Output | Static Export (`output: "export"`) |
-| Hosting | Azure Blob Storage + Front Door CDN |
+| Hosting | GitHub Pages |
 | CI/CD | GitHub Actions |
 | Languages | 10 (en, es, fr, de, pt, ja, zh, ko, it, hi) |
 | Total Pages | 11,214 |
 | Analytics | Google Analytics 4 (Consent Mode v2) |
+| Security | CodeQL, Dependabot, Secret Scanning, CSP headers |
 
 ### Key Design Decisions
 
@@ -30,8 +33,9 @@ All tools run entirely in the browser — no data ever leaves the user's device.
 - **Multilingual by design**: English is the source of truth. Translations are generated from patterns + dictionaries. UI chrome, tool names, descriptions, FAQs, and all tool component UI — everything is translated across all 10 locales. The `ToolUILabels` system (via `useToolUI()` hook) provides 210+ translated UI strings to all 35 tool components, including stat labels, form labels, month/day names, error messages, validation messages, placeholders, BMI categories, number bases, unit converter categories, and more. Formula calculator field labels (115+ labels) are translated at runtime via `formula-label-translations.ts`. Currency symbols are locale-appropriate (`$`, `€`, `¥`, `₩`, `₹`, `R$`). The locale-aware 404 page detects the user's language from the URL path.
 - **Client-side tools**: Tool logic runs entirely in the browser using Web APIs (Crypto, SubtleCrypto, Canvas, etc.). No server dependencies.
 - **Code-split tools**: Each tool component is dynamically imported, so users only download the code for the tool they're using.
-- **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section. Analytics uses GA4 Consent Mode v2 — cookieless pings by default, full tracking only after explicit consent.
+- **GDPR compliant**: Cookie consent banner, privacy policy with GDPR rights section. GA4 scripts only load after explicit user consent.
 - **ADA/WCAG 2.1 AA compliant**: Skip navigation, aria-live regions, proper labels, color contrast, keyboard accessible.
+- **Security hardened**: All user input HTML-escaped before rendering. Content-Security-Policy headers. No `innerHTML` with unsanitized data.
 
 ## SEO Implementation
 
@@ -129,67 +133,17 @@ npm run build
 # The static output is in the `out/` directory
 ```
 
-## How to Deploy to Azure Static Web Apps
+## Deployment
 
-### Prerequisites
-- Azure subscription
-- GitHub repository with this code
-- Azure CLI installed (optional, for resource creation)
+ToolOrbit is deployed to **GitHub Pages** via GitHub Actions. Every push to `main` triggers:
 
-### Step 1: Create the Azure Static Web App Resource
+1. `npm ci` + `npm run build` (static export to `out/`)
+2. Upload artifact to GitHub Pages
+3. Deploy to `www.tool-orbit.com`
 
-```bash
-# Login to Azure
-az login
+The workflow is defined in `.github/workflows/deploy-pages.yml`.
 
-# Create the resource (replace values as needed)
-az staticwebapp create \
-  --name toolorbit \
-  --resource-group ToolOrbit \
-  --subscription REDACTED \
-  --source https://github.com/jeremiahjordanisaacson/ToolOrbit \
-  --branch main \
-  --app-location "/" \
-  --output-location "out" \
-  --login-with-github
-```
-
-Or create it via the [Azure Portal](https://portal.azure.com):
-1. Search for "Static Web Apps"
-2. Click Create
-3. Select your subscription and resource group
-4. Link to your GitHub repo
-5. Set App location: `/`, Output location: `out`
-6. Build preset: Custom
-7. Azure will auto-create the GitHub Actions workflow
-
-### Step 2: Get the Deployment Token
-
-1. In Azure Portal, go to your Static Web App resource
-2. Click "Manage deployment token" in the Overview blade
-3. Copy the token
-
-### Step 3: Add GitHub Secret
-
-1. Go to your GitHub repo → Settings → Secrets and variables → Actions
-2. Add a new repository secret:
-   - Name: `AZURE_STATIC_WEB_APPS_API_TOKEN`
-   - Value: (paste the deployment token)
-
-### Step 4: Push and Deploy
-
-```bash
-git push origin main
-```
-
-The GitHub Actions workflow (`.github/workflows/azure-static-web-apps.yml`) will automatically build and deploy.
-
-### Deploy Checklist
-- [ ] Azure Static Web App resource created
-- [ ] `AZURE_STATIC_WEB_APPS_API_TOKEN` secret added to GitHub repo
-- [ ] Code pushed to `main` branch
-- [ ] GitHub Actions workflow runs successfully
-- [ ] Site accessible at `https://<app-name>.azurestaticapps.net`
+Custom domain DNS is configured via GoDaddy with A records pointing to GitHub Pages IPs and a `www` CNAME to `jeremiahjordanisaacson.github.io`.
 
 ## How to Add a New Tool
 
@@ -261,24 +215,35 @@ The architecture supports this natively:
 
 ## Analytics
 
-ToolOrbit uses **Google Analytics 4** (Measurement ID: `G-BQ9CBQJRWP`) with **Consent Mode v2**:
+ToolOrbit uses **Google Analytics 4** with **Consent Mode v2**:
 
-- GA4 scripts load on every page with `analytics_storage: 'denied'` by default
-- In this mode, Google receives anonymous, cookieless pageview pings (no cookies set, no PII collected)
-- When a user clicks "Accept" on the cookie consent banner, consent is upgraded to `analytics_storage: 'granted'` via `gtag('consent', 'update', ...)` for full cookie-based tracking
-- If the user rejects cookies, analytics remains in cookieless mode
+- GA4 scripts **only load after the user accepts cookies**
+- Consent defaults to `analytics_storage: 'denied'` (no scripts, no pings)
+- When a user clicks "Accept", the gtag.js script loads and consent upgrades to `'granted'`
+- If the user rejects cookies, no GA4 code executes at all
 - Compatible with static export (no server-side dependencies)
+
+## Security
+
+- **CodeQL** scans on every push and PR (JavaScript/TypeScript)
+- **Dependabot** alerts for dependency vulnerabilities
+- **Secret scanning** with push protection enabled
+- **Private vulnerability reporting** enabled — report issues via the Security tab
+- **CSP headers** restrict script and resource loading
+- **XSS prevention** — all user input is HTML-escaped before rendering
+
+See [SECURITY.md](SECURITY.md) for the full security policy.
 
 ## Known Limitations
 
-- QR Code Generator uses a canvas-based approach without external QR library; consider adding `qrcode` package for more robust encoding
 - Markdown Preview uses a basic inline parser; consider `marked` or `remark` for full GFM support
 - MD5 hash uses a basic inline implementation; SHA algorithms use the native Web Crypto API
 - No dark mode (could be added with Tailwind's `dark:` variant)
 - Static content pages (privacy, terms, about, contact, disclaimer) have locale-routed versions under `/[locale]/` but the `(main)` English-only copies still exist
 - No real ad network integration yet (placeholder slots in layout)
-- Site URL in config defaults to `https://toolorbit.com` — update when custom domain is set
 
 ## License
 
-All rights reserved.
+Copyright © 2026 Jeremiah Isaacson. All rights reserved.
+
+This source code is publicly visible for transparency and educational purposes only. It is **not** open source. See [LICENSE](LICENSE) for details.
