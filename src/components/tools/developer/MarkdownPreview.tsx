@@ -3,20 +3,21 @@
 import { useState, useMemo } from "react";
 
 function parseMarkdown(md: string): string {
-  let html = md;
+  // Escape all input first, then selectively unescape markdown constructs
+  let html = escapeHtml(md);
 
-  // Code blocks (fenced)
+  // Code blocks (fenced) — content is already escaped
   html = html.replace(
     /```(\w*)\n([\s\S]*?)```/g,
     (_, lang, code) =>
-      `<pre class="rounded-lg bg-gray-900 p-4 overflow-x-auto text-sm leading-relaxed"><code class="text-gray-100${lang ? ` language-${lang}` : ""}">${escapeHtml(code.trimEnd())}</code></pre>`
+      `<pre class="rounded-lg bg-gray-900 p-4 overflow-x-auto text-sm leading-relaxed"><code class="text-gray-100${lang ? ` language-${lang}` : ""}">${code.trimEnd()}</code></pre>`
   );
 
   // Blockquotes (process before other line-level elements)
   html = html.replace(
-    /^(>\s?.+(?:\n>\s?.+)*)/gm,
+    /^(&gt;\s?.+(?:\n&gt;\s?.+)*)/gm,
     (block) => {
-      const inner = block.replace(/^>\s?/gm, "");
+      const inner = block.replace(/^&gt;\s?/gm, "");
       return `<blockquote class="border-l-4 border-primary-300 pl-4 italic text-gray-600 my-2">${inner}</blockquote>`;
     }
   );
@@ -79,13 +80,13 @@ function parseMarkdown(md: string): string {
     }
   );
 
-  // Images (before links)
+  // Images (before links) — src/alt are already escaped
   html = html.replace(
     /!\[([^\]]*)\]\(([^)]+)\)/g,
     '<img src="$2" alt="$1" class="max-w-full rounded my-2" />'
   );
 
-  // Links
+  // Links — href/text are already escaped
   html = html.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
     '<a href="$2" class="text-primary-700 underline hover:text-primary-600" target="_blank" rel="noopener noreferrer">$1</a>'

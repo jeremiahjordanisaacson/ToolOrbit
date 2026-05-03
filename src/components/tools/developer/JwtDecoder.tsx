@@ -16,12 +16,21 @@ function formatJson(obj: unknown): string {
   return JSON.stringify(obj, null, 2);
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function syntaxHighlight(json: string): string {
-  return json.replace(
-    /("(?:\\u[\da-fA-F]{4}|\\[^u]|[^"\\])*"(?:\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
+  const escaped = escapeHtml(json);
+  return escaped.replace(
+    /(&quot;(?:\\u[\da-fA-F]{4}|\\[^u]|[^&])*?&quot;(?:\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
     (match) => {
       let cls = "text-orange-600"; // number
-      if (/^"/.test(match)) {
+      if (/^&quot;/.test(match)) {
         cls = match.endsWith(":") ? "text-primary-700 font-semibold" : "text-green-700";
       } else if (/true|false/.test(match)) {
         cls = "text-blue-600";
