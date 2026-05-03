@@ -207,7 +207,16 @@ const transforms: Record<string, (input: string) => string> = {
   "remove-empty-lines": (s) =>
     s.split("\n").filter((line) => line.trim()).join("\n"),
 
-  "remove-html-tags": (s) => s.replace(/<[^>]*>/g, ""),
+  "remove-html-tags": (s) => {
+    // Iteratively strip tags to prevent nested tag bypass (e.g., <scr<script>ipt>)
+    let result = s;
+    let prev = "";
+    while (result !== prev) {
+      prev = result;
+      result = result.replace(/<[^>]*>/g, "");
+    }
+    return result;
+  },
 
   "remove-accents": (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
 

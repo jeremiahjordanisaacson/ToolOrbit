@@ -45,21 +45,26 @@ function encodeHtmlEntities(str: string): string {
 }
 
 function decodeHtmlEntities(str: string): string {
-  if (typeof document !== "undefined") {
-    const el = document.createElement("textarea");
-    el.innerHTML = str;
-    return el.value;
-  }
-  // Fallback for SSR — should not run since this is "use client"
-  return str
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&#x2F;/g, "/")
-    .replace(/&#x60;/g, "`")
-    .replace(/&#x3D;/g, "=");
+  // Pure string replacement — no DOM/innerHTML needed
+  const DECODE_MAP: Record<string, string> = {
+    "&amp;": "&",
+    "&lt;": "<",
+    "&gt;": ">",
+    "&quot;": '"',
+    "&#39;": "'",
+    "&#x27;": "'",
+    "&#x2F;": "/",
+    "&#x60;": "`",
+    "&#x3D;": "=",
+    "&#38;": "&",
+    "&#60;": "<",
+    "&#62;": ">",
+    "&#34;": '"',
+  };
+  return str.replace(
+    /&(?:amp|lt|gt|quot|#39|#x27|#x2F|#x60|#x3D|#38|#60|#62|#34);/g,
+    (entity) => DECODE_MAP[entity] ?? entity
+  );
 }
 
 export default function HtmlEntityEncodeDecode() {

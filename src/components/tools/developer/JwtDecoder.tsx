@@ -27,7 +27,7 @@ function escapeHtml(str: string): string {
 function syntaxHighlight(json: string): string {
   const escaped = escapeHtml(json);
   return escaped.replace(
-    /(&quot;(?:\\u[\da-fA-F]{4}|\\[^u]|[^&])*?&quot;(?:\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
+    /(&quot;(?:[^&]|&(?!quot;))*?&quot;(?:\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
     (match) => {
       let cls = "text-orange-600"; // number
       if (/^&quot;/.test(match)) {
